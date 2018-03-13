@@ -1,15 +1,16 @@
-﻿using Catalog.ViewModels;
-using MvvmCross.Forms.Views;
+﻿using System;
+
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Catalog.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MainPage : MvxTabbedPage<MainViewModel>
+	public partial class MainPage : TabbedPage
 	{
 		public MainPage ()
 		{
 			InitializeComponent ();
 		}
-    }
+	}
 }

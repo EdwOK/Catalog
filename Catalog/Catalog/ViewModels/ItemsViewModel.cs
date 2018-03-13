@@ -7,20 +7,19 @@ using Xamarin.Forms;
 
 using Catalog.Models;
 using Catalog.Views;
-using MvvmCross.Core.ViewModels;
 
 namespace Catalog.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        public MvxObservableCollection<Item> Items { get; set; }
-        public IMvxAsyncCommand LoadItemsCommand { get; set; }
+        public ObservableCollection<Item> Items { get; set; }
+        public Command LoadItemsCommand { get; set; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
-            Items = new MvxObservableCollection<Item>();
-            LoadItemsCommand = new MvxAsyncCommand(async () => await ExecuteLoadItemsCommand());
+            Items = new ObservableCollection<Item>();
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             {
