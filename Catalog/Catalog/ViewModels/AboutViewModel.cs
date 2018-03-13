@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-
+using MvvmCross.Core.ViewModels;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels
@@ -11,9 +11,9 @@ namespace Catalog.ViewModels
         {
             Title = "About";
 
-            OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://onliner.by")));
+            OpenWebCommand = new MvxCommand(() => Device.OpenUri(new Uri("https://onliner.by")));
         }
 
-        public ICommand OpenWebCommand { get; }
+        public IMvxCommand OpenWebCommand { get; }
     }
 }
