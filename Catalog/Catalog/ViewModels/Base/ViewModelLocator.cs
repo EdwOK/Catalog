@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extras.CommonServiceLocator;
+using Catalog.Services;
 using CommonServiceLocator;
 
 namespace Catalog.ViewModels.Base
@@ -13,29 +14,36 @@ namespace Catalog.ViewModels.Base
                 var builder = new ContainerBuilder();
 
                 builder.RegisterType<MainViewModel>();
-                builder.RegisterType<MainViewModel>();
                 builder.RegisterType<AboutViewModel>();
                 builder.RegisterType<ItemDetailViewModel>();
                 builder.RegisterType<ItemsViewModel>();
 
+                builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
+                builder.RegisterType<MockDataStore>().AsImplementedInterfaces();
+
                 var container = builder.Build();
                 var locator = new AutofacServiceLocator(container);
-
+                
                 ServiceLocator.SetLocatorProvider(() => locator);
             }
         }
 
-        public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public static MainViewModel MainViewModel => Resolve<MainViewModel>();
 
-        public AboutViewModel AboutViewModel => ServiceLocator.Current.GetInstance<AboutViewModel>();
+        public static AboutViewModel AboutViewModel => Resolve<AboutViewModel>();
 
-        public ItemDetailViewModel ItemDetailViewModel => ServiceLocator.Current.GetInstance<ItemDetailViewModel>();
+        public static ItemDetailViewModel ItemDetailViewModel => Resolve<ItemDetailViewModel>();
 
-        public ItemsViewModel ItemsViewModel => ServiceLocator.Current.GetInstance<ItemsViewModel>();
+        public static ItemsViewModel ItemsViewModel => Resolve<ItemsViewModel>();
+
+        public static T Resolve<T>() where T : class
+        {
+            return ServiceLocator.Current.GetInstance<T>();
+        }
 
         public static void Cleanup()
         {
-            ServiceLocator.SetLocatorProvider(null);
+            // ServiceLocator.SetLocatorProvider(null);
         }
     }
 }

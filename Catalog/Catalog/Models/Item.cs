@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Catalog.Models
+﻿namespace Catalog.Models
 {
     public class Item
     {

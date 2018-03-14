@@ -1,34 +1,44 @@
-﻿using System;
-
+﻿using System.Threading.Tasks;
+using Catalog.ViewModels.Base;
 using Catalog.Views;
+using GalaSoft.MvvmLight.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+using INavigationService = Catalog.Services.INavigationService;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Catalog
 {
 	public partial class App : Application
 	{
-
-		public App ()
+		public App()
 		{
 			InitializeComponent();
-
-
-            MainPage = new MainPage();
         }
 
-		protected override void OnStart ()
+		protected override async void OnStart()
 		{
-			// Handle when your app starts
-		}
+            base.OnStart();
 
-		protected override void OnSleep ()
+            await InitNavigation();
+
+            base.OnResume();
+        }
+
+		protected override void OnSleep()
 		{
 			// Handle when your app sleeps
 		}
 
-		protected override void OnResume ()
+		protected override void OnResume()
 		{
 			// Handle when your app resumes
 		}
-	}
+
+	    private Task InitNavigation()
+	    {
+	        var navigationService = ViewModelLocator.Resolve<INavigationService>();
+	        return navigationService.InitializeAsync();
+	    }
+    }
 }

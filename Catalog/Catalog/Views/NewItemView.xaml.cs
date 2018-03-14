@@ -1,34 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
 using Catalog.Models;
+using Catalog.ViewModels;
+using Catalog.ViewModels.Base;
 
 namespace Catalog.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
+        private ItemDetailViewModel _viewModel;
 
         public NewItemPage()
         {
             InitializeComponent();
 
-            Item = new Item
+            var item = new Item
             {
                 Text = "Item name",
                 Description = "This is an item description."
             };
 
-            BindingContext = this;
+            _viewModel = ViewModelLocator.Resolve<ItemDetailViewModel>();
+            _viewModel.Item = item;
+
+            BindingContext = _viewModel;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Item);
+            MessagingCenter.Send(this, "AddItem", _viewModel.Item);
             await Navigation.PopModalAsync();
         }
     }

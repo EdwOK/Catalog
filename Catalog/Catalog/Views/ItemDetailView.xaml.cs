@@ -1,17 +1,13 @@
-﻿using System;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
+﻿using Xamarin.Forms;
 using Catalog.Models;
 using Catalog.ViewModels;
+using Catalog.ViewModels.Base;
 
 namespace Catalog.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ItemDetailPage : ContentPage
 	{
-	    readonly ItemDetailViewModel _viewModel;
+	    private ItemDetailViewModel _viewModel;
 
         public ItemDetailPage(ItemDetailViewModel viewModel)
         {
@@ -30,8 +26,10 @@ namespace Catalog.Views
                 Description = "This is an item description."
             };
 
-            _viewModel = new ItemDetailViewModel(item);
-            BindingContext = _viewModel;
+            this._viewModel = ViewModelLocator.Resolve<ItemDetailViewModel>();
+            this._viewModel.Item = item;
+
+            BindingContext = this._viewModel;
         }
     }
 }

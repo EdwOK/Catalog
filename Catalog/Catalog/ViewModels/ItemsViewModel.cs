@@ -8,19 +8,21 @@ using Xamarin.Forms;
 using Catalog.Models;
 using Catalog.ViewModels.Base;
 using Catalog.Views;
+using GalaSoft.MvvmLight.Command;
 
 namespace Catalog.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
         public ObservableCollection<Item> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
+
+        public RelayCommand LoadItemsCommand { get; set; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
             Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = new RelayCommand(async () => await ExecuteLoadItemsCommand(), () => !IsBusy);
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             {
@@ -31,11 +33,6 @@ namespace Catalog.ViewModels
 
         async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy)
-            {
-                return;
-            }
-
             IsBusy = true;
 
             try
