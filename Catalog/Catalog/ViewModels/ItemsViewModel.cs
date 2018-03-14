@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 using Catalog.Models;
+using Catalog.ViewModels.Base;
 using Catalog.Views;
 
 namespace Catalog.ViewModels
