@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,43 +15,10 @@
 
   <ItemGroup>
     <Reference Include="CommonServiceLocator">
-      <HintPath>C:\Users\e.paprotski\.nuget\packages\commonservicelocator\2.0.2\lib\netstandard2.0\CommonServiceLocator.dll</HintPath>
+      <HintPath>C:\Users\Eduard\.nuget\packages\commonservicelocator\2.0.2\lib\netstandard2.0\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>C:\Users\Eduard\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\Soft\Visual Studio 2017 Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v7.1\Mono.Android.dll</HintPath>
-    </Reference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Views\AboutView.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ItemDetailView.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>ItemDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ItemsView.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>ItemsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\MainView.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\NewItemView.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>NewItemView.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Views\CustomNavigationView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
 </Project>

@@ -43,7 +43,7 @@ namespace Catalog.ViewModels.Base
 
         public static void Cleanup()
         {
-            // ServiceLocator.SetLocatorProvider(null);
+            ServiceLocator.SetLocatorProvider(null);
         }
     }
 }
