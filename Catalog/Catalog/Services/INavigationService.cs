@@ -8,11 +8,11 @@ namespace Catalog.Services
     {
         BaseViewModel PreviousPageViewModel { get; }
 
-        Task InitializeAsync();
+        Task InitializeAsync(bool animated = true);
 
-        Task NavigateToAsync<TPage>() where TPage: Page;
+        Task NavigateToAsync<TPage>(bool animated = true) where TPage: Page;
 
-        Task NavigateToAsync<TPage>(object parameter) where TPage : Page;
+        Task NavigateToAsync<TPage>(bool animated = true, params object[] parameters) where TPage : Page;
 
         Task RemoveLastFromBackStackAsync();
 

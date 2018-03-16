@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalog.ViewModels.Base;
 using Catalog.Views;
@@ -8,87 +9,83 @@ namespace Catalog.Services
 {
     public class NavigationService : INavigationService
     {
-        public BaseViewModel PreviousPageViewModel
+        public BaseViewModel PreviousPageViewModel => NavigationStack[NavigationStack.Count - 2].BindingContext as BaseViewModel;
+
+        private CustomNavigationView NavigatePage
         {
-            get
-            {
-                var mainPage = Application.Current.MainPage as CustomNavigationView;
-                var viewModel = mainPage?.Navigation.NavigationStack[mainPage.Navigation.NavigationStack.Count - 2].BindingContext;
-                return viewModel as BaseViewModel;
-            }
+            get => Application.Current.MainPage as CustomNavigationView;
+            set => Application.Current.MainPage = value;
         }
 
-        public Task InitializeAsync()
+        private IReadOnlyList<Page> NavigationStack => NavigatePage?.Navigation.NavigationStack;
+
+        public Task InitializeAsync(bool animated = true)
         {
-            return NavigateToAsync<MainPage>();
+            return NavigateToAsync<MainPage>(animated);
         }
 
-        public Task NavigateToAsync<TPage>() where TPage : Page
+        public Task NavigateToAsync<TPage>(bool animated = true) where TPage : Page
         {
-            return InternalNavigateToAsync(typeof(TPage), null);
+            return InternalNavigateToAsync(typeof(TPage), animated);
         }
 
-        public Task NavigateToAsync<TPage>(object parameter) where TPage : Page
+        public Task NavigateToAsync<TPage>(bool animated = true, params object[] parameters) where TPage : Page
         {
-            return InternalNavigateToAsync(typeof(TPage), parameter);
+            return InternalNavigateToAsync(typeof(TPage), animated, parameters);
         }
 
         public Task RemoveLastFromBackStackAsync()
         {
-            var mainPage = Application.Current.MainPage as CustomNavigationView;
-            
-            mainPage?.Navigation.RemovePage(mainPage.Navigation.NavigationStack[mainPage.Navigation.NavigationStack.Count - 2]);
+            NavigatePage?.Navigation.RemovePage(NavigationStack[NavigationStack.Count - 2]);
 
             return Task.FromResult(true);
         }
 
         public Task RemoveBackStackAsync()
         {
-            if (Application.Current.MainPage is CustomNavigationView mainPage)
+            if (NavigatePage != null)
             {
-                for (var i = 0; i < mainPage.Navigation.NavigationStack.Count - 1; i++)
+                for (var i = 0; i < NavigationStack.Count - 1; i++)
                 {
-                    var page = mainPage.Navigation.NavigationStack[i];
-                    mainPage.Navigation.RemovePage(page);
+                    var page = NavigationStack[i];
+                    NavigatePage.Navigation.RemovePage(page);
                 }
             }
 
             return Task.FromResult(true);
         }
 
-        private async Task InternalNavigateToAsync(Type viewModelType, object parameter)
+        private async Task InternalNavigateToAsync(Type viewModelType, bool animated, params object[] parameters)
         {
-            Page page = CreatePage(viewModelType, parameter);
+            var page = CreatePage(viewModelType, parameters);
 
-            if (Application.Current.MainPage is CustomNavigationView navigationPage)
+            if (NavigatePage != null)
             {
-                await navigationPage.PushAsync(page);
+                await NavigatePage.PushAsync(page, animated);
             }
             else
             {
-                Application.Current.MainPage = new CustomNavigationView(page);
+                NavigatePage = new CustomNavigationView(page);
             }
 
             var viewModel = page.BindingContext as BaseViewModel;
 
-            if (viewModel == null)
+            if (viewModel != null)
             {
-                throw new Exception($"Cannot convert to BaseViewModel type for {nameof(viewModel)}");
+                await viewModel.InitializeAsync(parameters);
             }
-
-            await viewModel.InitializeAsync(parameter);
         }
 
-        private Page CreatePage(Type pageType, object parameter)
+        private Page CreatePage(Type pageType, params object[] parameters)
         {
-            Page page = Activator.CreateInstance(pageType) as Page;
+            //ConstructorInfo constructor = pageType.GetTypeInfo().DeclaredConstructors.FirstOrDefault(dc => !dc.GetParameters().Any());
 
-            if (page == null)
-            {
-                throw new Exception($"Cannot locate page type for {pageType}");
-            }
+            //if (!(constructor.Invoke(parameters) is Page page))
+            //{
+            //    throw new Exception($"Cannot locate page type for {pageType}");
+            //}
 
-            return page;
+            return new Page();
         }
     }
 }
