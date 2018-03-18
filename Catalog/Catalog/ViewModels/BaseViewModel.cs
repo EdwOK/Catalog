@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-using Catalog.Core;
+﻿using System;
+using System.Threading.Tasks;
 using Catalog.Models;
 using Catalog.Services;
 using Catalog.Services.Navigation;
+using CommonServiceLocator;
 using GalaSoft.MvvmLight;
 
 namespace Catalog.ViewModels
@@ -15,8 +16,8 @@ namespace Catalog.ViewModels
 
         protected BaseViewModel()
         {
-            DataStore = ViewModelLocator.Resolve<IDataStore<Item>>();
-            NavigationService = ViewModelLocator.Resolve<INavigationService>();
+            DataStore = ServiceLocator.Current.GetInstance<IDataStore<Item>>();
+            NavigationService = ServiceLocator.Current.GetInstance<INavigationService>();
         }
 
         private bool _isBusy;
@@ -33,7 +34,15 @@ namespace Catalog.ViewModels
             set => Set(ref _title, value);
         }
 
-        public virtual Task InitializeAsync(object navigationData)
+        public virtual void OnAppearing()
+        {
+        }
+
+        public virtual void OnDisappearing()
+        {
+        }
+
+        public virtual Task InitializeAsync(params object[] parameters)
         {
             return Task.FromResult(false);
         }

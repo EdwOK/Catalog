@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Catalog.Infrastructure.Locators;
 using Catalog.ViewModels;
 using Catalog.Views;
 using Xamarin.Forms;
@@ -8,71 +9,49 @@ namespace Catalog.Services.Navigation
 {
     public class NavigationService : INavigationService
     {
-        private readonly INavigationProvider _navigationProvider;
+        private readonly INavigation _navigation;
+        private readonly IPageLocator _pageLocator;
 
-        public NavigationService(INavigationProvider navigationProvider)
+        public NavigationService(INavigation navigation, IPageLocator pageLocator)
         {
-            _navigationProvider = navigationProvider;
+            this._navigation = navigation;
+            this._pageLocator = pageLocator;
         }
 
-        private IReadOnlyList<Page> NavigationStack => _navigationProvider.NavigationPage?.Navigation.NavigationStack;
+        private IReadOnlyList<Page> NavigationStack => _navigation.NavigationStack;
 
         public BaseViewModel PreviousPageViewModel => NavigationStack[NavigationStack.Count - 2].BindingContext as BaseViewModel;
 
         public Task InitializeAsync(bool animated = true)
         {
-            return NavigateToAsync<MainPage>(animated);
+            return NavigateToAsync<MainPage, MainViewModel>(animated);
         }
 
-        public Task NavigateToAsync<TPage>(bool animated = true) where TPage : Page, new()
+        public Task NavigateToAsync<TPage, TViewModel>(bool animated = true)
+            where TPage : Page, new()
+            where TViewModel : BaseViewModel
         {
-            return InternalNavigateToAsync<TPage>(animated);
+            return InternalNavigateToAsync<TPage, TViewModel>(animated);
         }
 
-        public Task NavigateToAsync<TPage>(bool animated = true, params object[] parameters) where TPage : Page, new()
+        public Task NavigateToAsync<TPage, TViewModel>(bool animated = true, params object[] parameters)
+            where TPage : Page, new()
+            where TViewModel : BaseViewModel
         {
-            return InternalNavigateToAsync<TPage>(animated, parameters);
+            return InternalNavigateToAsync<TPage, TViewModel>(animated, parameters);
         }
 
-        public Task RemoveLastFromBackStackAsync()
+        public async Task NavigateBackAsync(bool animated = true)
         {
-            _navigationProvider.NavigationPage?.Navigation.RemovePage(NavigationStack[NavigationStack.Count - 2]);
-
-            return Task.FromResult(true);
+            await _navigation.PopAsync(animated);
         }
 
-        public Task RemoveBackStackAsync()
+        private async Task InternalNavigateToAsync<TPage, TViewModel>(bool animated, params object[] parameters)
+            where TPage : Page, new()
+            where TViewModel : BaseViewModel
         {
-            if (_navigationProvider.NavigationPage != null)
-            {
-                for (var i = 0; i < NavigationStack.Count - 1; i++)
-                {
-                    var page = NavigationStack[i];
-                    _navigationProvider.NavigationPage.Navigation.RemovePage(page);
-                }
-            }
-
-            return Task.FromResult(true);
-        }
-
-        private async Task InternalNavigateToAsync<TPage>(bool animated, params object[] parameters) where TPage : Page, new()
-        {
-            var page = new TPage();
-
-            if (_navigationProvider.NavigationPage != null)
-            {
-                await _navigationProvider.NavigationPage.PushAsync(page, animated);
-            }
-            else
-            {
-                _navigationProvider.NavigationPage = new NavigationPage(page);
-            }
-
-            var viewModel = page.BindingContext as BaseViewModel;
-            if (viewModel != null)
-            {
-                await viewModel.InitializeAsync(parameters);
-            }
+            var page = await _pageLocator.Resolve<TPage, TViewModel>(parameters);
+            await _navigation.PushAsync(page, animated);
         }
     }
 }

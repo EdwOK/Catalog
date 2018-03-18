@@ -10,12 +10,14 @@ namespace Catalog.Services.Navigation
 
         Task InitializeAsync(bool animated = true);
 
-        Task NavigateToAsync<TPage>(bool animated = true) where TPage: Page, new();
+        Task NavigateToAsync<TPage, TViewModel>(bool animated = true)
+            where TPage : Page, new()
+            where TViewModel : BaseViewModel;
 
-        Task NavigateToAsync<TPage>(bool animated = true, params object[] parameters) where TPage : Page, new();
+        Task NavigateToAsync<TPage, TViewModel>(bool animated = true, params object[] parameters)
+            where TPage : Page, new()
+            where TViewModel : BaseViewModel;
 
-        Task RemoveLastFromBackStackAsync();
-
-        Task RemoveBackStackAsync();
+        Task NavigateBackAsync(bool animated = true);
     }
 }

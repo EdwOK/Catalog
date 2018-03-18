@@ -1,5 +1,7 @@
 ﻿using System;
-using Catalog.Core;
+using Catalog.Infrastructure;
+using Catalog.Infrastructure.IoC;
+using Catalog.Infrastructure.Locators;
 using Xamarin.Forms;
 using Catalog.Models;
 using Catalog.ViewModels;
@@ -13,8 +15,6 @@ namespace Catalog.Views
         public ItemsPage()
         {
             InitializeComponent();
-
-            BindingContext = this._viewModel = ViewModelLocator.ItemsViewModel;
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -36,16 +36,6 @@ namespace Catalog.Views
 	    async void AddItem_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (this._viewModel.Items.Count == 0)
-            {
-                this._viewModel.LoadItemsCommand.Execute(null);
-            }
         }
     }
 }

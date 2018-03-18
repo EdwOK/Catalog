@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Catalog.Core;
+using Catalog.Infrastructure;
+using Catalog.Infrastructure.IoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Catalog.Services;
 using Catalog.Services.Navigation;
+using CommonServiceLocator;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Catalog
@@ -13,11 +14,12 @@ namespace Catalog
 		public App()
 		{
 			InitializeComponent();
+		    InitializeBootstrapper();
         }
 
 		protected override async void OnStart()
 		{
-            await InitNavigation();
+            await InitializeNavigation();
         }
 
 		protected override void OnSleep()
@@ -30,10 +32,15 @@ namespace Catalog
 			// Handle when your app resumes
 		}
 
-	    private Task InitNavigation()
+	    private Task InitializeNavigation()
 	    {
-	        var navigationService = ViewModelLocator.Resolve<INavigationService>();
-	        return navigationService.InitializeAsync();
+            var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
+            return navigationService.InitializeAsync();
+	    }
+
+	    private void InitializeBootstrapper()
+	    {
+            Bootstrapper.RegisterDependencies();
 	    }
     }
 }

@@ -51,5 +51,15 @@ namespace Catalog.ViewModels
                 IsBusy = false;
             }
         }
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Items.Count == 0)
+            {
+                ExecuteLoadItemsCommand().Wait();
+            }
+        }
     }
 }

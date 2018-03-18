@@ -1,4 +1,6 @@
-﻿using Catalog.Core;
+﻿using Catalog.Infrastructure;
+using Catalog.Infrastructure.IoC;
+using Catalog.Infrastructure.Locators;
 using Xamarin.Forms;
 using Catalog.Models;
 using Catalog.ViewModels;
@@ -7,13 +9,9 @@ namespace Catalog.Views
 {
 	public partial class ItemDetailPage : ContentPage
 	{
-	    private ItemDetailViewModel _viewModel;
-
         public ItemDetailPage(ItemDetailViewModel viewModel)
         {
             InitializeComponent();
-
-            BindingContext = this._viewModel = viewModel;
         }
 
         public ItemDetailPage()
@@ -25,11 +23,6 @@ namespace Catalog.Views
                 Text = "Item 1",
                 Description = "This is an item description."
             };
-
-            this._viewModel = ViewModelLocator.Resolve<ItemDetailViewModel>();
-            this._viewModel.Item = item;
-
-            BindingContext = this._viewModel;
         }
     }
 }

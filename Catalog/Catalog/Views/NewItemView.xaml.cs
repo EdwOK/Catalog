@@ -1,5 +1,4 @@
 ﻿using System;
-using Catalog.Core;
 using Xamarin.Forms;
 using Catalog.Models;
 using Catalog.ViewModels;
@@ -8,8 +7,6 @@ namespace Catalog.Views
 {
     public partial class NewItemPage : ContentPage
     {
-        private ItemDetailViewModel _viewModel;
-
         public NewItemPage()
         {
             InitializeComponent();
@@ -19,11 +16,6 @@ namespace Catalog.Views
                 Text = "Item name",
                 Description = "This is an item description."
             };
-
-            _viewModel = ViewModelLocator.Resolve<ItemDetailViewModel>();
-            _viewModel.Item = item;
-
-            BindingContext = _viewModel;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
