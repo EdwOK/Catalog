@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Catalog.Core;
 using Catalog.Models;
 using Catalog.Services;
+using Catalog.Services.Navigation;
 using GalaSoft.MvvmLight;
 
-namespace Catalog.ViewModels.Base
+namespace Catalog.ViewModels
 {
     public abstract class BaseViewModel : ViewModelBase
     {

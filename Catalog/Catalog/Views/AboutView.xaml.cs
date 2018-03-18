@@ -1,5 +1,5 @@
-﻿using Catalog.ViewModels;
-using Catalog.ViewModels.Base;
+﻿using Catalog.Core;
+using Catalog.ViewModels;
 using Xamarin.Forms;
 
 namespace Catalog.Views

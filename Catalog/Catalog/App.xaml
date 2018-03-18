@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:locator="clr-namespace:Catalog.ViewModels.Base;assembly=Catalog"
+             xmlns:core="clr-namespace:Catalog.Core;assembly=Catalog"
              x:Class="Catalog.App">
     <Application.Resources>
         <ResourceDictionary>
-            <locator:ViewModelLocator x:Key="Locator" />
+            <core:ViewModelLocator x:Key="Locator" />
 
             <Color x:Key="Primary">#2196F3</Color>
             <Color x:Key="PrimaryDark">#1976D2</Color>

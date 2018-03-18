@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Catalog.ViewModels.Base;
+using Catalog.ViewModels;
 using Xamarin.Forms;
 
-namespace Catalog.Services
+namespace Catalog.Services.Navigation
 {
     public interface INavigationService
     {
@@ -10,9 +10,9 @@ namespace Catalog.Services
 
         Task InitializeAsync(bool animated = true);
 
-        Task NavigateToAsync<TPage>(bool animated = true) where TPage: Page;
+        Task NavigateToAsync<TPage>(bool animated = true) where TPage: Page, new();
 
-        Task NavigateToAsync<TPage>(bool animated = true, params object[] parameters) where TPage : Page;
+        Task NavigateToAsync<TPage>(bool animated = true, params object[] parameters) where TPage : Page, new();
 
         Task RemoveLastFromBackStackAsync();
 

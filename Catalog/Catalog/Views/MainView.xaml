@@ -5,26 +5,22 @@
             x:Class="Catalog.Views.MainPage"
             BindingContext="{Binding MainViewModel, Source={StaticResource Locator}}">
     <TabbedPage.Children>
-        <NavigationPage Title="Browse">
-            <NavigationPage.Icon>
+        <views:ItemsPage  
+            x:Name="Browse">
+            <views:ItemsPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>
                 </OnPlatform>
-            </NavigationPage.Icon>
-            <x:Arguments>
-                <views:ItemsPage />
-            </x:Arguments>
-        </NavigationPage>
-        
-        <NavigationPage Title="About">
-            <NavigationPage.Icon>
+            </views:ItemsPage.Icon>
+        </views:ItemsPage>
+
+        <views:AboutPage  
+            x:Name="About">
+            <views:AboutPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_about.png"/>
                 </OnPlatform>
-            </NavigationPage.Icon>
-            <x:Arguments>
-                <views:AboutPage />
-            </x:Arguments>
-        </NavigationPage>
+            </views:AboutPage.Icon>
+        </views:AboutPage>
     </TabbedPage.Children>
 </TabbedPage>

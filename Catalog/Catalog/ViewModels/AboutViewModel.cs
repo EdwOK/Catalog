@@ -1,5 +1,4 @@
 ﻿using System;
-using Catalog.ViewModels.Base;
 using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
 

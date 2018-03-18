@@ -1,8 +1,8 @@
 ﻿using System;
+using Catalog.Core;
 using Xamarin.Forms;
 using Catalog.Models;
 using Catalog.ViewModels;
-using Catalog.ViewModels.Base;
 
 namespace Catalog.Views
 {

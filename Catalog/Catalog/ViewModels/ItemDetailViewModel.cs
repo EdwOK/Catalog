@@ -1,5 +1,4 @@
 ﻿using Catalog.Models;
-using Catalog.ViewModels.Base;
 
 namespace Catalog.ViewModels
 {

@@ -2,22 +2,15 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
-using Xamarin.Forms;
-
 using Catalog.Models;
-using Catalog.ViewModels.Base;
 using Catalog.Views;
 using GalaSoft.MvvmLight.Command;
+using Xamarin.Forms;
 
 namespace Catalog.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
-
-        public RelayCommand LoadItemsCommand { get; set; }
-
         public ItemsViewModel()
         {
             Title = "Browse";
@@ -31,7 +24,11 @@ namespace Catalog.ViewModels
             });
         }
 
-        async Task ExecuteLoadItemsCommand()
+        public ObservableCollection<Item> Items { get; set; }
+
+        public RelayCommand LoadItemsCommand { get; set; }
+
+        private async Task ExecuteLoadItemsCommand()
         {
             IsBusy = true;
 

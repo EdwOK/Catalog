@@ -1,9 +1,14 @@
 ﻿using Autofac;
+using Autofac.Core;
+using Autofac.Core.Activators.Reflection;
 using Autofac.Extras.CommonServiceLocator;
 using Catalog.Services;
+using Catalog.Services.Navigation;
+using Catalog.ViewModels;
 using CommonServiceLocator;
+using Xamarin.Forms;
 
-namespace Catalog.ViewModels.Base
+namespace Catalog.Core
 {
     public class ViewModelLocator
     {
@@ -18,6 +23,7 @@ namespace Catalog.ViewModels.Base
                 builder.RegisterType<ItemDetailViewModel>();
                 builder.RegisterType<ItemsViewModel>();
 
+                builder.Register(context => new NavigationProvider(Application.Current.MainPage)).As<INavigationProvider>().SingleInstance();
                 builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
                 builder.RegisterType<MockDataStore>().AsImplementedInterfaces();
 

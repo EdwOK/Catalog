@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Catalog.ViewModels.Base;
-using Catalog.Views;
-using GalaSoft.MvvmLight.Views;
+using Catalog.Core;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using INavigationService = Catalog.Services.INavigationService;
+using Catalog.Services;
+using Catalog.Services.Navigation;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Catalog
@@ -18,11 +17,7 @@ namespace Catalog
 
 		protected override async void OnStart()
 		{
-            base.OnStart();
-
             await InitNavigation();
-
-            base.OnResume();
         }
 
 		protected override void OnSleep()
