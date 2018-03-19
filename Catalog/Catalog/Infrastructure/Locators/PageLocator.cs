@@ -13,12 +13,12 @@ namespace Catalog.Infrastructure.Locators
             this._viewModelLocator = viewModelLocator;
         }
 
-        public async Task<TPage> Resolve<TPage, TViewModel, TParams>(params TParams[] parameters)
+        public async Task<TPage> Resolve<TPage, TViewModel, TParam>(TParam parameter)
             where TPage : Page, new() 
             where TViewModel : BaseViewModel
         {
             var viewModel = _viewModelLocator.Resolve<TViewModel>();
-            await viewModel.InitializeAsync(parameters);
+            await viewModel.InitializeAsync(parameter);
 
             var page = new TPage
             {
