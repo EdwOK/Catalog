@@ -8,7 +8,12 @@ namespace Catalog.ViewModels
 {
     public class ItemDetailViewModel : BaseViewModel
     {
-        public Item Item { get; set; }
+        private Item _item;
+        public Item Item
+        {
+            get => _item;
+            set => Set(ref _item, value);
+        }
 
         public ICommand SaveItem => new RelayCommand(SaveItemCommand);
 

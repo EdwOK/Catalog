@@ -25,7 +25,12 @@ namespace Catalog.ViewModels
             });
         }
 
-        public ObservableCollection<Item> Items { get; set; }
+        private ObservableCollection<Item> _items;
+        public ObservableCollection<Item> Items
+        {
+            get => _items;
+            set => Set(ref _items, value);
+        }
 
         public ICommand LoadItemsCommand => new RelayCommand<Item>(async (item) => await ExecuteItemSelectedCommand(item), !IsBusy);
 
