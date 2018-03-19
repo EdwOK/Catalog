@@ -5,7 +5,7 @@
              BindingContext="{Binding ItemDetailViewModel, Source={StaticResource Locator}}"
 		     Title="New Item">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Clicked="Save_Clicked" />
+        <ToolbarItem Text="Save" Command="{Binding SaveItem}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">

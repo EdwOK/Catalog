@@ -1,4 +1,10 @@
-﻿using Catalog.Models;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Catalog.Models;
+using GalaSoft.MvvmLight.Command;
+using Xamarin.Forms;
 
 namespace Catalog.ViewModels
 {
@@ -6,15 +12,29 @@ namespace Catalog.ViewModels
     {
         public Item Item { get; set; }
 
+        public ICommand SaveItem { get; set; }
+
         public ItemDetailViewModel()
         {
-            Title = Item?.Text;
-            Item = Item;
+            SaveItem = new RelayCommand(SaveItemCommand);
         }
 
-        public ItemDetailViewModel(Item item)
+        private void SaveItemCommand()
         {
-            Item = item;
+            MessagingCenter.Send(this, "AddItem", Item);
+        }
+
+        public override Task InitializeAsync<TParam>(TParam parameter)
+        {
+            var item = parameter as Item;
+
+            if (item != null)
+            {
+                this.Item = item;
+                this.Title = item.Text;
+            }
+
+            return Task.FromResult(true);
         }
     }
 }

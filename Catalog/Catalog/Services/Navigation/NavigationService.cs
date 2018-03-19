@@ -27,31 +27,46 @@ namespace Catalog.Services.Navigation
             return NavigateToAsync<MainPage, MainViewModel>(animated);
         }
 
-        public Task NavigateToAsync<TPage, TViewModel>(bool animated = true)
+        public Task NavigateToAsync<TPage, TViewModel>(bool modal = false, bool animated = true)
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            return InternalNavigateToAsync<TPage, TViewModel>(animated);
+            return InternalNavigateToAsync<TPage, TViewModel, System.Object>(modal, animated);
         }
 
-        public Task NavigateToAsync<TPage, TViewModel>(bool animated = true, params object[] parameters)
+        public Task NavigateToAsync<TPage, TViewModel, TParam>(bool modal = false, bool animated = true, TParam parameter = default(TParam))
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            return InternalNavigateToAsync<TPage, TViewModel>(animated, parameters);
+            return InternalNavigateToAsync<TPage, TViewModel, TParam>(modal, animated, parameter);
         }
 
-        public async Task NavigateBackAsync(bool animated = true)
+        public async Task NavigateBackAsync(bool modal = false, bool animated = true)
         {
-            await _navigation.PopAsync(animated);
+            if (modal)
+            {
+                await _navigation.PopModalAsync(animated);
+            }
+            else
+            {
+                await _navigation.PopAsync(animated);
+            }
         }
 
-        private async Task InternalNavigateToAsync<TPage, TViewModel>(bool animated, params object[] parameters)
+        private async Task InternalNavigateToAsync<TPage, TViewModel, TParam>(bool modal = false, bool animated = true, TParam parameter = default(TParam))
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            var page = await _pageLocator.Resolve<TPage, TViewModel>(parameters);
-            await _navigation.PushAsync(page, animated);
+            var page = await _pageLocator.Resolve<TPage, TViewModel, TParam>(parameter);
+
+            if (modal)
+            {
+                await _navigation.PushModalAsync(page, animated);
+            }
+            else
+            {
+                await _navigation.PushAsync(page, animated);
+            }
         }
     }
 }

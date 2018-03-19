@@ -4,6 +4,7 @@
              xmlns:infrastructure="clr-namespace:Catalog.Infrastructure;assembly=Catalog"
              xmlns:locators="clr-namespace:Catalog.Infrastructure.Locators;assembly=Catalog"
              xmlns:ioC="clr-namespace:Catalog.Infrastructure.IoC;assembly=Catalog"
+             xmlns:converters="clr-namespace:Catalog.Infrastructure.Converters;assembly=Catalog"
              x:Class="Catalog.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -21,6 +22,8 @@
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
+
+            <converters:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -34,15 +34,17 @@ namespace Catalog.ViewModels
             set => Set(ref _title, value);
         }
 
-        public virtual void OnAppearing()
+        public virtual Task OnAppearing()
         {
+            return Task.FromResult(false);
         }
 
-        public virtual void OnDisappearing()
+        public virtual Task OnDisappearing()
         {
+            return Task.FromResult(false);
         }
 
-        public virtual Task InitializeAsync(params object[] parameters)
+        public virtual Task InitializeAsync<TParam>(TParam parameter)
         {
             return Task.FromResult(false);
         }

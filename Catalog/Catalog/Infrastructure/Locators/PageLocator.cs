@@ -13,7 +13,7 @@ namespace Catalog.Infrastructure.Locators
             this._viewModelLocator = viewModelLocator;
         }
 
-        public async Task<TPage> Resolve<TPage, TViewModel>(params object[] parameters)
+        public async Task<TPage> Resolve<TPage, TViewModel, TParams>(params TParams[] parameters)
             where TPage : Page, new() 
             where TViewModel : BaseViewModel
         {
@@ -25,8 +25,8 @@ namespace Catalog.Infrastructure.Locators
                 BindingContext = viewModel
             };
 
-            page.Appearing += (sender, args) => viewModel.OnAppearing();
-            page.Disappearing += (sender, args) => viewModel.OnDisappearing();
+            page.Appearing += async (sender, args) => await viewModel.OnAppearing();
+            page.Disappearing += async (sender, args) => await viewModel.OnDisappearing();
 
             return page;
         }
