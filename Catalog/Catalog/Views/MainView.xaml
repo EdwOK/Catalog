@@ -5,7 +5,7 @@
             x:Class="Catalog.Views.MainPage"
             BindingContext="{Binding MainViewModel, Source={StaticResource Locator}}">
     <TabbedPage.Children>
-        <views:ItemsPage  
+        <views:ItemsPage
             x:Name="Browse">
             <views:ItemsPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">

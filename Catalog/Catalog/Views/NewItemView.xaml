@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Catalog.Views.NewItemPage"
              BindingContext="{Binding ItemDetailViewModel, Source={StaticResource Locator}}"
-		     Title="New Item">
+		     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save" Command="{Binding SaveItem}" />
     </ContentPage.ToolbarItems>

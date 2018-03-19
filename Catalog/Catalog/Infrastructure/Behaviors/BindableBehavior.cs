@@ -28,7 +28,9 @@ namespace Catalog.Infrastructure.Behaviors
 
         protected override void OnDetachingFrom(T view)
         {
+            base.OnDetachingFrom(view);
             view.BindingContextChanged -= OnBindingContextChanged;
+            AssociatedObject = null;
         }
 
         protected override void OnBindingContextChanged()

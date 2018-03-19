@@ -1,29 +1,16 @@
-﻿using System.Threading.Tasks;
-using Catalog.Models;
-using Catalog.Services;
-using Catalog.Services.Navigation;
-using CommonServiceLocator;
+﻿using System;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 
 namespace Catalog.ViewModels
 {
-    public abstract class BaseViewModel : ViewModelBase
+    public abstract class BaseViewModel : ViewModelBase, IDisposable
     {
-        protected readonly IDataStore<Item> DataStore;
-
-        protected readonly INavigationService NavigationService;
-
-        protected BaseViewModel()
-        {
-            DataStore = ServiceLocator.Current.GetInstance<IDataStore<Item>>();
-            NavigationService = ServiceLocator.Current.GetInstance<INavigationService>();
-        }
-
         private bool _isBusy;
         public bool IsBusy
         {
             get => _isBusy;
-            set => Set(ref _isBusy, value);
+            set => Set(ref _isBusy, value, true);
         }
 
         string _title = string.Empty;
@@ -33,19 +20,37 @@ namespace Catalog.ViewModels
             set => Set(ref _title, value);
         }
 
-        public virtual Task OnAppearing()
-        {
-            return Task.FromResult(false);
-        }
-
-        public virtual Task OnDisappearing()
-        {
-            return Task.FromResult(false);
-        }
-
         public virtual Task InitializeAsync<TParam>(TParam parameter)
         {
             return Task.FromResult(false);
+        }
+
+        ~BaseViewModel()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private bool _isDisposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                Cleanup();
+            }
+
+            _isDisposed = true;
         }
     }
 }

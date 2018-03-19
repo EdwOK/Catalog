@@ -4,24 +4,30 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Models;
+using Catalog.Services;
+using Catalog.Services.Navigation;
 using Catalog.Views;
-using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        public ItemsViewModel()
+        private readonly IDataStore<Item> _dataStore;
+        private readonly INavigationService _navigationService;
+
+        public ItemsViewModel(IDataStore<Item> dataStore, INavigationService navigationService)
         {
+            _dataStore = dataStore;
+            _navigationService = navigationService;
+
             Title = "Browse";
             Items = new ObservableCollection<Item>();
 
-            MessagingCenter.Subscribe<ItemsViewModel, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<ItemDetailViewModel, Item>(this, "AddItem", async (obj, item) =>
             {
                 Items.Add(item);
-                await DataStore.AddItemAsync(item);
-                await NavigationService.NavigateBackAsync(modal: true);
+                await _dataStore.AddItemAsync(item);
             });
         }
 
@@ -32,11 +38,13 @@ namespace Catalog.ViewModels
             set => Set(ref _items, value);
         }
 
-        public ICommand LoadItemsCommand => new RelayCommand<Item>(async (item) => await ExecuteItemSelectedCommand(item), !IsBusy);
+        public ICommand ItemSelectedCommand => new Command<Item>(async (item) => await ExecuteItemSelectedCommand(item), item => !IsBusy);
 
-        public ICommand ItemSelectedCommand => new RelayCommand(async () => await ExecuteLoadItemsCommand(), !IsBusy);
+        public ICommand LoadItemsCommand => new Command(async () => await ExecuteLoadItemsCommand(), () => !IsBusy);
 
-        public ICommand AddItemCommand => new RelayCommand(async () => await ItemAddCommand(), !IsBusy);
+        public ICommand AddItemCommand => new Command(async () => await ItemAddCommand(), () => !IsBusy);
+
+        public ICommand AppearingCommand => new Command(async () => await AppearingCommandExecute(), () => !IsBusy);
 
         private async Task ExecuteLoadItemsCommand()
         {
@@ -46,7 +54,7 @@ namespace Catalog.ViewModels
             {
                 Items.Clear();
 
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await _dataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -69,7 +77,7 @@ namespace Catalog.ViewModels
                 return;
             }
 
-            await NavigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel>();
+            await _navigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel, Item>(parameter: item);
         }
 
         private async Task ItemAddCommand()
@@ -80,10 +88,10 @@ namespace Catalog.ViewModels
                 Description = "This is an item description."
             };
 
-            await NavigationService.NavigateToAsync<NewItemPage, ItemDetailViewModel, Item>(modal: true, parameter: item);
+            await _navigationService.NavigateToAsync<NewItemPage, ItemDetailViewModel, Item>(parameter: item);
         }
 
-        public override async Task OnAppearing()
+        private async Task AppearingCommandExecute()
         {
             if (Items.Count == 0)
             {

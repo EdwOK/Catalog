@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Catalog.Infrastructure;
 using Catalog.Infrastructure.IoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,14 +14,15 @@ namespace Catalog
 		{
 			InitializeComponent();
 		    InitializeBootstrapper();
-        }
+		}
 
 		protected override async void OnStart()
 		{
+		    // Handle when your app start
             await InitializeNavigation();
-        }
+		}
 
-		protected override void OnSleep()
+        protected override void OnSleep()
 		{
 			// Handle when your app sleeps
 		}

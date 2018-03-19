@@ -9,63 +9,70 @@ namespace Catalog.Services.Navigation
 {
     public class NavigationService : INavigationService
     {
-        private readonly INavigation _navigation;
-        private readonly IPageLocator _pageLocator;
+        private readonly INavigationProvider _navigationProvider;
 
-        public NavigationService(INavigation navigation, IPageLocator pageLocator)
+        public NavigationService(INavigationProvider navigationProvider, IViewModelLocator viewModelLocator)
         {
-            this._navigation = navigation;
-            this._pageLocator = pageLocator;
+            this._navigationProvider = navigationProvider;
         }
 
-        private IReadOnlyList<Page> NavigationStack => _navigation.NavigationStack;
+        private IReadOnlyList<Page> NavigationStack => this._navigationProvider.Navigation.NavigationStack;
 
         public BaseViewModel PreviousPageViewModel => NavigationStack[NavigationStack.Count - 2].BindingContext as BaseViewModel;
 
         public Task InitializeAsync(bool animated = true)
         {
-            return NavigateToAsync<MainPage, MainViewModel>(animated);
+            return NavigateToAsync<MainPage, MainViewModel>(animated: animated);
         }
 
-        public Task NavigateToAsync<TPage, TViewModel>(bool modal = false, bool animated = true)
+        public Task NavigateToAsync<TPage, TViewModel>(bool animated = true, bool modal = false)
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            return InternalNavigateToAsync<TPage, TViewModel, System.Object>(modal, animated);
+            return InternalNavigateToAsync<TPage, TViewModel, System.Object>(animated, modal);
         }
 
-        public Task NavigateToAsync<TPage, TViewModel, TParam>(bool modal = false, bool animated = true, TParam parameter = default(TParam))
+        public Task NavigateToAsync<TPage, TViewModel, TParam>(bool animated = true, bool modal = false, TParam parameter = default(TParam))
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            return InternalNavigateToAsync<TPage, TViewModel, TParam>(modal, animated, parameter);
+            return InternalNavigateToAsync<TPage, TViewModel, TParam>(animated, modal, parameter);
         }
 
-        public async Task NavigateBackAsync(bool modal = false, bool animated = true)
+        public async Task NavigateBackAsync(bool animated = true, bool modal = false)
         {
             if (modal)
             {
-                await _navigation.PopModalAsync(animated);
+                await this._navigationProvider.Navigation.PopModalAsync(animated);
             }
             else
             {
-                await _navigation.PopAsync(animated);
+                await this._navigationProvider.Navigation.PopAsync(animated);
             }
         }
 
-        private async Task InternalNavigateToAsync<TPage, TViewModel, TParam>(bool modal = false, bool animated = true, TParam parameter = default(TParam))
+        private async Task InternalNavigateToAsync<TPage, TViewModel, TParam>(bool animated = true, bool modal = false, TParam parameter = default(TParam))
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            var page = await _pageLocator.Resolve<TPage, TViewModel, TParam>(parameter);
+            var page = new TPage();
 
-            if (modal)
+            if (page is MainPage)
             {
-                await _navigation.PushModalAsync(page, animated);
+                this._navigationProvider.MainPage = new NavigationPage(page);
             }
             else
             {
-                await _navigation.PushAsync(page, animated);
+                if (modal)
+                {
+                    await this._navigationProvider.Navigation.PushModalAsync(page, animated);
+                }
+                else
+                {
+                    await this._navigationProvider.Navigation.PushAsync(page, animated);
+                }
+
+                await ((TViewModel)page.BindingContext).InitializeAsync(parameter);
             }
         }
     }

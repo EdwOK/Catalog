@@ -1,5 +1,4 @@
 ﻿using Xamarin.Forms;
-using Catalog.Models;
 
 namespace Catalog.Views
 {
