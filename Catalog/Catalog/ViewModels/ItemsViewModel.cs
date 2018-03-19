@@ -16,9 +16,6 @@ namespace Catalog.ViewModels
         {
             Title = "Browse";
             Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new RelayCommand(async () => await ExecuteLoadItemsCommand(), () => !IsBusy);
-            OnItemSelected = new RelayCommand<Item>(async item => await ItemSelectedCommand(item));
-            AddItemCommand = new RelayCommand(async () => await ItemAddCommand());
 
             MessagingCenter.Subscribe<ItemsViewModel, Item>(this, "AddItem", async (obj, item) =>
             {
@@ -30,11 +27,11 @@ namespace Catalog.ViewModels
 
         public ObservableCollection<Item> Items { get; set; }
 
-        public ICommand LoadItemsCommand { get; set; }
+        public ICommand LoadItemsCommand => new RelayCommand<Item>(async (item) => await ExecuteItemSelectedCommand(item), !IsBusy);
 
-        public ICommand OnItemSelected { get; set; }
+        public ICommand ItemSelectedCommand => new RelayCommand(async () => await ExecuteLoadItemsCommand(), !IsBusy);
 
-        public ICommand AddItemCommand { get; set; }
+        public ICommand AddItemCommand => new RelayCommand(async () => await ItemAddCommand(), !IsBusy);
 
         private async Task ExecuteLoadItemsCommand()
         {
@@ -60,7 +57,7 @@ namespace Catalog.ViewModels
             }
         }
 
-        private async Task ItemSelectedCommand(Item item)
+        private async Task ExecuteItemSelectedCommand(Item item)
         {
             if (item == null)
             {

@@ -12,12 +12,7 @@ namespace Catalog.ViewModels
     {
         public Item Item { get; set; }
 
-        public ICommand SaveItem { get; set; }
-
-        public ItemDetailViewModel()
-        {
-            SaveItem = new RelayCommand(SaveItemCommand);
-        }
+        public ICommand SaveItem => new RelayCommand(SaveItemCommand);
 
         private void SaveItemCommand()
         {

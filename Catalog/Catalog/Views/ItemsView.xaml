@@ -22,7 +22,7 @@
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior 
                         EventName="ItemSelected" 
-                        Command="{Binding OnItemSelected}"
+                        Command="{Binding ItemSelectedCommand}"
                         EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}"/>
                 </ListView.Behaviors>
                 <ListView.ItemTemplate>

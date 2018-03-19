@@ -6,13 +6,11 @@ namespace Catalog.ViewModels
 {
     public class AboutViewModel : BaseViewModel
     {
-        public RelayCommand OpenWebCommand { get; set; }
+        public RelayCommand OpenWebCommand => new RelayCommand(() => Device.OpenUri(new Uri("https://onliner.by")));
 
         public AboutViewModel()
         {
             Title = "About";
-
-            OpenWebCommand = new RelayCommand(() => Device.OpenUri(new Uri("https://onliner.by")));
         }
     }
 }
