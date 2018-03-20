@@ -1,21 +1,26 @@
-﻿using Catalog.ViewModels;
-using CommonServiceLocator;
+﻿using System;
+using Autofac;
+using Catalog.ViewModels;
 
 namespace Catalog.Infrastructure.Locators
 {
     public class ViewModelLocator : IViewModelLocator
     {
-        public MainViewModel MainViewModel => Resolve<MainViewModel>();
+        private readonly ILifetimeScope _lifetimeScope;
 
-        public AboutViewModel AboutViewModel => Resolve<AboutViewModel>();
-
-        public ItemDetailViewModel ItemDetailViewModel => Resolve<ItemDetailViewModel>();
-
-        public ItemsViewModel ItemsViewModel => Resolve<ItemsViewModel>();
+        public ViewModelLocator(ILifetimeScope lifetimeScope)
+        {
+            this._lifetimeScope = lifetimeScope;
+        }
 
         public TViewModel Resolve<TViewModel>() where TViewModel : BaseViewModel
         {
-            return ServiceLocator.Current.GetInstance<TViewModel>();
+            return this._lifetimeScope.Resolve<TViewModel>();
+        }
+
+        public TViewModel Resolve<TViewModel, TParam>(TParam param) where TViewModel : BaseViewModel
+        {
+            return this._lifetimeScope.Resolve<Func<TParam, TViewModel>>()(param);
         }
     }
 }

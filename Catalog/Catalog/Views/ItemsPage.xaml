@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:Catalog.Infrastructure.Behaviors;assembly=Catalog"
              x:Class="Catalog.Views.ItemsPage"
-             x:Name="BrowseItemsPage"
-             BindingContext="{Binding ItemsViewModel, Source={StaticResource Locator}}"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
@@ -16,6 +14,7 @@
         <StackLayout>
             <ListView 
                     ItemsSource="{Binding Items}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                     VerticalOptions="FillAndExpand"
                     HasUnevenRows="true"
                     RefreshCommand="{Binding LoadItemsCommand}"
@@ -24,9 +23,8 @@
                     CachingStrategy="RecycleElement">
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior 
-                        EventName="ItemSelected" 
-                        Command="{Binding ItemSelectedCommand}"
-                        EventArgsConverter="{StaticResource SelectedItemChangedEventArgsConverter}"/>
+                        EventName="ItemTapped" 
+                        Command="{Binding ItemSelectedCommand}" />
                 </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -19,20 +19,25 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="Views\AboutView.xaml.cs">
+    <Compile Update="Views\AboutPage.xaml.cs">
       <SubType>Code</SubType>
+      <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ItemDetailView.xaml.cs">
+    <Compile Update="Views\ItemDetailPage.xaml.cs">
       <SubType>Code</SubType>
+      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ItemsView.xaml.cs">
+    <Compile Update="Views\ItemsPage.xaml.cs">
       <SubType>Code</SubType>
+      <DependentUpon>ItemsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\MainView.xaml.cs">
+    <Compile Update="Views\MainPage.xaml.cs">
       <SubType>Code</SubType>
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\NewItemView.xaml.cs">
+    <Compile Update="Views\NewItemPage.xaml.cs">
       <SubType>Code</SubType>
+      <DependentUpon>NewItemPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

@@ -8,5 +8,5 @@ namespace Catalog.Views
 		{
 			InitializeComponent();
 		}
-	}
+    }
 }

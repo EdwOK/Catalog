@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Models;
 using Catalog.Services.Navigation;
@@ -11,11 +10,11 @@ namespace Catalog.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public ItemDetailViewModel(INavigationService navigationService)
+        public ItemDetailViewModel(Item item, INavigationService navigationService)
         {
-            _navigationService = navigationService;
-
-            Title = "New Item";
+            this.Item = item;
+            this.Title = item.Text;
+            this._navigationService = navigationService;
         }
 
         private Item _item;
@@ -25,34 +24,12 @@ namespace Catalog.ViewModels
             set => Set(ref _item, value);
         }
 
-        public ICommand SaveItem => new Command(async () => await SaveItemCommand(), () => !IsBusy);
+        public ICommand SaveItem => new Command(async () => await SaveItemCommand());
 
         private async Task SaveItemCommand()
         {
             MessagingCenter.Send(this, "AddItem", Item);
-            await _navigationService.NavigateBackAsync();
-        }
-
-        public override Task InitializeAsync<TParam>(TParam parameter)
-        {
-            IsBusy = true;
-
-            try
-            {
-                var item = parameter as Item;
-
-                if (item != null)
-                {
-                    this.Item = item;
-                    this.Title = item.Text;
-                }
-
-                return Task.FromResult(true);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            await _navigationService.NavigateBackAsync(false);
         }
     }
 }

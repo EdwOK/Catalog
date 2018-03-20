@@ -1,21 +1,19 @@
-﻿using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Catalog.Infrastructure.Locators;
 using Catalog.Services;
 using Catalog.Services.Navigation;
 using Catalog.ViewModels;
-using Module = Autofac.Module;
 
 namespace Catalog.Infrastructure.IoC
 {
-    public class CatalogModule : Module
+    public class CatalogModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MainViewModel>().SingleInstance();
-            builder.RegisterType<AboutViewModel>();
-            builder.RegisterType<ItemDetailViewModel>();
-            builder.RegisterType<ItemsViewModel>();
+            builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<AboutViewModel>().AsSelf();
+            builder.RegisterType<ItemDetailViewModel>().AsSelf();
+            builder.RegisterType<ItemsViewModel>().AsSelf();
 
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
             builder.RegisterType<ViewModelLocator>().As<IViewModelLocator>().SingleInstance();

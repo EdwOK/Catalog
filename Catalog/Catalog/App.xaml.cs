@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Autofac;
 using Catalog.Infrastructure.IoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Catalog.Services.Navigation;
-using CommonServiceLocator;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Catalog
@@ -34,7 +34,7 @@ namespace Catalog
 
 	    private Task InitializeNavigation()
 	    {
-            var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
+            var navigationService = Bootstrapper.Container.Resolve<INavigationService>();
             return navigationService.InitializeAsync();
 	    }
 

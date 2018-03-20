@@ -8,16 +8,16 @@ namespace Catalog.Services.Navigation
     {
         BaseViewModel PreviousPageViewModel { get; }
 
-        Task InitializeAsync(bool animated = true);
+        Task InitializeAsync();
 
-        Task NavigateToAsync<TPage, TViewModel>(bool animated = true, bool modal = false)
+        Task NavigateToAsync<TPage, TViewModel>(bool modal, bool animated = true)
             where TPage : Page, new()
             where TViewModel : BaseViewModel;
 
-        Task NavigateToAsync<TPage, TViewModel, TParam>(bool animated = true, bool modal = false, TParam parameter = default(TParam))
+        Task NavigateToAsync<TPage, TViewModel, TParam>(TParam parameter, bool modal, bool animated = true)
             where TPage : Page, new()
             where TViewModel : BaseViewModel;
 
-        Task NavigateBackAsync(bool animated = true, bool modal = false);
+        Task NavigateBackAsync(bool modal, bool animated = true);
     }
 }

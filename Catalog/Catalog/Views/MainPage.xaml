@@ -2,10 +2,10 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:Catalog.Views"
-            x:Class="Catalog.Views.MainPage"
-            BindingContext="{Binding MainViewModel, Source={StaticResource Locator}}">
+            x:Class="Catalog.Views.MainPage">
     <TabbedPage.Children>
         <views:ItemsPage
+            BindingContext="{Binding ItemsViewModel}"
             x:Name="Browse">
             <views:ItemsPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
@@ -15,6 +15,7 @@
         </views:ItemsPage>
 
         <views:AboutPage  
+            BindingContext="{Binding AboutViewModel}"
             x:Name="About">
             <views:AboutPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">

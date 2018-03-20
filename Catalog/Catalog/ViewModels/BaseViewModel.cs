@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 
 namespace Catalog.ViewModels
@@ -10,7 +9,7 @@ namespace Catalog.ViewModels
         public bool IsBusy
         {
             get => _isBusy;
-            set => Set(ref _isBusy, value, true);
+            set => Set(ref _isBusy, value);
         }
 
         string _title = string.Empty;
@@ -18,11 +17,6 @@ namespace Catalog.ViewModels
         {
             get => _title;
             set => Set(ref _title, value);
-        }
-
-        public virtual Task InitializeAsync<TParam>(TParam parameter)
-        {
-            return Task.FromResult(false);
         }
 
         ~BaseViewModel()

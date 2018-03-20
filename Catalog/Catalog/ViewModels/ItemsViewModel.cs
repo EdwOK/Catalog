@@ -31,23 +31,25 @@ namespace Catalog.ViewModels
             });
         }
 
-        private ObservableCollection<Item> _items;
-        public ObservableCollection<Item> Items
-        {
-            get => _items;
-            set => Set(ref _items, value);
-        }
+        public ObservableCollection<Item> Items { get; set; }
 
-        public ICommand ItemSelectedCommand => new Command<Item>(async (item) => await ExecuteItemSelectedCommand(item), item => !IsBusy);
+        public Item SelectedItem { get; set; }
 
-        public ICommand LoadItemsCommand => new Command(async () => await ExecuteLoadItemsCommand(), () => !IsBusy);
+        public ICommand ItemSelectedCommand => new Command(async () => await ExecuteItemSelectedCommand());
 
-        public ICommand AddItemCommand => new Command(async () => await ItemAddCommand(), () => !IsBusy);
+        public ICommand LoadItemsCommand => new Command(async () => await ExecuteLoadItemsCommand());
 
-        public ICommand AppearingCommand => new Command(async () => await AppearingCommandExecute(), () => !IsBusy);
+        public ICommand AddItemCommand => new Command(async () => await ItemAddCommand());
+
+        public ICommand AppearingCommand => new Command(AppearingCommandExecute);
 
         private async Task ExecuteLoadItemsCommand()
         {
+            if (IsBusy)
+            {
+                return;
+            }
+
             IsBusy = true;
 
             try
@@ -70,14 +72,15 @@ namespace Catalog.ViewModels
             }
         }
 
-        private async Task ExecuteItemSelectedCommand(Item item)
+        private async Task ExecuteItemSelectedCommand()
         {
-            if (item == null)
+            if (SelectedItem == null)
             {
                 return;
             }
 
-            await _navigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel, Item>(parameter: item);
+            await _navigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel, Item>(SelectedItem, false);
+            SelectedItem = null;
         }
 
         private async Task ItemAddCommand()
@@ -88,10 +91,10 @@ namespace Catalog.ViewModels
                 Description = "This is an item description."
             };
 
-            await _navigationService.NavigateToAsync<NewItemPage, ItemDetailViewModel, Item>(parameter: item);
+            await _navigationService.NavigateToAsync<NewItemPage, ItemDetailViewModel, Item>(item, false);
         }
 
-        private async Task AppearingCommandExecute()
+        private async void AppearingCommandExecute()
         {
             if (Items.Count == 0)
             {
