@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Models;
 using Catalog.Services.Navigation;
@@ -34,15 +35,24 @@ namespace Catalog.ViewModels
 
         public override Task InitializeAsync<TParam>(TParam parameter)
         {
-            var item = parameter as Item;
+            IsBusy = true;
 
-            if (item != null)
+            try
             {
-                Item = item;
-                Title = item.Text;
-            }
+                var item = parameter as Item;
 
-            return Task.FromResult(true);
+                if (item != null)
+                {
+                    this.Item = item;
+                    this.Title = item.Text;
+                }
+
+                return Task.FromResult(true);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

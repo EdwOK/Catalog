@@ -15,10 +15,21 @@
             <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
             <Color x:Key="LightTextColor">#999999</Color>
+            <Color x:Key="LightGreenColor">#83D01B</Color>
+            <Color x:Key="iOSDefaultTintColor">#007aff</Color>
+
+            <OnPlatform x:TypeArguments="Color"
+                        x:Key="ActivityIndicatorColor">
+                <On Platform="iOS" Value="{ StaticResource iOSDefaultTintColor }" />
+            </OnPlatform>
 
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="White" />
+            </Style>
+
+            <Style TargetType="ActivityIndicator" ApplyToDerivedTypes="True" CanCascade="True">
+                <Setter Property="Color" Value="{ StaticResource ActivityIndicatorColor }" />
             </Style>
 
             <converters:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
