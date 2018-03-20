@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace Catalog.Services.Dialogs
 {
-    interface IDialogService
+    public interface IDialogService
     {
+        Task Alert(string message, string title, string button);
+
+        Task<bool> Confirm(string message, string title, string acceptButton, string cancelButton);
+
+        Task Error();
     }
 }

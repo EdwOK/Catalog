@@ -9,16 +9,16 @@ namespace Catalog.Services.Navigation
 {
     public class NavigationService : INavigationService
     {
-        private readonly INavigationProvider _navigationProvider;
+        private readonly IApplicationProvider _applicationProvider;
         private readonly IViewModelLocator _viewModelLocator;
 
-        public NavigationService(INavigationProvider navigationProvider, IViewModelLocator viewModelLocator)
-        {
-            this._navigationProvider = navigationProvider;
-            this._viewModelLocator = viewModelLocator;
-        }
+        private IReadOnlyList<Page> NavigationStack => _applicationProvider.Navigation.NavigationStack;
 
-        private IReadOnlyList<Page> NavigationStack => this._navigationProvider.Navigation.NavigationStack;
+        public NavigationService(IApplicationProvider applicationProvider, IViewModelLocator viewModelLocator)
+        {
+            _applicationProvider = applicationProvider;
+            _viewModelLocator = viewModelLocator;
+        }
 
         public BaseViewModel PreviousPageViewModel => NavigationStack[NavigationStack.Count - 1].BindingContext as BaseViewModel;
 
@@ -45,11 +45,11 @@ namespace Catalog.Services.Navigation
         {
             if (modal)
             {
-                await this._navigationProvider.Navigation.PopModalAsync(animated);
+                await _applicationProvider.Navigation.PopModalAsync(animated);
             }
             else
             {
-                await this._navigationProvider.Navigation.PopAsync(animated);
+                await _applicationProvider.Navigation.PopAsync(animated);
             }
 
             PreviousPageViewModel?.Dispose();
@@ -59,7 +59,7 @@ namespace Catalog.Services.Navigation
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            var viewModel = this._viewModelLocator.Resolve<TViewModel, TParam>(parameter);
+            var viewModel = _viewModelLocator.Resolve<TViewModel, TParam>(parameter);
             await CanNavigate<TPage, TViewModel>(viewModel, animated, modal);
         }
 
@@ -67,7 +67,7 @@ namespace Catalog.Services.Navigation
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            var viewModel = this._viewModelLocator.Resolve<TViewModel>();
+            var viewModel = _viewModelLocator.Resolve<TViewModel>();
             await CanNavigate<TPage, TViewModel>(viewModel, animated, modal);
         }
 
@@ -82,17 +82,17 @@ namespace Catalog.Services.Navigation
 
             if (page is MainPage)
             {
-                this._navigationProvider.MainPage = new NavigationPage(page);
+                _applicationProvider.MainPage = new NavigationPage(page);
             }
             else
             {
                 if (modal)
                 {
-                    await this._navigationProvider.Navigation.PushModalAsync(page, animated);
+                    await _applicationProvider.Navigation.PushModalAsync(page, animated);
                 }
                 else
                 {
-                    await this._navigationProvider.Navigation.PushAsync(page, animated);
+                    await _applicationProvider.Navigation.PushAsync(page, animated);
                 }
             }
         }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -11,27 +9,21 @@ namespace Catalog.Infrastructure.Behaviors
     public class EventToCommandBehavior : BindableBehavior<VisualElement>
     {
         public static BindableProperty EventNameProperty =
-            BindableProperty.CreateAttached("EventName", typeof(string), typeof(EventToCommandBehavior), null,
-                BindingMode.OneWay);
+            BindableProperty.CreateAttached("EventName", typeof(string), typeof(EventToCommandBehavior), null, propertyChanged: OnEventNameChanged);
 
         public static BindableProperty CommandProperty =
-            BindableProperty.CreateAttached("Command", typeof(ICommand), typeof(EventToCommandBehavior), null,
-                BindingMode.OneWay);
+            BindableProperty.CreateAttached("Command", typeof(ICommand), typeof(EventToCommandBehavior), null);
 
         public static BindableProperty CommandParameterProperty =
-            BindableProperty.CreateAttached("CommandParameter", typeof(object), typeof(EventToCommandBehavior), null,
-                BindingMode.OneWay);
+            BindableProperty.CreateAttached("CommandParameter", typeof(object), typeof(EventToCommandBehavior), null);
 
         public static BindableProperty EventArgsConverterProperty =
-            BindableProperty.CreateAttached("EventArgsConverter", typeof(IValueConverter), typeof(EventToCommandBehavior), null,
-                BindingMode.OneWay);
+            BindableProperty.CreateAttached("EventArgsConverter", typeof(IValueConverter), typeof(EventToCommandBehavior), null);
 
         public static BindableProperty EventArgsConverterParameterProperty =
-            BindableProperty.CreateAttached("EventArgsConverterParameter", typeof(object), typeof(EventToCommandBehavior), null,
-                BindingMode.OneWay);
+            BindableProperty.CreateAttached("EventArgsConverterParameter", typeof(object), typeof(EventToCommandBehavior), null);
 
         protected Delegate Handler;
-        private EventInfo _eventInfo;
 
         public string EventName
         {
@@ -63,53 +55,68 @@ namespace Catalog.Infrastructure.Behaviors
             set => SetValue(EventArgsConverterParameterProperty, value);
         }
 
-        protected override void OnAttachedTo(VisualElement visualElement)
+        protected override void OnAttachedTo(VisualElement bindable)
         {
-            base.OnAttachedTo(visualElement);
-
-            var events = AssociatedObject.GetType().GetRuntimeEvents().ToArray();
-            if (events.Any())
-            {
-                _eventInfo = events.FirstOrDefault(e => e.Name == EventName);
-
-                if (_eventInfo == null)
-                {
-                    throw new ArgumentException($"EventToCommand: Can't find any event named '{EventName}' on attached type");
-                }
-
-                AddEventHandler(_eventInfo, AssociatedObject, OnFired);
-            }
+            base.OnAttachedTo(bindable);
+            RegisterEvent(EventName);
         }
 
-        protected override void OnDetachingFrom(VisualElement view)
+        protected override void OnDetachingFrom(VisualElement bindable)
         {
-            if (Handler != null)
-            {
-                _eventInfo.RemoveEventHandler(AssociatedObject, Handler);
-            }
-
-            base.OnDetachingFrom(view);
+            DeregisterEvent(EventName);
+            base.OnDetachingFrom(bindable);
         }
 
-        private void AddEventHandler(EventInfo eventInfo, object item, Action<object, EventArgs> action)
+        void RegisterEvent(string name)
         {
-            var eventParameters = eventInfo.EventHandlerType
-                .GetRuntimeMethods().First(m => m.Name == "Invoke")
-                .GetParameters()
-                .Select(p => Expression.Parameter(p.ParameterType))
-                .ToArray();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
 
-            var actionInvoke = action.GetType()
-                .GetRuntimeMethods().First(m => m.Name == "Invoke");
+            EventInfo eventInfo = AssociatedObject.GetType().GetRuntimeEvent(name);
 
-            Handler = Expression.Lambda(
-                eventInfo.EventHandlerType,
-                Expression.Call(Expression.Constant(action), actionInvoke, eventParameters[0], eventParameters[1]),
-                eventParameters
-            )
-            .Compile();
+            if (eventInfo == null)
+            {
+                throw new ArgumentException($"Can't find any event named '{EventName}' on attached type");
+            }
 
-            eventInfo.AddEventHandler(item, Handler);
+            AddEventHandler(eventInfo);
+        }
+
+        void DeregisterEvent(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
+
+            if (Handler == null)
+            {
+                return;
+            }
+
+            EventInfo eventInfo = AssociatedObject.GetType().GetRuntimeEvent(name);
+
+            if (eventInfo == null)
+            {
+                throw new ArgumentException($"Can't find any event named '{name}' on attached type");
+            }
+
+            RemoveEventHandler(eventInfo);
+        }
+
+        private void AddEventHandler(EventInfo eventInfo)
+        {
+            MethodInfo methodInfo = typeof(EventToCommandBehavior).GetTypeInfo().GetDeclaredMethod("OnFired");
+            Handler = methodInfo.CreateDelegate(eventInfo.EventHandlerType, this);
+            eventInfo.AddEventHandler(AssociatedObject, Handler);
+        }
+
+        private void RemoveEventHandler(EventInfo eventInfo)
+        {
+            eventInfo.RemoveEventHandler(AssociatedObject, Handler);
+            Handler = null;
         }
 
         private void OnFired(object sender, EventArgs eventArgs)
@@ -135,6 +142,22 @@ namespace Catalog.Infrastructure.Behaviors
             {
                 Command.Execute(parameter);
             }
+        }
+
+        static void OnEventNameChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var behavior = (EventToCommandBehavior) bindable;
+
+            if (behavior.AssociatedObject == null)
+            {
+                return;
+            }
+
+            string oldEventName = (string) oldValue;
+            string newEventName = (string) newValue;
+
+            behavior.DeregisterEvent(oldEventName);
+            behavior.RegisterEvent(newEventName);
         }
     }
 }

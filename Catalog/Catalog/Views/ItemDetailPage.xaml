@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Catalog.Views.ItemDetailPage"
-             Title="{Binding Title}">
+             Title="Item Detail">
     <StackLayout Spacing="20" Padding="15">
         <Label Text="Text:" FontSize="Medium" />
         <Label Text="{Binding Item.Text}" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Item.Description}" FontSize="Small"/>
-        <ActivityIndicator
+        <!--<ActivityIndicator
             Color="{StaticResource LightGreenColor}"
             IsRunning="{Binding IsBusy}"  
             IsVisible="{Binding IsBusy}"
@@ -20,6 +20,6 @@
                     <On Platform="UWP, WinRT, WinPhone" Value="400" />
                 </OnPlatform>
             </ActivityIndicator.WidthRequest>
-        </ActivityIndicator>
+        </ActivityIndicator>-->
     </StackLayout>
 </ContentPage>

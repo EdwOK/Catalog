@@ -8,9 +8,7 @@ namespace Catalog.Infrastructure.IoC
 
         private static void BuildContainer(ContainerBuilder builder)
         {
-            var container = builder.Build();
-            container.BeginLifetimeScope();
-            Container = container;
+            Container = builder.Build();
         }
 
         public static void RegisterDependencies()

@@ -7,18 +7,18 @@ namespace Catalog.Infrastructure.Behaviors
     {
         public T AssociatedObject { get; private set; }
 
-        protected override void OnAttachedTo(T visualElement)
+        protected override void OnAttachedTo(T bindable)
         {
-            base.OnAttachedTo(visualElement);
+            base.OnAttachedTo(bindable);
 
-            AssociatedObject = visualElement;
+            AssociatedObject = bindable;
 
-            if (visualElement.BindingContext != null)
+            if (bindable.BindingContext != null)
             {
-                BindingContext = visualElement.BindingContext;
+                BindingContext = bindable.BindingContext;
             }
 
-            visualElement.BindingContextChanged += OnBindingContextChanged;
+            bindable.BindingContextChanged += OnBindingContextChanged;
         }
 
         private void OnBindingContextChanged(object sender, EventArgs e)
@@ -26,10 +26,10 @@ namespace Catalog.Infrastructure.Behaviors
             OnBindingContextChanged();
         }
 
-        protected override void OnDetachingFrom(T view)
+        protected override void OnDetachingFrom(T bindable)
         {
-            base.OnDetachingFrom(view);
-            view.BindingContextChanged -= OnBindingContextChanged;
+            base.OnDetachingFrom(bindable);
+            bindable.BindingContextChanged -= OnBindingContextChanged;
             AssociatedObject = null;
         }
 

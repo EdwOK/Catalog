@@ -1,8 +1,8 @@
 ﻿using Xamarin.Forms;
 
-namespace Catalog.Services.Navigation
+namespace Catalog.Services
 {
-    public class NavigationProvider : INavigationProvider
+    public class ApplicationProvider : IApplicationProvider
     {
         public INavigation Navigation => MainPage.Navigation;
 
@@ -11,5 +11,12 @@ namespace Catalog.Services.Navigation
             get => Application.Current.MainPage;
             set => Application.Current.MainPage = value;
         }
+    }
+
+    public interface IApplicationProvider
+    {
+        INavigation Navigation { get; }
+
+        Page MainPage { get; set; }
     }
 }

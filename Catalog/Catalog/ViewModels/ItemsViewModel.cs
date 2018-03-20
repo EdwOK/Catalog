@@ -23,6 +23,7 @@ namespace Catalog.ViewModels
 
             Title = "Browse";
             Items = new ObservableCollection<Item>();
+            ItemSelectedCommand = new Command<Item>(ItemSelectedCommandExecute);
 
             MessagingCenter.Subscribe<ItemDetailViewModel, Item>(this, "AddItem", async (obj, item) =>
             {
@@ -31,19 +32,22 @@ namespace Catalog.ViewModels
             });
         }
 
-        public ObservableCollection<Item> Items { get; set; }
+        private ObservableCollection<Item> _items;
+        public ObservableCollection<Item> Items
+        {
+            get => _items;
+            set => Set(ref _items, value);
+        }
 
-        public Item SelectedItem { get; set; }
+        public Command ItemSelectedCommand { get; set; } 
 
-        public ICommand ItemSelectedCommand => new Command(async () => await ExecuteItemSelectedCommand());
+        public ICommand LoadItemsCommand => new Command(async () => await LoadItemsCommandExecute());
 
-        public ICommand LoadItemsCommand => new Command(async () => await ExecuteLoadItemsCommand());
-
-        public ICommand AddItemCommand => new Command(async () => await ItemAddCommand());
+        public ICommand AddItemCommand => new Command(async () => await ItemAddCommandExecute());
 
         public ICommand AppearingCommand => new Command(AppearingCommandExecute);
 
-        private async Task ExecuteLoadItemsCommand()
+        private async Task LoadItemsCommandExecute()
         {
             if (IsBusy)
             {
@@ -72,18 +76,17 @@ namespace Catalog.ViewModels
             }
         }
 
-        private async Task ExecuteItemSelectedCommand()
+        private async void ItemSelectedCommandExecute(Item item)
         {
-            if (SelectedItem == null)
+            if (item == null)
             {
                 return;
             }
 
-            await _navigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel, Item>(SelectedItem, false);
-            SelectedItem = null;
+            await _navigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel, Item>(item, false);
         }
 
-        private async Task ItemAddCommand()
+        private async Task ItemAddCommandExecute()
         {
             var item = new Item
             {
@@ -98,7 +101,7 @@ namespace Catalog.ViewModels
         {
             if (Items.Count == 0)
             {
-                await ExecuteLoadItemsCommand();
+                await LoadItemsCommandExecute();
             }
         }
     }
