@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Infrastructure\Converters\**" />
+    <EmbeddedResource Remove="Infrastructure\Converters\**" />
+    <None Remove="Infrastructure\Converters\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Behaviors.Forms" Version="1.3.0" />
     <PackageReference Include="MvvmLight" Version="5.4.1" />
@@ -43,7 +49,6 @@
   
   <ItemGroup>
     <Folder Include="Domain\Services\" />
-    <Folder Include="Infrastructure\Converters\" />
     <Folder Include="ViewModels\Customers\" />
     <Folder Include="ViewModels\Employees\" />
     <Folder Include="ViewModels\Orders\" />
