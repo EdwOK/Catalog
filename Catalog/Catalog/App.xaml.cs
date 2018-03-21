@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Catalog.Infrastructure.IoC;
+using Catalog.Data;
+using Catalog.Infrastructure.Setup;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Catalog.Services.Navigation;
@@ -14,11 +15,12 @@ namespace Catalog
 		{
 			InitializeComponent();
 		    InitializeBootstrapper();
+		    InitializeDatabase();
 		}
 
-		protected override async void OnStart()
+	    protected override async void OnStart()
 		{
-		    // Handle when your app start
+            // Handle when your app start
             await InitializeNavigation();
 		}
 
@@ -32,15 +34,21 @@ namespace Catalog
 			// Handle when your app resumes
 		}
 
-	    private Task InitializeNavigation()
+        private Task InitializeNavigation()
 	    {
-            var navigationService = Bootstrapper.Container.Resolve<INavigationService>();
+            var navigationService = AppSetup.Container.Resolve<INavigationService>();
             return navigationService.InitializeAsync();
 	    }
 
 	    private void InitializeBootstrapper()
 	    {
-            Bootstrapper.RegisterDependencies();
+            AppSetup.Instance.Initialize();
 	    }
+
+        private void InitializeDatabase()
+        {
+            var dbContext = AppSetup.Container.Resolve<AppDbContext>();
+            dbContext.CreateDatabase();
+        }
     }
 }

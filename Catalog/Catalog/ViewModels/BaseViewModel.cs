@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight;
 
 namespace Catalog.ViewModels
 {
-    public abstract class BaseViewModel : ViewModelBase, IDisposable
+    public abstract class BaseViewModel : ViewModelBase
     {
         private bool _isBusy;
         public bool IsBusy
@@ -30,11 +30,11 @@ namespace Catalog.ViewModels
             GC.SuppressFinalize(this);
         }
 
-        private bool _isDisposed;
+        private bool _disposed;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_isDisposed)
+            if (_disposed)
             {
                 return;
             }
@@ -44,7 +44,7 @@ namespace Catalog.ViewModels
                 Cleanup();
             }
 
-            _isDisposed = true;
+            _disposed = true;
         }
     }
 }

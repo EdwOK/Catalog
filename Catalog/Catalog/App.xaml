@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:Catalog.Infrastructure.Converters;assembly=Catalog"
              x:Class="Catalog.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -29,8 +28,6 @@
                 <Setter Property="Color" Value="{ StaticResource ActivityIndicatorColor }" />
             </Style>
 
-            <converters:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
-            <converters:SelectedItemChangedEventArgsConverter x:Key="SelectedItemChangedEventArgsConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

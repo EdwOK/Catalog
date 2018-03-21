@@ -1,32 +1,26 @@
 ﻿using System;
 using Autofac;
-using Autofac.Features.OwnedInstances;
 using Catalog.ViewModels;
 
 namespace Catalog.Infrastructure.Locators
 {
-    public class ViewModelLocator : IViewModelLocator, IDisposable
+    public class ViewModelLocator : IViewModelLocator
     {
-        private readonly ILifetimeScope _lifetimeScope;
+        private readonly IComponentContext _componentContext;
 
-        public ViewModelLocator(ILifetimeScope lifetimeScope)
+        public ViewModelLocator(IComponentContext componentContext)
         {
-            this._lifetimeScope = lifetimeScope;
+            _componentContext = componentContext;
         }
 
         public TViewModel Resolve<TViewModel>() where TViewModel : BaseViewModel
         {
-            return this._lifetimeScope.Resolve<Owned<TViewModel>>().Value;
+            return _componentContext.Resolve<TViewModel>();
         }
 
         public TViewModel Resolve<TViewModel, TParam>(TParam param) where TViewModel : BaseViewModel
         {
-            return this._lifetimeScope.Resolve<Func<TParam, Owned<TViewModel>>>()(param).Value;
-        }
-
-        public void Dispose()
-        {
-            _lifetimeScope.Dispose();
+            return _componentContext.Resolve<Func<TParam, TViewModel>>()(param);
         }
     }
 }

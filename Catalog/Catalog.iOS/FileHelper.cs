@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
+using Catalog.Data;
 using Catalog.iOS;
-using Catalog.Infrastructure;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(FileHelper))]

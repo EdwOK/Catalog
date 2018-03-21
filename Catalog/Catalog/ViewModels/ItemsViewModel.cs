@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Catalog.Domain.Repositories;
 using Catalog.Models;
 using Catalog.Services;
 using Catalog.Services.Navigation;
@@ -13,22 +14,26 @@ namespace Catalog.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private readonly IDataStore<Item> _dataStore;
+        //private readonly IDataStore<Item> _dataStore;
+        private readonly UnitOfWork _unitOfWork;
         private readonly INavigationService _navigationService;
 
-        public ItemsViewModel(IDataStore<Item> dataStore, INavigationService navigationService)
+        public ItemsViewModel(IDataStore<Item> dataStore, INavigationService navigationService, UnitOfWork unitOfWork)
         {
-            _dataStore = dataStore;
+            //_dataStore = dataStore;
             _navigationService = navigationService;
+            _unitOfWork = unitOfWork;
 
             Title = "Browse";
             Items = new ObservableCollection<Item>();
-            ItemSelectedCommand = new Command<Item>(ItemSelectedCommandExecute);
+            ItemSelectedCommand = new Command(ItemSelectedCommandExecute);
 
-            MessagingCenter.Subscribe<ItemDetailViewModel, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Unsubscribe<ItemDetailViewModel, Item>(this, "AddItem");
+            MessagingCenter.Subscribe<ItemDetailViewModel, Item>(this, "AddItem", (obj, item) =>
             {
                 Items.Add(item);
-                await _dataStore.AddItemAsync(item);
+                unitOfWork.TestRepository.Add(item);
+                //await _dataStore.AddItemAsync(item);
             });
         }
 
@@ -39,15 +44,22 @@ namespace Catalog.ViewModels
             set => Set(ref _items, value);
         }
 
+        private Item _selectedItem;
+        public Item SelectedItem
+        {
+            get => _selectedItem;
+            set => Set(ref _selectedItem, value);
+        }
+
         public Command ItemSelectedCommand { get; set; } 
 
-        public ICommand LoadItemsCommand => new Command(async () => await LoadItemsCommandExecute());
+        public ICommand LoadItemsCommand => new Command(LoadItemsCommandExecute);
 
         public ICommand AddItemCommand => new Command(async () => await ItemAddCommandExecute());
 
         public ICommand AppearingCommand => new Command(AppearingCommandExecute);
 
-        private async Task LoadItemsCommandExecute()
+        private void LoadItemsCommandExecute()
         {
             if (IsBusy)
             {
@@ -60,7 +72,8 @@ namespace Catalog.ViewModels
             {
                 Items.Clear();
 
-                var items = await _dataStore.GetItemsAsync(true);
+                //var items = await _dataStore.GetItemsAsync(true);
+                var items = _unitOfWork.TestRepository.GetAll();
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -76,14 +89,15 @@ namespace Catalog.ViewModels
             }
         }
 
-        private async void ItemSelectedCommandExecute(Item item)
+        private async void ItemSelectedCommandExecute()
         {
-            if (item == null)
+            if (SelectedItem == null)
             {
                 return;
             }
 
-            await _navigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel, Item>(item, false);
+            await _navigationService.NavigateToAsync<ItemDetailPage, ItemDetailViewModel, Item>(SelectedItem, false);
+            SelectedItem = null;
         }
 
         private async Task ItemAddCommandExecute()
@@ -97,11 +111,11 @@ namespace Catalog.ViewModels
             await _navigationService.NavigateToAsync<NewItemPage, ItemDetailViewModel, Item>(item, false);
         }
 
-        private async void AppearingCommandExecute()
+        private void AppearingCommandExecute()
         {
             if (Items.Count == 0)
             {
-                await LoadItemsCommandExecute();
+                LoadItemsCommandExecute();
             }
         }
     }

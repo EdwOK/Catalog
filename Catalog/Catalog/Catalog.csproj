@@ -6,15 +6,15 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
-    <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="5.0.0" />
+    <PackageReference Include="Behaviors.Forms" Version="1.3.0" />
     <PackageReference Include="MvvmLight" Version="5.4.1" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
+    <PackageReference Include="SQLiteNetExtensionsCore" Version="2.0.0" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
-      <HintPath>C:\Users\e.paprotski\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
+      <HintPath>C:\Users\Eduard\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
   </ItemGroup>
   
@@ -39,6 +39,29 @@
       <SubType>Code</SubType>
       <DependentUpon>NewItemPage.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Domain\Services\" />
+    <Folder Include="Infrastructure\Converters\" />
+    <Folder Include="ViewModels\Customers\" />
+    <Folder Include="ViewModels\Employees\" />
+    <Folder Include="ViewModels\Orders\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Views\Customers\CustomersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Employees\EmployeesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Orders\OrdersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Products\ProductsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

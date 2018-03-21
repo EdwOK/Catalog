@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
+using Catalog.Domain.Entities;
 using Catalog.Models;
 using Catalog.Services.Navigation;
 using Xamarin.Forms;

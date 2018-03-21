@@ -1,4 +1,4 @@
-﻿namespace Catalog.Infrastructure
+﻿namespace Catalog.Data
 {
     public interface IFileHelper
     {
