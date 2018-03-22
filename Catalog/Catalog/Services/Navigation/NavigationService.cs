@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Catalog.Infrastructure.Locators;
 using Catalog.ViewModels;
 using Catalog.Views;

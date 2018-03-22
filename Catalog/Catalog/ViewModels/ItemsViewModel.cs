@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.DataAccessLayer;
+using Catalog.Infrastructure.Extensions;
 using Catalog.Models;
-using Catalog.Services;
 using Catalog.Services.Navigation;
 using Catalog.Views;
 using Xamarin.Forms;
@@ -14,27 +14,17 @@ namespace Catalog.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        //private readonly IDataStore<Item> _dataStore;
         private readonly UnitOfWork _unitOfWork;
         private readonly INavigationService _navigationService;
 
-        public ItemsViewModel(IDataStore<Item> dataStore, INavigationService navigationService, UnitOfWork unitOfWork)
+        public ItemsViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
         {
-            //_dataStore = dataStore;
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
 
             Title = "Browse";
             Items = new ObservableCollection<Item>();
             ItemSelectedCommand = new Command(ItemSelectedCommandExecute);
-
-            MessagingCenter.Unsubscribe<ItemDetailViewModel, Item>(this, "AddItem");
-            MessagingCenter.Subscribe<ItemDetailViewModel, Item>(this, "AddItem", (obj, item) =>
-            {
-                Items.Add(item);
-                unitOfWork.TestRepository.Add(item);
-                //await _dataStore.AddItemAsync(item);
-            });
         }
 
         private ObservableCollection<Item> _items;
@@ -59,7 +49,7 @@ namespace Catalog.ViewModels
 
         public ICommand AppearingCommand => new Command(AppearingCommandExecute);
 
-        private void LoadItemsCommandExecute()
+        void LoadItemsCommandExecute()
         {
             if (IsBusy)
             {
@@ -70,14 +60,7 @@ namespace Catalog.ViewModels
 
             try
             {
-                Items.Clear();
-
-                //var items = await _dataStore.GetItemsAsync(true);
-                var items = _unitOfWork.TestRepository.GetAll();
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
+                Items = _unitOfWork.TestRepository.GetAll().ToObservable();
             }
             catch (Exception ex)
             {
@@ -113,10 +96,7 @@ namespace Catalog.ViewModels
 
         private void AppearingCommandExecute()
         {
-            if (Items.Count == 0)
-            {
-                LoadItemsCommandExecute();
-            }
+            LoadItemsCommandExecute();
         }
     }
 }

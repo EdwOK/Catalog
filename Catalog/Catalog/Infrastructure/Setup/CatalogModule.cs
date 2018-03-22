@@ -14,20 +14,19 @@ namespace Catalog.Infrastructure.Setup
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MainViewModel>();
-            builder.RegisterType<AboutViewModel>();
-            builder.RegisterType<ItemDetailViewModel>();
-            builder.RegisterType<ItemsViewModel>();
+            builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<AboutViewModel>().AsSelf();
+            builder.RegisterType<ItemDetailViewModel>().AsSelf();
+            builder.RegisterType<ItemsViewModel>().AsSelf();
 
             builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>();
             builder.RegisterType<ViewModelLocator>().As<IViewModelLocator>().SingleInstance();
             builder.RegisterType<NavigationService>().As<INavigationService>();
-            builder.RegisterType<MockDataStore>().AsImplementedInterfaces();
             builder.RegisterType<DataLayer.SQLite.SQLite>().As<ISQLite>();
             builder.RegisterType<AppDbContext>().AsSelf();
-            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>));
             builder.RegisterType(typeof(UnitOfWork)).AsSelf();
+            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>));
         }
     }
 }

@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BusinessLayer\Services\**" />
     <Compile Remove="Infrastructure\Converters\**" />
+    <EmbeddedResource Remove="BusinessLayer\Services\**" />
     <EmbeddedResource Remove="Infrastructure\Converters\**" />
+    <None Remove="BusinessLayer\Services\**" />
     <None Remove="Infrastructure\Converters\**" />
   </ItemGroup>
 
@@ -42,7 +45,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="BusinessLayer\Services\" />
     <Folder Include="ViewModels\Customers\" />
     <Folder Include="ViewModels\Employees\" />
     <Folder Include="ViewModels\Orders\" />
