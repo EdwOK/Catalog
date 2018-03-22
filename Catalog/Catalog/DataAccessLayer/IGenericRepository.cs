@@ -5,7 +5,7 @@ using Catalog.BusinessLayer.Entities;
 
 namespace Catalog.DataAccessLayer
 {
-    public interface IGenericRepository<TEntity> where TEntity : Entity
+    public interface IGenericRepository<TEntity> where TEntity : IEntity
     {
         void Add(TEntity obj);
 
@@ -17,6 +17,8 @@ namespace Catalog.DataAccessLayer
 
         void Remove(int id);
 
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
+
+        TEntity Find(Expression<Func<TEntity, bool>> predicate);
     }
 }

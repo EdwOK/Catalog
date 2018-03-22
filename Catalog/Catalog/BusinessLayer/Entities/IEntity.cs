@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Catalog.BusinessLayer.Entities
+﻿namespace Catalog.BusinessLayer.Entities
 {
-    public interface IEntity : IEquatable<Entity>
+    public interface IEntity
     {
         int Id { get; set; }
     }

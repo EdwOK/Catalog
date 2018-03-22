@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Catalog.Infrastructure.Locators;
 using Catalog.ViewModels;
 using Catalog.Views;
@@ -12,15 +11,20 @@ namespace Catalog.Services.Navigation
         private readonly IApplicationProvider _applicationProvider;
         private readonly IViewModelLocator _viewModelLocator;
 
-        private IReadOnlyList<Page> NavigationStack => _applicationProvider.Navigation.NavigationStack;
-
         public NavigationService(IApplicationProvider applicationProvider, IViewModelLocator viewModelLocator)
         {
             _applicationProvider = applicationProvider;
             _viewModelLocator = viewModelLocator;
         }
 
-        public BaseViewModel PreviousPageViewModel => NavigationStack[NavigationStack.Count - 1].BindingContext as BaseViewModel;
+        public BaseViewModel PreviousPageViewModel
+        {
+            get
+            {
+                var navigationStack = _applicationProvider.Navigation.NavigationStack;
+                return navigationStack[navigationStack.Count - 1].BindingContext as BaseViewModel;
+            }
+        }
 
         public Task InitializeAsync()
         {

@@ -8,7 +8,7 @@ using Catalog.DataLayer;
 namespace Catalog.DataAccessLayer
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
-        where TEntity : Entity, new()
+        where TEntity : IEntity, new()
     {
         private readonly AppDbContext _dbContext;
 
@@ -42,9 +42,14 @@ namespace Catalog.DataAccessLayer
             _dbContext.Connection.Delete<TEntity>(id);
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbContext.Connection.Table<TEntity>().Where(predicate);
+        }
+
+        public TEntity Find(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbContext.Connection.Table<TEntity>().FirstOrDefault(predicate);
         }
     }
 }
