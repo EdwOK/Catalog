@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite;
 
-namespace Catalog.BusinessLayer.Entities
+namespace Catalog.Models
 {
     public abstract class Entity : IEntity, IEquatable<Entity>
     {

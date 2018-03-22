@@ -1,5 +1,4 @@
-﻿using Catalog.BusinessLayer.Entities;
-using Catalog.DataLayer.SQLite;
+﻿using Catalog.DataLayer.SQLite;
 using Catalog.Infrastructure.Utils;
 using Catalog.Models;
 using SQLite;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Catalog.BusinessLayer.Entities;
+using Catalog.Models;
 
 namespace Catalog.DataAccessLayer
 {

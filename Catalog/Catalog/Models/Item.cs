@@ -1,6 +1,4 @@
-﻿using Catalog.BusinessLayer.Entities;
-
-namespace Catalog.Models
+﻿namespace Catalog.Models
 {
     public class Item : Entity
     {

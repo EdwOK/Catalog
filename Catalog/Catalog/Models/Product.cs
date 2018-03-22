@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite;
 
-namespace Catalog.BusinessLayer.Entities
+namespace Catalog.Models
 {
     public class Product : Entity
     {
@@ -11,7 +11,7 @@ namespace Catalog.BusinessLayer.Entities
         [MaxLength(200)]
         public string Description { get; set; }
 
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
         public DateTime ExpirationDate { get; set; }
 

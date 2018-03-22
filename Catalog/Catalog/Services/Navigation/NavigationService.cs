@@ -43,7 +43,7 @@ namespace Catalog.Services.Navigation
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            return InternalNavigateToAsync<TPage, TViewModel, TParam>(parameter, animated, modal);
+            return InternalNavigateToAsync<TPage, TViewModel, TParam>(parameter, modal, animated);
         }
 
         public async Task NavigateBackAsync(bool modal, bool animated = true)
@@ -60,23 +60,23 @@ namespace Catalog.Services.Navigation
             PreviousPageViewModel?.Dispose();
         }
 
-        private async Task InternalNavigateToAsync<TPage, TViewModel, TParam>(TParam parameter, bool animated, bool modal)
+        private async Task InternalNavigateToAsync<TPage, TViewModel, TParam>(TParam parameter, bool modal, bool animated)
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
             var viewModel = _viewModelLocator.Resolve<TViewModel, TParam>(parameter);
-            await CanNavigate<TPage, TViewModel>(viewModel, animated, modal);
+            await CanNavigate<TPage, TViewModel>(viewModel, modal, animated);
         }
 
-        private async Task InternalNavigateToAsync<TPage, TViewModel>(bool animated, bool modal)
+        private async Task InternalNavigateToAsync<TPage, TViewModel>(bool modal, bool animated)
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
             var viewModel = _viewModelLocator.Resolve<TViewModel>();
-            await CanNavigate<TPage, TViewModel>(viewModel, animated, modal);
+            await CanNavigate<TPage, TViewModel>(viewModel, modal, animated);
         }
 
-        private async Task CanNavigate<TPage, TViewModel>(TViewModel viewModel, bool animated, bool modal) 
+        private async Task CanNavigate<TPage, TViewModel>(TViewModel viewModel, bool modal, bool animated) 
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {

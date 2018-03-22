@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+             xmlns:behaviour="clr-namespace:Catalog.Infrastructure.Behaviour;assembly=Catalog"
+             x:Class="Catalog.Views.Products.NewProductPage"
+             Title="New Product">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveProduct}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="20" Padding="15">
+                <StackLayout>
+                    <Label Text="Name" FontSize="Medium" />
+                    <Entry Text="{Binding Name.Value}" FontSize="Small" />
+                    <Label Text="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Description" FontSize="Medium" />
+                    <Editor Text="{Binding Description.Value}" FontSize="Small" Margin="0" />
+                    <Label Text="{Binding Description.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Price" FontSize="Medium" />
+                    <Entry Text="{Binding Price.Value}" FontSize="Small" Keyboard="Numeric" />
+                    <Label Text="{Binding Price.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Expiration Date" FontSize="Medium" />
+                    <DatePicker Date="{Binding ExpirationDate.Value}" Format="dd.MM.yyyy" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Delivery Date" FontSize="Medium" />
+                    <DatePicker Date="{Binding DeliveryDate.Value}" Format="dd.MM.yyyy" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -2,6 +2,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:Catalog.Views"
+            xmlns:products="clr-namespace:Catalog.Views.Products;assembly=Catalog"
             x:Class="Catalog.Views.MainPage">
     <TabbedPage.Children>
         <views:ItemsPage
@@ -13,6 +14,16 @@
                 </OnPlatform>
             </views:ItemsPage.Icon>
         </views:ItemsPage>
+
+        <products:ProductsPage
+            BindingContext="{Binding ProductsViewModel}"
+            x:Name="Products">
+            <products:ProductsPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_feed.png"/>
+                </OnPlatform>
+            </products:ProductsPage.Icon>
+        </products:ProductsPage>
 
         <views:AboutPage  
             BindingContext="{Binding AboutViewModel}"

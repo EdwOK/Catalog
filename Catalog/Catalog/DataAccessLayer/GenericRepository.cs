@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Catalog.BusinessLayer.Entities;
 using Catalog.DataLayer;
+using Catalog.Models;
 
 namespace Catalog.DataAccessLayer
 {

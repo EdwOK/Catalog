@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
-namespace Catalog.BusinessLayer.Entities
+namespace Catalog.Models
 {
     public class Order : Entity
     {
@@ -18,7 +18,7 @@ namespace Catalog.BusinessLayer.Entities
 
         public DateTime CreatedDate { get; set; }
 
-        public decimal TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Product> Products { get; set; }

@@ -14,17 +14,15 @@ namespace Catalog.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private readonly UnitOfWork _unitOfWork;
         private readonly INavigationService _navigationService;
+        private readonly UnitOfWork _unitOfWork;
 
         public ItemsViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
 
-            Title = "Browse";
             Items = new ObservableCollection<Item>();
-            ItemSelectedCommand = new Command(ItemSelectedCommandExecute);
         }
 
         private ObservableCollection<Item> _items;
@@ -41,15 +39,18 @@ namespace Catalog.ViewModels
             set => Set(ref _selectedItem, value);
         }
 
-        public Command ItemSelectedCommand { get; set; } 
+        public ICommand ItemSelectedCommand => new Command(ItemSelectedCommandExecute);
 
         public ICommand LoadItemsCommand => new Command(LoadItemsCommandExecute);
 
-        public ICommand AddItemCommand => new Command(async () => await ItemAddCommandExecute());
+        public ICommand AddItemCommand => new Command(async () => await AddItemCommandExecute());
 
-        public ICommand AppearingCommand => new Command(AppearingCommandExecute);
+        public override void AppearingCommandExecute()
+        {
+            LoadItemsCommandExecute();
+        }
 
-        void LoadItemsCommandExecute()
+        private void LoadItemsCommandExecute()
         {
             if (IsBusy)
             {
@@ -83,7 +84,7 @@ namespace Catalog.ViewModels
             SelectedItem = null;
         }
 
-        private async Task ItemAddCommandExecute()
+        private async Task AddItemCommandExecute()
         {
             var item = new Item
             {
@@ -92,11 +93,6 @@ namespace Catalog.ViewModels
             };
 
             await _navigationService.NavigateToAsync<NewItemPage, ItemDetailViewModel, Item>(item, false);
-        }
-
-        private void AppearingCommandExecute()
-        {
-            LoadItemsCommandExecute();
         }
     }
 }

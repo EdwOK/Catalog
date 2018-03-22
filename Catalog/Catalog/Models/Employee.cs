@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite;
 
-namespace Catalog.BusinessLayer.Entities
+namespace Catalog.Models
 {
     public class Employee : Entity
     {
@@ -23,7 +23,7 @@ namespace Catalog.BusinessLayer.Entities
         [MaxLength(24)]
         public string PhoneNumber { get; set; }
 
-        public decimal Salary { get; set; }
+        public double Salary { get; set; }
 
         public DateTime DateofBirth { get; set; }
     }

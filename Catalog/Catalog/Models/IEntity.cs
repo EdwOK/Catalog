@@ -1,4 +1,4 @@
-﻿namespace Catalog.BusinessLayer.Entities
+﻿namespace Catalog.Models
 {
     public interface IEntity
     {

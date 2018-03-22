@@ -1,22 +1,33 @@
 ﻿using System;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using Xamarin.Forms;
 
 namespace Catalog.ViewModels
 {
     public abstract class BaseViewModel : ViewModelBase
     {
+        private bool _disposed;
         private bool _isBusy;
+
+        private string _title = string.Empty;
+
         public bool IsBusy
         {
             get => _isBusy;
             set => Set(ref _isBusy, value);
         }
 
-        string _title = string.Empty;
         public string Title
         {
             get => _title;
             set => Set(ref _title, value);
+        }
+
+        public ICommand AppearingCommand => new Command(AppearingCommandExecute);
+
+        public virtual void AppearingCommandExecute()
+        {
         }
 
         ~BaseViewModel()
@@ -29,8 +40,6 @@ namespace Catalog.ViewModels
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        private bool _disposed;
 
         protected virtual void Dispose(bool disposing)
         {
