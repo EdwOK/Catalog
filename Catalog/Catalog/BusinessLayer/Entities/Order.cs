@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
-namespace Catalog.Domain.Entities
+namespace Catalog.BusinessLayer.Entities
 {
     public class Order : Entity
     {

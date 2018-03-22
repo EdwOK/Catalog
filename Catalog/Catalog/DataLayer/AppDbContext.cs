@@ -1,20 +1,20 @@
-﻿using Catalog.Domain.Entities;
+﻿using Catalog.BusinessLayer.Entities;
+using Catalog.DataLayer.SQLite;
 using Catalog.Infrastructure.Utils;
 using Catalog.Models;
 using SQLite;
-using Xamarin.Forms;
 
-namespace Catalog.Data
+namespace Catalog.DataLayer
 {
     public class AppDbContext : Disposabled
     {
-        private readonly ISqLite _sqLite;
+        private readonly ISQLite _sqLite;
 
         public SQLiteConnection Connection => _sqLite.Connection;
 
-        public AppDbContext()
+        public AppDbContext(ISQLite sqLite)
         {
-            _sqLite = DependencyService.Get<ISqLite>();
+            this._sqLite = sqLite;
         }
 
         public void CreateDatabase()

@@ -1,9 +1,9 @@
 ﻿using System;
 using SQLite;
 
-namespace Catalog.Data
+namespace Catalog.DataLayer.SQLite
 {
-    public interface ISqLite : IDisposable
+    public interface ISQLite : IDisposable
     {
         string DatabaseName { get; }
 

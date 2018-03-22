@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Catalog.Data;
+using Catalog.DataLayer;
 using Catalog.Infrastructure.Setup;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

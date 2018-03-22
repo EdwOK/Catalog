@@ -1,9 +1,8 @@
-﻿using System;
-using SQLite;
+﻿using SQLite;
 
-namespace Catalog.Domain.Entities
+namespace Catalog.BusinessLayer.Entities
 {
-    public abstract class Entity : IEquatable<Entity>
+    public abstract class Entity : IEntity
     {
         [PrimaryKey, AutoIncrement]
         public virtual int Id { get; set; }

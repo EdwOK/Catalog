@@ -17,12 +17,6 @@
     <PackageReference Include="SQLiteNetExtensionsCore" Version="2.0.0" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="GalaSoft.MvvmLight">
-      <HintPath>C:\Users\Eduard\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   
   <ItemGroup>
     <Compile Update="Views\AboutPage.xaml.cs">
@@ -48,10 +42,16 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Domain\Services\" />
+    <Folder Include="BusinessLayer\Services\" />
     <Folder Include="ViewModels\Customers\" />
     <Folder Include="ViewModels\Employees\" />
     <Folder Include="ViewModels\Orders\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>C:\Users\e.paprotski\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
   </ItemGroup>
   
   <ItemGroup>

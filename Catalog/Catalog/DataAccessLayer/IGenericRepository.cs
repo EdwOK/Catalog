@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Catalog.Domain.Entities;
+using Catalog.BusinessLayer.Entities;
 
-namespace Catalog.Domain.Repositories
+namespace Catalog.DataAccessLayer
 {
     public interface IGenericRepository<TEntity> where TEntity : Entity
     {

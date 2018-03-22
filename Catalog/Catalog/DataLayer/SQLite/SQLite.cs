@@ -1,28 +1,51 @@
-﻿using System.IO;
-using Catalog.Data;
-using Catalog.iOS;
+﻿using System;
+using System.IO;
 using Catalog.Infrastructure.Utils;
 using SQLite;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(SqLite))]
-namespace Catalog.iOS
+namespace Catalog.DataLayer.SQLite
 {
-    public class SqLite : Disposabled, ISqLite
+    public class SQLite : Disposabled, ISQLite
     {
         private const string DefaultDatabaseName = "Catalog.db3";
         private static SQLiteConnection _connection;
-        private readonly IFileHelper _fileHelper;
 
-        public SqLite()
+        public SQLite()
         {
-            _fileHelper = DependencyService.Get<IFileHelper>();
-
             DatabaseName = DefaultDatabaseName;
-            DatabasePath = _fileHelper.GetLocalFilePath(DatabaseName);
         }
 
-        public string DatabasePath { get; }
+        public SQLite(string dataBaseName)
+        {
+            DatabaseName = dataBaseName;
+        }
+
+        public string DatabasePath
+        {
+            get
+            {
+                string libraryPath = "";
+
+                if (Device.RuntimePlatform == Device.Android)
+                {
+                    libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                }
+                else if (Device.RuntimePlatform == Device.iOS)
+                {
+                    string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                    libraryPath = Path.Combine(documentsPath, "..", "Library", "Database");
+
+                    if (!Directory.Exists(libraryPath))
+                    {
+                        Directory.CreateDirectory(libraryPath);
+                    }
+                }
+
+                var path = Path.Combine(libraryPath, DefaultDatabaseName);
+                return path;
+            }
+        }
 
         public string DatabaseName { get; }
 

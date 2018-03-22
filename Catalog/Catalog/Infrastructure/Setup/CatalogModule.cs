@@ -1,6 +1,7 @@
 ﻿using Autofac;
-using Catalog.Data;
-using Catalog.Domain.Repositories;
+using Catalog.DataAccessLayer;
+using Catalog.DataLayer;
+using Catalog.DataLayer.SQLite;
 using Catalog.Infrastructure.Locators;
 using Catalog.Services;
 using Catalog.Services.Dialogs;
@@ -23,6 +24,7 @@ namespace Catalog.Infrastructure.Setup
             builder.RegisterType<ViewModelLocator>().As<IViewModelLocator>().SingleInstance();
             builder.RegisterType<NavigationService>().As<INavigationService>();
             builder.RegisterType<MockDataStore>().AsImplementedInterfaces();
+            builder.RegisterType<DataLayer.SQLite.SQLite>().As<ISQLite>();
             builder.RegisterType<AppDbContext>().AsSelf();
             builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>));
             builder.RegisterType(typeof(UnitOfWork)).AsSelf();

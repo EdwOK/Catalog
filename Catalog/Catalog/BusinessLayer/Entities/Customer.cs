@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace Catalog.Domain.Entities
+namespace Catalog.BusinessLayer.Entities
 {
     public class Customer : Entity
     {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Catalog.Data;
-using Catalog.Domain.Entities;
+using Catalog.BusinessLayer.Entities;
+using Catalog.DataLayer;
 
-namespace Catalog.Domain.Repositories
+namespace Catalog.DataAccessLayer
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         where TEntity : Entity, new()

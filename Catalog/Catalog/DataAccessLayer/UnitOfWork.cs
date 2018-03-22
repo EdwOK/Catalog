@@ -1,9 +1,9 @@
-﻿using Catalog.Data;
-using Catalog.Domain.Entities;
+﻿using Catalog.BusinessLayer.Entities;
+using Catalog.DataLayer;
 using Catalog.Infrastructure.Utils;
 using Catalog.Models;
 
-namespace Catalog.Domain.Repositories
+namespace Catalog.DataAccessLayer
 {
     public class UnitOfWork : Disposabled
     {

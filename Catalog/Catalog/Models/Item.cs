@@ -1,4 +1,4 @@
-﻿using Catalog.Domain.Entities;
+﻿using Catalog.BusinessLayer.Entities;
 
 namespace Catalog.Models
 {

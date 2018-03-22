@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Catalog.Domain.Repositories;
+using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services;
 using Catalog.Services.Navigation;

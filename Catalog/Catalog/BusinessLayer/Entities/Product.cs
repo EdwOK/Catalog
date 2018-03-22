@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite;
 
-namespace Catalog.Domain.Entities
+namespace Catalog.BusinessLayer.Entities
 {
     public class Product : Entity
     {
