@@ -9,15 +9,19 @@ using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Products
 {
-    public class NewProductViewModel : ProductBaseViewModel
+    public class ChangeProductViewModel : ProductBaseViewModel
     {
         private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
-
-        public NewProductViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        private readonly Product _product;
+        
+        public ChangeProductViewModel(Product product, INavigationService navigationService, UnitOfWork unitOfWork)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
+            _product = product;
+
+            UpdateProduct(_product);
         }
 
         public ICommand SaveProduct => new Command(async () => await SaveProductCommand());
@@ -40,16 +44,14 @@ namespace Catalog.ViewModels.Products
 
             try
             {
-                var product = new Product
-                {
-                    Name = Name.Value,
-                    Description = Description.Value,
-                    Price = Price.Value,
-                    DeliveryDate = DeliveryDate.Value,
-                    ExpirationDate = ExpirationDate.Value
-                };
+                _product.Name = Name.Value;
+                _product.Description = Description.Value;
+                _product.Price = Price.Value;
+                _product.DeliveryDate = DeliveryDate.Value;
+                _product.ExpirationDate = ExpirationDate.Value;
 
-                _unitOfWork.ProductRepository.Add(product);
+                _unitOfWork.ProductRepository.Update(_product);
+                UpdateProduct(_product);
             }
             catch (Exception ex)
             {

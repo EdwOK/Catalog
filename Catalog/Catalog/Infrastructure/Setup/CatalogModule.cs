@@ -24,6 +24,8 @@ namespace Catalog.Infrastructure.Setup
             builder.RegisterType<ProductsViewModel>().AsSelf();
             builder.RegisterType<ProductDetailViewModel>().AsSelf();
             builder.RegisterType<NewProductViewModel>().AsSelf();
+            builder.RegisterType<ChangeProductViewModel>().AsSelf();
+            builder.RegisterType<ProductBaseViewModel>().AsSelf();
 
             builder.RegisterType<EmployeesViewModel>().AsSelf();
             builder.RegisterType<EmployeeDetailViewModel>().AsSelf();

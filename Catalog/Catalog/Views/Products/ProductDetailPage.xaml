@@ -4,6 +4,7 @@
              x:Class="Catalog.Views.Products.ProductDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Change" Command="{Binding ChangeProductCommand}" />
         <ToolbarItem Text="Remove" Command="{Binding RemoveProductCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

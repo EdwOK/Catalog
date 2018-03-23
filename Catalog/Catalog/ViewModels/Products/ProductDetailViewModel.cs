@@ -6,6 +6,7 @@ using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Dialogs;
 using Catalog.Services.Navigation;
+using Catalog.Views.Products;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Products
@@ -25,7 +26,26 @@ namespace Catalog.ViewModels.Products
             _dialogService = dialogService;
         }
 
+        private Product _product;
+        public Product Product
+        {
+            get => _product;
+            set => Set(ref _product, value);
+        }
+
         public ICommand RemoveProductCommand => new Command(async () => await RemoveProductCommandExecute());
+
+        public ICommand ChangeProductCommand => new Command(async () => await ChangeProductCommandExecute());
+
+        private async Task ChangeProductCommandExecute()
+        {
+            if (Product == null)
+            {
+                return;
+            }
+
+            await _navigationService.NavigateToAsync<NewProductPage, ChangeProductViewModel, Product>(Product, false);
+        }
 
         private async Task RemoveProductCommandExecute()
         {
@@ -55,13 +75,6 @@ namespace Catalog.ViewModels.Products
                 IsBusy = false;
                 await _navigationService.NavigateBackAsync(false);
             }
-        }
-
-        private Product _product;
-        public Product Product
-        {
-            get => _product;
-            set => Set(ref _product, value);
         }
     }
 }
