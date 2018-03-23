@@ -1,19 +1,33 @@
-﻿using Catalog.ViewModels.Products;
+﻿using Catalog.ViewModels.Customers;
+using Catalog.ViewModels.Employees;
+using Catalog.ViewModels.Orders;
+using Catalog.ViewModels.Products;
 
 namespace Catalog.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public MainViewModel(ItemsViewModel itemsViewModel, ProductsViewModel productsViewModel, AboutViewModel aboutViewModel)
+        public MainViewModel(
+            ProductsViewModel productsViewModel, 
+            AboutViewModel aboutViewModel, 
+            OrdersViewModel ordersViewModel, 
+            CustomersViewModel customersViewModel, 
+            EmployeesViewModel employeesViewModel)
         {
-            ItemsViewModel = itemsViewModel;
             ProductsViewModel = productsViewModel;
             AboutViewModel = aboutViewModel;
+            OrdersViewModel = ordersViewModel;
+            CustomersViewModel = customersViewModel;
+            EmployeesViewModel = employeesViewModel;
         }
 
-        public AboutViewModel AboutViewModel { get; }
+        public EmployeesViewModel EmployeesViewModel { get; }
 
-        public ItemsViewModel ItemsViewModel { get; }
+        public CustomersViewModel CustomersViewModel { get; }
+
+        public OrdersViewModel OrdersViewModel { get; }
+
+        public AboutViewModel AboutViewModel { get; }
 
         public ProductsViewModel ProductsViewModel { get; }
     }

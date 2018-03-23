@@ -7,6 +7,9 @@ using Catalog.Services;
 using Catalog.Services.Dialogs;
 using Catalog.Services.Navigation;
 using Catalog.ViewModels;
+using Catalog.ViewModels.Customers;
+using Catalog.ViewModels.Employees;
+using Catalog.ViewModels.Orders;
 using Catalog.ViewModels.Products;
 
 namespace Catalog.Infrastructure.Setup
@@ -17,11 +20,18 @@ namespace Catalog.Infrastructure.Setup
         {
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<AboutViewModel>().AsSelf();
-            builder.RegisterType<ItemDetailViewModel>().AsSelf();
-            builder.RegisterType<ItemsViewModel>().AsSelf();
+
             builder.RegisterType<ProductsViewModel>().AsSelf();
             builder.RegisterType<ProductDetailViewModel>().AsSelf();
             builder.RegisterType<NewProductViewModel>().AsSelf();
+
+            builder.RegisterType<EmployeesViewModel>().AsSelf();
+            builder.RegisterType<EmployeeDetailViewModel>().AsSelf();
+            builder.RegisterType<NewEmployeeViewModel>().AsSelf();
+
+            builder.RegisterType<OrdersViewModel>().AsSelf();
+
+            builder.RegisterType<CustomersViewModel>().AsSelf();
 
             builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>();

@@ -99,7 +99,6 @@ namespace Catalog.ViewModels.Products
                 };
 
                 _unitOfWork.ProductRepository.Add(product);
-                await _navigationService.NavigateBackAsync(false);
             }
             catch (Exception ex)
             {
@@ -108,6 +107,7 @@ namespace Catalog.ViewModels.Products
             finally
             {
                 IsBusy = false;
+                await _navigationService.NavigateBackAsync(false);
             }
         }
 
@@ -120,11 +120,11 @@ namespace Catalog.ViewModels.Products
             DeliveryDate.Validate();
         }
 
-        private bool IsValid()
+        protected override bool IsValid()
         {
-            return Name.IsValid && 
-                   Description.IsValid && 
-                   Price.IsValid && 
+            return Name.IsValid &&
+                   Description.IsValid &&
+                   Price.IsValid &&
                    ExpirationDate.IsValid &&
                    DeliveryDate.IsValid;
         }

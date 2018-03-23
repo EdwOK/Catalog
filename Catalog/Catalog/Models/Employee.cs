@@ -25,6 +25,9 @@ namespace Catalog.Models
 
         public double Salary { get; set; }
 
-        public DateTime DateofBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
+
+        [Ignore]
+        public string FullName => $"{SecondName} {FirstName} {MiddleName}";
     }
 }

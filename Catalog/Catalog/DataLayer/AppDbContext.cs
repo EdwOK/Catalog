@@ -22,7 +22,6 @@ namespace Catalog.DataLayer
             CreateTable<Order>();
             CreateTable<Customer>();
             CreateTable<Employee>();
-            CreateTable<Item>();
         }
 
         public void DropDatabase()

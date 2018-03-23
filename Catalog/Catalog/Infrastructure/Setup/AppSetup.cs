@@ -20,14 +20,14 @@ namespace Catalog.Infrastructure.Setup
 
         public static IContainer Container { get; private set; }
 
-        protected virtual IContainer CreateContainer()
+        private IContainer CreateContainer()
         {
             var builder = new ContainerBuilder();
             RegisterDependencies(builder);
             return builder.Build();
         }
 
-        protected virtual void RegisterDependencies(ContainerBuilder builder)
+        private void RegisterDependencies(ContainerBuilder builder)
         {
             builder.RegisterModule<CatalogModule>();
         }

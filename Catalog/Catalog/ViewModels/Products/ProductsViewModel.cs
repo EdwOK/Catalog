@@ -25,9 +25,7 @@ namespace Catalog.ViewModels.Products
             Products = new ObservableCollection<Product>();
         }
 
-        public ICommand ProductSelectedCommand => new Command(ProductSelectedCommandExecute);
-
-        public ICommand LoadProductsCommand => new Command(LoadProductsCommandExecute);
+        public ICommand SelectedProductCommand => new Command(async () => await SelectedProductCommandExecute());
 
         public ICommand AddProductCommand => new Command(async () => await AddProductCommandExecute());
 
@@ -45,7 +43,7 @@ namespace Catalog.ViewModels.Products
             set => Set(ref _selectedProduct, value);
         }
 
-        private async void ProductSelectedCommandExecute()
+        private async Task SelectedProductCommandExecute()
         {
             if (SelectedProduct == null)
             {

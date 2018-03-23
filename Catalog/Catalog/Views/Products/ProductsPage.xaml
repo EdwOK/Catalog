@@ -5,7 +5,7 @@
              x:Class="Catalog.Views.Products.ProductsPage"
              Title="Products">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddProductCommand}" />
+        <ToolbarItem Text="Add Product" Command="{Binding AddProductCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Behaviors>
         <behaviors:EventHandlerBehavior EventName="Appearing">
@@ -13,38 +13,61 @@
         </behaviors:EventHandlerBehavior>
     </ContentPage.Behaviors>
     <ContentPage.Content>
-        <StackLayout>
-            <ListView
-                SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-                ItemsSource="{Binding Products}"
-                VerticalOptions="FillAndExpand"
-                HasUnevenRows="true"
-                RefreshCommand="{Binding LoadProductsCommand}"
-                IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement">
-                <ListView.Behaviors>
-                    <behaviors:EventHandlerBehavior EventName="ItemSelected">
-                        <behaviors:InvokeCommandAction Command="{Binding ProductSelectedCommand}" />
-                    </behaviors:EventHandlerBehavior>
-                </ListView.Behaviors>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Name}" 
-                                       LineBreakMode="NoWrap" 
-                                       Style="{DynamicResource ListItemTextStyle}" 
-                                       FontSize="16" />
-                                <Label Text="{Binding Description}" 
-                                       LineBreakMode="TailTruncation"
-                                       Style="{DynamicResource ListItemDetailTextStyle}"
-                                       FontSize="13" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <ListView
+                        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                        ItemsSource="{Binding Products}"
+                        HasUnevenRows="true"
+                        CachingStrategy="RecycleElement">
+                    <ListView.Behaviors>
+                        <behaviors:EventHandlerBehavior EventName="ItemSelected">
+                            <behaviors:InvokeCommandAction Command="{Binding SelectedProductCommand}" />
+                        </behaviors:EventHandlerBehavior>
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Padding="10" HorizontalOptions="FillAndExpand">
+                                        <Label Text="{Binding Name}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16" />
+                                        <Label Text="{Binding Description}" 
+                                           LineBreakMode="TailTruncation"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13" />
+                                    </StackLayout>
+                                    <Label Text="{Binding Price}"
+                                           VerticalOptions="Center"
+                                           Margin="10" 
+                                           FontSize="16" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <ActivityIndicator
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Color="{StaticResource LightGreenColor}"
+                IsRunning="{Binding IsBusy}"  
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

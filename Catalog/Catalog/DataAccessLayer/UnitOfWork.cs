@@ -12,7 +12,6 @@ namespace Catalog.DataAccessLayer
         private GenericRepository<Employee> _employeeRepository;
         private GenericRepository<Order> _orderRepository;
         private GenericRepository<Product> _productRepository;
-        private GenericRepository<Item> _testRepository;
 
         public UnitOfWork(AppDbContext dbContext)
         {
@@ -30,9 +29,6 @@ namespace Catalog.DataAccessLayer
 
         public GenericRepository<Employee> EmployeeRepository =>
             _employeeRepository ?? (_employeeRepository = new GenericRepository<Employee>(_dbContext));
-
-        public GenericRepository<Item> TestRepository => 
-            _testRepository ?? (_testRepository = new GenericRepository<Item>(_dbContext));
 
         public void BeginTransaction()
         {

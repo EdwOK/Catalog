@@ -17,33 +17,15 @@
       <SubType>Code</SubType>
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ItemDetailPage.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ItemsPage.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>ItemsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\MainPage.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\NewItemPage.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>NewItemPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="ViewModels\Customers\" />
-    <Folder Include="ViewModels\Employees\" />
-    <Folder Include="ViewModels\Orders\" />
   </ItemGroup>
   
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
-      <HintPath>C:\Users\Eduard\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
+      <HintPath>C:\Users\e.paprotski\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
   </ItemGroup>
   
@@ -51,7 +33,13 @@
     <EmbeddedResource Update="Views\Customers\CustomersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Employees\EmployeeDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Employees\EmployeesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Employees\NewEmployeePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Orders\OrdersPage.xaml">

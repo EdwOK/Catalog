@@ -40,7 +40,10 @@
             </Style>
 
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
-
+            <converters:DoubleConverter x:Key="DoubleConverter" />
+            <converters:FirstValidationErrorConverter x:Key="InverseBoolConverter" />
+            <converters:FirstValidationErrorConverter x:Key="InverseCountToBoolConverter" />
+            <converters:FirstValidationErrorConverter x:Key="CountToBoolConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

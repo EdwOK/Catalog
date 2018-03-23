@@ -41,6 +41,11 @@ namespace Catalog.ViewModels
             GC.SuppressFinalize(this);
         }
 
+        protected virtual bool IsValid()
+        {
+            return true;
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
