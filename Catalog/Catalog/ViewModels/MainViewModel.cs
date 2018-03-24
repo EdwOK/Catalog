@@ -9,13 +9,11 @@ namespace Catalog.ViewModels
     {
         public MainViewModel(
             ProductsViewModel productsViewModel, 
-            AboutViewModel aboutViewModel, 
             OrdersViewModel ordersViewModel, 
             CustomersViewModel customersViewModel, 
             EmployeesViewModel employeesViewModel)
         {
             ProductsViewModel = productsViewModel;
-            AboutViewModel = aboutViewModel;
             OrdersViewModel = ordersViewModel;
             CustomersViewModel = customersViewModel;
             EmployeesViewModel = employeesViewModel;
@@ -26,8 +24,6 @@ namespace Catalog.ViewModels
         public CustomersViewModel CustomersViewModel { get; }
 
         public OrdersViewModel OrdersViewModel { get; }
-
-        public AboutViewModel AboutViewModel { get; }
 
         public ProductsViewModel ProductsViewModel { get; }
     }

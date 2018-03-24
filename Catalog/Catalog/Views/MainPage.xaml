@@ -11,7 +11,7 @@
 
         <products:ProductsPage
             BindingContext="{Binding ProductsViewModel}"
-            x:Name="Products">
+            x:Name="Товары">
             <products:ProductsPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>
@@ -21,7 +21,7 @@
 
         <orders:OrdersPage
             BindingContext="{Binding OrdersViewModel}"
-            x:Name="Orders">
+            x:Name="Заказы">
             <orders:OrdersPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>
@@ -31,7 +31,7 @@
 
         <customers:CustomersPage
             BindingContext="{Binding CustomersViewModel}"
-            x:Name="Customers">
+            x:Name="Заказчики">
             <customers:CustomersPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>
@@ -41,7 +41,7 @@
 
         <employees:EmployeesPage
             BindingContext="{Binding EmployeesViewModel}"
-            x:Name="Employees">
+            x:Name="Работники">
             <employees:EmployeesPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>

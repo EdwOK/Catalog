@@ -9,10 +9,10 @@ namespace Catalog.Models
         public string FirstName { get; set; }
 
         [MaxLength(40)]
-        public string SecondName { get; set; }
+        public string Surname { get; set; }
 
         [MaxLength(40)]
-        public string MiddleName { get; set; }
+        public string LastName { get; set; }
 
         [MaxLength(100)]
         public string Address { get; set; }
@@ -28,6 +28,6 @@ namespace Catalog.Models
         public DateTime DateOfBirth { get; set; }
 
         [Ignore]
-        public string FullName => $"{SecondName} {FirstName} {MiddleName}";
+        public string FullName => $"{FirstName} {Surname} {LastName}";
     }
 }

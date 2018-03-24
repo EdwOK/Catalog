@@ -19,17 +19,16 @@ namespace Catalog.Infrastructure.Setup
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MainViewModel>().AsSelf();
-            builder.RegisterType<AboutViewModel>().AsSelf();
 
             builder.RegisterType<ProductsViewModel>().AsSelf();
             builder.RegisterType<ProductDetailViewModel>().AsSelf();
             builder.RegisterType<NewProductViewModel>().AsSelf();
             builder.RegisterType<ChangeProductViewModel>().AsSelf();
-            builder.RegisterType<ProductBaseViewModel>().AsSelf();
 
             builder.RegisterType<EmployeesViewModel>().AsSelf();
             builder.RegisterType<EmployeeDetailViewModel>().AsSelf();
             builder.RegisterType<NewEmployeeViewModel>().AsSelf();
+            builder.RegisterType<ChangeEmployeeViewModel>().AsSelf();
 
             builder.RegisterType<OrdersViewModel>().AsSelf();
 

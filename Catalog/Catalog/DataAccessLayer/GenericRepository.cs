@@ -24,7 +24,7 @@ namespace Catalog.DataAccessLayer
 
         public TEntity GetById(int id)
         {
-            return _dbContext.Connection.Table<TEntity>().FirstOrDefault(entity => entity.Id == id);
+            return _dbContext.Connection.Get<TEntity>(entity => entity.Id == id);
         }
 
         public IEnumerable<TEntity> GetAll()

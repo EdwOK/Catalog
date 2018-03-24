@@ -19,5 +19,7 @@ namespace Catalog.Services.Navigation
             where TViewModel : BaseViewModel;
 
         Task NavigateBackAsync(bool modal, bool animated = true);
+
+        Task NavigateBackToMainPageAsync(bool animated = true);
     }
 }

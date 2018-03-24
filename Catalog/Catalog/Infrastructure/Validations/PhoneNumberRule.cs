@@ -2,9 +2,9 @@
 
 namespace Catalog.Infrastructure.Validations
 {
-    public class EmailRule<T> : IValidationRule<T>
+    public class PhoneNumberRule<T> : IValidationRule<T>
     {
-        public string ValidationMessage => $"Поле {Name} имеет неверный формат.";
+        public string ValidationMessage => $"Поле {Name} должно иметь формат +375(17|25|29|33|44)0000000.";
 
         public string Name { get; set; }
 
@@ -16,7 +16,7 @@ namespace Catalog.Infrastructure.Validations
             }
 
             var str = value as string;
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Regex regex = new Regex(@"^\+*375+[(17|25|29|33|44)+]+[0-9]{3}[0-9]{2}[0-9]{2}$");
             Match match = regex.Match(str);
 
             return match.Success;

@@ -2,7 +2,7 @@
 {
     public class TextRangeRule<T> : IValidationRule<T>
     {
-        public string ValidationMessage => $"The {Name} must be from {Min} to {Max}.";
+        public string ValidationMessage => $"Поле {Name} должно быть в пределах от {Min} до {Max} символов.";
 
         public int Min { get; set; }
 

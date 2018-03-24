@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
              x:Class="Catalog.Views.Employees.EmployeesPage"
-             Title="Employees">
+             Title="Работники">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Employee" Command="{Binding AddEmployeeCommand}" />
+        <ToolbarItem Text="Добавить работника" Command="{Binding AddEmployeeCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Behaviors>
         <behaviors:EventHandlerBehavior EventName="Appearing">

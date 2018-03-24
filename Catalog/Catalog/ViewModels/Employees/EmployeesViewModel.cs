@@ -37,7 +37,7 @@ namespace Catalog.ViewModels.Employees
             set => Set(ref _selectedEmployee, value);
         }
 
-        public override void AppearingCommandExecute()
+        protected override void AppearingCommandExecute()
         {
             LoadEmployeesCommandExecute();
         }
@@ -74,7 +74,7 @@ namespace Catalog.ViewModels.Employees
                 return;
             }
 
-            await _navigationService.NavigateToAsync<NewEmployeePage, EmployeeDetailViewModel, Employee>(SelectedEmployee, false);
+            await _navigationService.NavigateToAsync<EmployeeDetailPage, EmployeeDetailViewModel, Employee>(SelectedEmployee, false);
             SelectedEmployee = null;
         }
 

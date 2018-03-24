@@ -2,11 +2,69 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Catalog.Views.Employees.NewEmployeePage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Сохранить" Command="{Binding SaveEmployee}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Spacing="20" Padding="15">
+                <StackLayout>
+                    <Label Text="Имя" FontSize="Medium" />
+                    <Entry Text="{Binding FirstName.Value}" FontSize="Small" />
+                    <Label Text="{Binding FirstName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Фамилия" FontSize="Medium" />
+                    <Entry Text="{Binding Surname.Value}" FontSize="Small" />
+                    <Label Text="{Binding Surname.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Отчество" FontSize="Medium" />
+                    <Entry Text="{Binding LastName.Value}" FontSize="Small" />
+                    <Label Text="{Binding LastName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Адрес" FontSize="Medium" />
+                    <Editor Text="{Binding Address.Value}" FontSize="Small" Margin="0" />
+                    <Label Text="{Binding Address.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Должность" FontSize="Medium" />
+                    <Entry Text="{Binding Position.Value}" FontSize="Small" />
+                    <Label Text="{Binding Position.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Зарплата" FontSize="Medium" />
+                    <Entry Text="{Binding Salary.Value, Converter={StaticResource DoubleConverter}}" FontSize="Small" Keyboard="Numeric" />
+                    <Label Text="{Binding Salary.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Номер" FontSize="Medium" />
+                    <Entry Text="{Binding PhoneNumber.Value}" FontSize="Small" Keyboard="Telephone" />
+                    <Label Text="{Binding PhoneNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Дата рождения" FontSize="Medium" />
+                    <DatePicker Date="{Binding DateOfBirth.Value}" 
+                                Format="dd.MM.yyyy" 
+                                MinimumDate="{Binding MinDateOfBirth}" 
+                                MaximumDate="{Binding MaxDateOfBirth}" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

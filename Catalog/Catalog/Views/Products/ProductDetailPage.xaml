@@ -4,21 +4,23 @@
              x:Class="Catalog.Views.Products.ProductDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Change" Command="{Binding ChangeProductCommand}" />
-        <ToolbarItem Text="Remove" Command="{Binding RemoveProductCommand}" />
+        <ToolbarItem Text="Изменить" Command="{Binding ChangeProductCommand}" />
+        <ToolbarItem Text="Удалить" Command="{Binding RemoveProductCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Name:" FontSize="Medium" />
-            <Label Text="{Binding Product.Name}" FontSize="Small"/>
-            <Label Text="Description:" FontSize="Medium" />
-            <Label Text="{Binding Product.Description}" FontSize="Small"/>
-            <Label Text="Price:" FontSize="Medium" />
-            <Label Text="{Binding Product.Price}" FontSize="Small"/>
-            <Label Text="Delivery Date:" FontSize="Medium" />
-            <Label Text="{Binding Product.DeliveryDate}" FontSize="Small"/>
-            <Label Text="Expiration Date:" FontSize="Medium" />
-            <Label Text="{Binding Product.ExpirationDate}" FontSize="Small"/>
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Spacing="20" Padding="15">
+                <Label Text="Название:" FontSize="Medium" />
+                <Label Text="{Binding Product.Name}" FontSize="Small"/>
+                <Label Text="Описание:" FontSize="Medium" />
+                <Label Text="{Binding Product.Description}" FontSize="Small"/>
+                <Label Text="Цена:" FontSize="Medium" />
+                <Label Text="{Binding Product.Price}" FontSize="Small"/>
+                <Label Text="Дата поставки:" FontSize="Medium" />
+                <Label Text="{Binding Product.DeliveryDate}" FontSize="Small"/>
+                <Label Text="Дата отгрузки:" FontSize="Medium" />
+                <Label Text="{Binding Product.ExpirationDate}" FontSize="Small"/>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

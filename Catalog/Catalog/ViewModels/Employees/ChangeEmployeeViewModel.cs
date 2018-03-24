@@ -4,16 +4,19 @@ using System.Threading.Tasks;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Navigation;
+using Catalog.ViewModels.Products;
 
 namespace Catalog.ViewModels.Employees
 {
-    public class NewEmployeeViewModel : EmployeeBaseViewModel
+    public class ChangeEmployeeViewModel : EmployeeBaseViewModel
     {
         private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
+        private readonly Employee _employee;
 
-        public NewEmployeeViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        public ChangeEmployeeViewModel(Employee employee, INavigationService navigationService, UnitOfWork unitOfWork)
         {
+            _employee = employee;
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
@@ -36,19 +39,16 @@ namespace Catalog.ViewModels.Employees
 
             try
             {
-                var employee = new Employee
-                {
-                    FirstName = FirstName.Value,
-                    Surname = Surname.Value,
-                    LastName = LastName.Value,
-                    Address = Address.Value,
-                    PhoneNumber = PhoneNumber.Value,
-                    Position = Position.Value,
-                    DateOfBirth = DateOfBirth.Value,
-                    Salary = Salary.Value
-                };
+                _employee.FirstName = FirstName.Value;
+                _employee.Surname = Surname.Value;
+                _employee.LastName = LastName.Value;
+                _employee.Address = Address.Value;
+                _employee.PhoneNumber = PhoneNumber.Value;
+                _employee.Salary = Salary.Value;
+                _employee.DateOfBirth = DateOfBirth.Value;
+                _employee.Position = Position.Value;
 
-                _unitOfWork.EmployeeRepository.Add(employee);
+                _unitOfWork.EmployeeRepository.Update(_employee);
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace Catalog.ViewModels.Employees
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await _navigationService.NavigateBackToMainPageAsync();
             }
         }
     }

@@ -2,9 +2,9 @@
 
 namespace Catalog.Infrastructure.Validations
 {
-    public class NumberRangeRule<T> : IValidationRule<T> 
+    public class CustomRangeRule<T> : IValidationRule<T> 
     {
-        public string ValidationMessage => $"The {Name} must be from {Min} to {Max}.";
+        public string ValidationMessage => $"Поле {Name} должно иметь значение в пределах от {Min} до {Max}.";
 
         public string Name { get; set; }
 
@@ -12,7 +12,7 @@ namespace Catalog.Infrastructure.Validations
 
         public T Max { get; set; }
 
-        public NumberRangeRule(T min, T max) 
+        public CustomRangeRule(T min, T max) 
         {
             Min = min;
             Max = max;

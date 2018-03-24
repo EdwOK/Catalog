@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Navigation;
-using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Products
 {
@@ -15,18 +13,14 @@ namespace Catalog.ViewModels.Products
         private readonly UnitOfWork _unitOfWork;
         private readonly Product _product;
         
-        public ChangeProductViewModel(Product product, INavigationService navigationService, UnitOfWork unitOfWork)
+        public ChangeProductViewModel(Product product, INavigationService navigationService, UnitOfWork unitOfWork) : base(product)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
             _product = product;
-
-            UpdateProduct(_product);
         }
 
-        public ICommand SaveProduct => new Command(async () => await SaveProductCommand());
-
-        private async Task SaveProductCommand()
+        protected override async Task SaveProductCommand()
         {
             Validate();
 
@@ -51,7 +45,6 @@ namespace Catalog.ViewModels.Products
                 _product.ExpirationDate = ExpirationDate.Value;
 
                 _unitOfWork.ProductRepository.Update(_product);
-                UpdateProduct(_product);
             }
             catch (Exception ex)
             {
@@ -60,7 +53,7 @@ namespace Catalog.ViewModels.Products
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await _navigationService.NavigateBackToMainPageAsync();
             }
         }
     }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Navigation;
-using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Products
 {
@@ -20,9 +18,7 @@ namespace Catalog.ViewModels.Products
             _unitOfWork = unitOfWork;
         }
 
-        public ICommand SaveProduct => new Command(async () => await SaveProductCommand());
-
-        private async Task SaveProductCommand()
+        protected override async Task SaveProductCommand()
         {
             Validate();
 

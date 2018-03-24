@@ -54,7 +54,7 @@ namespace Catalog.ViewModels.Products
                 return;
             }
 
-            bool result = await _dialogService.Confirm($"Are you sure to remove {Title}?");
+            bool result = await _dialogService.Confirm($"Вы подтверждаете удаление {Title}?");
             if (!result)
             {
                 return;

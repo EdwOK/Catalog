@@ -60,6 +60,12 @@ namespace Catalog.Services.Navigation
             PreviousPageViewModel?.Dispose();
         }
 
+        public async Task NavigateBackToMainPageAsync(bool animated = true)
+        {
+            await _applicationProvider.Navigation.PopToRootAsync(animated);
+            PreviousPageViewModel?.Dispose();
+        }
+
         private async Task InternalNavigateToAsync<TPage, TViewModel, TParam>(TParam parameter, bool modal, bool animated)
             where TPage : Page, new()
             where TViewModel : BaseViewModel
@@ -80,6 +86,11 @@ namespace Catalog.Services.Navigation
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
+            if (viewModel == null)
+            {
+                throw new ArgumentNullException(nameof(viewModel));
+            }
+
             var page = new TPage
             {
                 BindingContext = viewModel

@@ -54,7 +54,7 @@ namespace Catalog.ViewModels.Products
             SelectedProduct = null;
         }
 
-        public override void AppearingCommandExecute()
+        protected override void AppearingCommandExecute()
         {
             LoadProductsCommandExecute();
         }

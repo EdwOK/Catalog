@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Catalog.Infrastructure.Validations;
 using Catalog.Models;
+using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Products
 {
@@ -15,6 +18,15 @@ namespace Catalog.ViewModels.Products
             DeliveryDate = new ValidatableObject<DateTime> { Value = DateTime.UtcNow.Date };
 
             AddValidations();
+        }
+
+        protected ProductBaseViewModel(Product product) : this()
+        {
+            Name.Value = product.Name;
+            Description.Value = product.Description;
+            Price.Value = product.Price;
+            ExpirationDate.Value = product.ExpirationDate;
+            DeliveryDate.Value = product.DeliveryDate;
         }
 
         private ValidatableObject<string> _name;
@@ -52,7 +64,14 @@ namespace Catalog.ViewModels.Products
             set => Set(ref _deliveryDate, value);
         }
 
-        protected void Validate()
+        public ICommand SaveProduct => new Command(async () => await SaveProductCommand());
+
+        protected virtual Task SaveProductCommand()
+        {
+            return Task.FromResult(false);
+        }
+
+        protected override void Validate()
         {
             Name.Validate();
             Description.Validate();
@@ -61,32 +80,23 @@ namespace Catalog.ViewModels.Products
             DeliveryDate.Validate();
         }
 
-        protected void UpdateProduct(Product product)
-        {
-            Name.Value = product.Name;
-            Description.Value = product.Description;
-            Price.Value = product.Price;
-            ExpirationDate.Value = product.ExpirationDate;
-            DeliveryDate.Value = product.DeliveryDate;
-        }
-
-        private void AddValidations()
+        protected void AddValidations()
         {
             Name.Validations.AddRange(new IValidationRule<string>[]
             {
-                new IsNotNullOrEmptyRule<string> { Name = "name" },
-                new TextRangeRule<string>(3, 100) { Name = "name" }
+                new IsNotNullOrEmptyRule<string> { Name = "название" },
+                new TextRangeRule<string>(3, 100) { Name = "название" }
             });
 
             Description.Validations.AddRange(new IValidationRule<string>[]
             {
-                new IsNotNullOrEmptyRule<string> { Name = "description" },
-                new TextRangeRule<string>(3, 200) { Name = "description" }
+                new IsNotNullOrEmptyRule<string> { Name = "описание" },
+                new TextRangeRule<string>(3, 200) { Name = "описание" }
             });
 
             Price.Validations.AddRange(new IValidationRule<double>[]
             {
-                new NumberRangeRule<double>(1.0, 99999999.0) { Name = "price" }
+                new CustomRangeRule<double>(1.0, 99999999.0) { Name = "цена" }
             });
         }
 

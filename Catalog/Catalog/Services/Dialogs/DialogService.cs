@@ -4,11 +4,11 @@ namespace Catalog.Services.Dialogs
 {
     internal class DialogConstants
     {
-        internal const string DefaultAlertTitle = "Alert";
-        internal const string OkayButton = "OK";
-        internal const string CancelButton = "Cancel";
-        internal const string DefaultConfirmTitle = "Confirm";
-        internal const string DefaultErrorMessage = "Error!";
+        internal const string DefaultAlertTitle = "Диалог";
+        internal const string OkayButton = "Да";
+        internal const string CancelButton = "Отмена";
+        internal const string DefaultConfirmTitle = "Подтверждение";
+        internal const string DefaultErrorMessage = "Ошибка!";
     }
 
     public class DialogService : IDialogService

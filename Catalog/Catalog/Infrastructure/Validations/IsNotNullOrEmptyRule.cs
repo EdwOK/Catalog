@@ -2,7 +2,7 @@
 {
     public class IsNotNullOrEmptyRule<T> : IValidationRule<T>
     {
-        public string ValidationMessage => $"The {Name} is required.";
+        public string ValidationMessage => $"Поле {Name} не может быть пустым.";
 
         public string Name { get; set; }
 
