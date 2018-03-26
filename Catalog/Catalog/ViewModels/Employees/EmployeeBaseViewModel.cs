@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Infrastructure.Validations;
 using Catalog.Models;
+using Catalog.Services.Places;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Employees
@@ -104,6 +105,25 @@ namespace Catalog.ViewModels.Employees
         {
             return Task.FromResult(false);
         }
+
+        //public ICommand SearchAddressCommand => new Command(async () => await SearchAddressCommandExecute());
+
+        //private async Task SearchAddressCommandExecute()
+        //{
+        //    if (!Address.Validate())
+        //    {
+        //        return;
+        //    }
+
+        //    var autoCompleteRequest = new AutoCompleteRequest { Input = Address.Value };
+        //    var autoCompleteResult = await _googlePlacesService.GetAutoCompletePlaces(autoCompleteRequest);
+
+        //    var autoCompleteAddress = autoCompleteResult.Predictions.FirstOrDefault();
+        //    if (autoCompleteAddress != null)
+        //    {
+        //        Address.Value = autoCompleteAddress.Description;
+        //    }
+        //}
 
         protected override void Validate()
         {

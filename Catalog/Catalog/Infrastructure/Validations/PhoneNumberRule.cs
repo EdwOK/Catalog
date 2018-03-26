@@ -16,7 +16,7 @@ namespace Catalog.Infrastructure.Validations
             }
 
             var str = value as string;
-            Regex regex = new Regex(@"^\+*375+[(17|25|29|33|44)+]+[0-9]{3}[0-9]{2}[0-9]{2}$");
+            Regex regex = new Regex(@"^\+*375+[(17|25|29|33|44)+]+\d{7}$");
             Match match = regex.Match(str);
 
             return match.Success;

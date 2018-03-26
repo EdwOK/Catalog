@@ -26,7 +26,7 @@
             </Style>
 
             <Style TargetType="ActivityIndicator" ApplyToDerivedTypes="True" CanCascade="True">
-                <Setter Property="Color" Value="{ StaticResource ActivityIndicatorColor }" />
+                <Setter Property="Color" Value="{StaticResource ActivityIndicatorColor}" />
             </Style>
 
             <OnPlatform x:Key="LittleSize" x:TypeArguments="x:Double">

@@ -20,6 +20,11 @@ namespace Catalog.Infrastructure.Validations
 
         public bool Check(T value)
         {
+            if (value == null)
+            {
+                return false;
+            }
+
             Comparer<T> comparer = Comparer<T>.Default;
 
             bool moreMin = comparer.Compare(value, Min) >= 0;

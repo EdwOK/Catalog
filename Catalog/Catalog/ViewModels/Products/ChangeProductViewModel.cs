@@ -13,7 +13,8 @@ namespace Catalog.ViewModels.Products
         private readonly UnitOfWork _unitOfWork;
         private readonly Product _product;
         
-        public ChangeProductViewModel(Product product, INavigationService navigationService, UnitOfWork unitOfWork) : base(product)
+        public ChangeProductViewModel(Product product, INavigationService navigationService, UnitOfWork unitOfWork) 
+            : base(product)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;

@@ -1,6 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Catalog.Views.Customers.CustomersPage">
-
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+             x:Class="Catalog.Views.Customers.CustomersPage"
+             Title="Заказчики">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Добавить заказчика" Command="{Binding AddCustomerCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
+    <ContentPage.Content>
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <ListView
+                        SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+                        ItemsSource="{Binding Customers}"
+                        HasUnevenRows="true"
+                        CachingStrategy="RecycleElement">
+                    <ListView.Behaviors>
+                        <behaviors:EventHandlerBehavior EventName="ItemSelected">
+                            <behaviors:InvokeCommandAction Command="{Binding SelectedCustomerCommand}" />
+                        </behaviors:EventHandlerBehavior>
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Label Text="{Binding Name}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16" />
+                                    <Label Text="{Binding Address}" 
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <ActivityIndicator
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Color="{StaticResource LightGreenColor}"
+                IsRunning="{Binding IsBusy}"  
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

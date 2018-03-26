@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Navigation;
-using Catalog.ViewModels.Products;
 
 namespace Catalog.ViewModels.Employees
 {
@@ -14,7 +13,8 @@ namespace Catalog.ViewModels.Employees
         private readonly UnitOfWork _unitOfWork;
         private readonly Employee _employee;
 
-        public ChangeEmployeeViewModel(Employee employee, INavigationService navigationService, UnitOfWork unitOfWork)
+        public ChangeEmployeeViewModel(Employee employee, INavigationService navigationService, UnitOfWork unitOfWork) 
+            : base(employee)
         {
             _employee = employee;
             _navigationService = navigationService;

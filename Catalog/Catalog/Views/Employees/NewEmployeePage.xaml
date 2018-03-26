@@ -30,13 +30,6 @@
                 </StackLayout>
 
                 <StackLayout>
-                    <Label Text="Адрес" FontSize="Medium" />
-                    <Editor Text="{Binding Address.Value}" FontSize="Small" Margin="0" />
-                    <Label Text="{Binding Address.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-                           Style="{StaticResource ValidationErrorLabelStyle}" />
-                </StackLayout>
-
-                <StackLayout>
                     <Label Text="Должность" FontSize="Medium" />
                     <Entry Text="{Binding Position.Value}" FontSize="Small" />
                     <Label Text="{Binding Position.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
@@ -63,6 +56,20 @@
                                 Format="dd.MM.yyyy" 
                                 MinimumDate="{Binding MinDateOfBirth}" 
                                 MaximumDate="{Binding MaxDateOfBirth}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Адрес" FontSize="Medium" />
+                    <!--<Entry Text="{Binding Address.Value}" FontSize="Small" Margin="0" />-->
+                    <StackLayout Padding="-20, 0, 0, 0">
+                        <SearchBar Placeholder="Введите адрес"
+                                   FontSize="Small"
+                                   Margin="0"
+                                   Text="{Binding Address.Value}"
+                                   SearchCommand="{Binding SearchAddressCommand}" />
+                    </StackLayout>
+                    <Label Text="{Binding Address.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>

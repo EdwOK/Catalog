@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Catalog.DataAccessLayer;
 using Catalog.Infrastructure.Behaviour;
 using Catalog.Models;
@@ -10,13 +8,12 @@ using Catalog.Services.Dialogs;
 using Catalog.Services.Locations;
 using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
-using Catalog.Views.Employees;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
-namespace Catalog.ViewModels.Employees
+namespace Catalog.ViewModels.Customers
 {
-    public class EmployeeDetailViewModel : BaseViewModel
+    public class CustomerDetailViewModel : BaseViewModel
     {
         private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
@@ -24,18 +21,18 @@ namespace Catalog.ViewModels.Employees
         private readonly ILocationService _locationService;
         private readonly INetworkService _networkService;
 
-        public EmployeeDetailViewModel(
-            Employee employee, 
-            UnitOfWork unitOfWork, 
-            INavigationService navigationService,
+        public CustomerDetailViewModel(
+            Customer customer,
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork,
             IDialogService dialogService, 
             ILocationService locationService, 
             INetworkService networkService)
         {
-            Employee = employee;
-            Title = employee.FullName;
-            _unitOfWork = unitOfWork;
+            Customer = customer;
+            Title = customer.Name;
             _navigationService = navigationService;
+            _unitOfWork = unitOfWork;
             _dialogService = dialogService;
             _locationService = locationService;
             _networkService = networkService;
@@ -43,11 +40,11 @@ namespace Catalog.ViewModels.Employees
             Pins = new ObservableCollection<Pin>();
         }
 
-        private Employee _employee;
-        public Employee Employee
+        private Customer _customer;
+        public Customer Customer
         {
-            get => _employee;
-            set => Set(ref _employee, value);
+            get => _customer;
+            set => Set(ref _customer, value);
         }
 
         private ObservableCollection<Pin> _pins;
@@ -73,50 +70,6 @@ namespace Catalog.ViewModels.Employees
 
         public MoveToRegionRequest Request { get; } = new MoveToRegionRequest();
 
-        public ICommand ChangeEmployeeCommand => new Command(async () => await ChangeEmployeeCommandExecute());
-
-        private async Task ChangeEmployeeCommandExecute()
-        {
-            if (Employee == null)
-            {
-                return;
-            }
-
-            await _navigationService.NavigateToAsync<NewEmployeePage, ChangeEmployeeViewModel, Employee>(Employee, false);
-        }
-
-        public ICommand RemoveEmployeeCommand => new Command(async () => await RemoveEmployeeCommandExecute());
-
-        private async Task RemoveEmployeeCommandExecute()
-        {
-            if (IsBusy)
-            {
-                return;
-            }
-
-            bool result = await _dialogService.Confirm($"Вы подтверждаете удаление {Title}?");
-            if (!result)
-            {
-                return;
-            }
-
-            IsBusy = true;
-
-            try
-            {
-                _unitOfWork.EmployeeRepository.Remove(Employee.Id);
-            }
-            catch (Exception exc)
-            {
-                Debug.WriteLine(exc);
-            }
-            finally
-            {
-                IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
-            }
-        }
-
         protected override async void AppearingCommandExecute()
         {
             if (!_networkService.IsInternetConnected)
@@ -127,8 +80,8 @@ namespace Catalog.ViewModels.Employees
 
             try
             {
-                var position = await _locationService.SearchPositionForAddressAsync(Employee.Address);
-                var pin = _locationService.CreatePin(position, Employee.Address);
+                var position = await _locationService.SearchPositionForAddressAsync(Customer.Address);
+                var pin = _locationService.CreatePin(position, Customer.Address);
 
                 Request.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(2)));
                 Pins.Add(pin);

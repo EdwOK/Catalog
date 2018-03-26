@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:behaviour="clr-namespace:Catalog.Infrastructure.Behaviour;assembly=Catalog"
-             x:Class="Catalog.Views.Employees.EmployeeDetailPage"
+             x:Class="Catalog.Views.Customers.CustomerDetailPage"
              Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Изменить" Command="{Binding ChangeEmployeeCommand}" />
-        <ToolbarItem Text="Удалить" Command="{Binding RemoveEmployeeCommand}" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Behaviors>
         <behaviors:EventHandlerBehavior EventName="Appearing">
             <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
@@ -18,22 +14,16 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="20" Padding="15">
-                <Label Text="Имя:" FontSize="Medium" />
-                <Label Text="{Binding Employee.FirstName}" FontSize="Small"/>
-                <Label Text="Фамилия:" FontSize="Medium" />
-                <Label Text="{Binding Employee.Surname}" FontSize="Small"/>
-                <Label Text="Отчество:" FontSize="Medium" />
-                <Label Text="{Binding Employee.LastName}" FontSize="Small"/>
-                <Label Text="Должность:" FontSize="Medium" />
-                <Label Text="{Binding Employee.Position}" FontSize="Small"/>
-                <Label Text="Зарплата:" FontSize="Medium" />
-                <Label Text="{Binding Employee.Salary}" FontSize="Small"/>
+                <Label Text="Название:" FontSize="Medium" />
+                <Label Text="{Binding Customer.Name}" FontSize="Small"/>
+                <Label Text="Почта:" FontSize="Medium" />
+                <Label Text="{Binding Customer.Email}" FontSize="Small"/>
+                <Label Text="Индекс:" FontSize="Medium" />
+                <Label Text="{Binding Customer.PostalCode}" FontSize="Small"/>
                 <Label Text="Номер:" FontSize="Medium" />
-                <Label Text="{Binding Employee.PhoneNumber}" FontSize="Small"/>
-                <Label Text="Дата рождения:" FontSize="Medium" />
-                <Label Text="{Binding Employee.DateOfBirth}" FontSize="Small"/>
+                <Label Text="{Binding Customer.PhoneNumber}" FontSize="Small"/>
                 <Label Text="Адрес:" FontSize="Medium" />
-                <Label Text="{Binding Employee.Address}" FontSize="Small"/>
+                <Label Text="{Binding Customer.Address}" FontSize="Small"/>
                 <maps:Map IsVisible="{Binding MapIsVisible}" 
                           IsShowingUser="True" 
                           MapType="Hybrid" 
