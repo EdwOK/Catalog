@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Catalog.Infrastructure.Locators;
 using Catalog.ViewModels;
 using Catalog.Views;
@@ -86,11 +85,6 @@ namespace Catalog.Services.Navigation
             where TPage : Page, new()
             where TViewModel : BaseViewModel
         {
-            if (viewModel == null)
-            {
-                throw new ArgumentNullException(nameof(viewModel));
-            }
-
             var page = new TPage
             {
                 BindingContext = viewModel

@@ -64,11 +64,11 @@ namespace Catalog.ViewModels.Employees
             set => Set(ref _visibleRegion, value);
         }
 
-        private bool _mapIsVisible;
-        public bool MapIsVisible
+        private bool _isMapVisible;
+        public bool IsMapVisible
         {
-            get => _mapIsVisible;
-            set => Set(ref _mapIsVisible, value);
+            get => _isMapVisible;
+            set => Set(ref _isMapVisible, value);
         }
 
         public MoveToRegionRequest Request { get; } = new MoveToRegionRequest();
@@ -125,6 +125,8 @@ namespace Catalog.ViewModels.Employees
                 return;
             }
 
+            IsMapVisible = false;
+
             try
             {
                 var position = await _locationService.SearchPositionForAddressAsync(Employee.Address);
@@ -133,7 +135,7 @@ namespace Catalog.ViewModels.Employees
                 Request.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(2)));
                 Pins.Add(pin);
 
-                MapIsVisible = true;
+                IsMapVisible = true;
             }
             catch (Exception exc)
             {

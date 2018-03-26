@@ -64,9 +64,9 @@ namespace Catalog.ViewModels.Products
             set => Set(ref _deliveryDate, value);
         }
 
-        public ICommand SaveProduct => new Command(async () => await SaveProductCommand());
+        public ICommand SaveProduct => new Command(async () => await SaveProductCommandExecute());
 
-        protected virtual Task SaveProductCommand()
+        protected virtual Task SaveProductCommandExecute()
         {
             return Task.FromResult(false);
         }

@@ -1,9 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.DataAccessLayer;
 using Catalog.Infrastructure.Validations;
+using Catalog.Models;
 using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
+using Catalog.Services.Places;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Customers
@@ -13,12 +17,18 @@ namespace Catalog.ViewModels.Customers
         protected readonly INavigationService NavigationService;
         protected readonly UnitOfWork UnitOfWork;
         protected readonly INetworkService NetworkService;
+        protected readonly IGooglePlacesService GooglePlacesService;
 
-        public CustomerBaseViewModel(INetworkService networkService, INavigationService navigationService, UnitOfWork unitOfWork)
+        public CustomerBaseViewModel(
+            INetworkService networkService, 
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork, 
+            IGooglePlacesService googlePlacesService)
         {
             NetworkService = networkService;
             NavigationService = navigationService;
             UnitOfWork = unitOfWork;
+            GooglePlacesService = googlePlacesService;
 
             Name = new ValidatableObject<string>();
             Email = new ValidatableObject<string>();
@@ -28,6 +38,22 @@ namespace Catalog.ViewModels.Customers
 
             AddValidations();
         }
+
+        protected CustomerBaseViewModel(
+            Customer customer, 
+            INetworkService networkService, 
+            INavigationService navigationService,
+            UnitOfWork unitOfWork,
+            IGooglePlacesService googlePlacesService)
+            : this(networkService, navigationService, unitOfWork, googlePlacesService)
+        {
+            Name.Value = customer.Name;
+            Address.Value = customer.Address;
+            Email.Value = customer.Email;
+            PhoneNumber.Value = customer.PhoneNumber;
+            PostalCode.Value = customer.PostalCode;
+        }
+
 
         private ValidatableObject<string> _name;
         public ValidatableObject<string> Name
@@ -62,6 +88,42 @@ namespace Catalog.ViewModels.Customers
         {
             get => _phoneNumber;
             set => Set(ref _phoneNumber, value);
+        }
+
+        public ICommand SearchAddressCommand => new Command(async () => await SearchAddressCommandExecute());
+
+        protected async Task SearchAddressCommandExecute()
+        {
+            if (!Address.Validate())
+            {
+                return;
+            }
+
+            if (!NetworkService.IsInternetConnected)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                var autoCompleteRequest = new AutoCompleteRequest { Input = Address.Value };
+                var autoCompletePlace = await GooglePlacesService.GetFirstAutoCompletePlace(autoCompleteRequest);
+
+                if (autoCompletePlace != null)
+                {
+                    Address.Value = autoCompletePlace.Description;
+                }
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public ICommand SaveCustomer => new Command(async () => await SaveCustomerCommandExecute());

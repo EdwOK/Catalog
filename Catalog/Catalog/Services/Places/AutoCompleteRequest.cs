@@ -4,11 +4,17 @@ namespace Catalog.Services.Places
 {
     public class AutoCompleteRequest
     {
+        public AutoCompleteRequest()
+        {
+            ApiKey = GooglePlacesConfigs.ApiKey;
+            Language = GooglePlacesConfigs.Language;
+        }
+
         [JsonProperty("input")]
         public string Input { get; set; }
 
         [JsonProperty("key")]
-        public string ApiKey => GooglePlacesConfigs.ApiKey;
+        public string ApiKey { get; }
 
         [JsonProperty("offset", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Offset { get; set; }

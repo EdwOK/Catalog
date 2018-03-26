@@ -56,7 +56,6 @@
             <ActivityIndicator
                 Grid.Row="0"
                 Grid.RowSpan="2"
-                Color="{StaticResource LightGreenColor}"
                 IsRunning="{Binding IsBusy}"  
                 IsVisible="{Binding IsBusy}"
                 VerticalOptions="Center"

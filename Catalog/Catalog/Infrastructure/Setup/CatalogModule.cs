@@ -39,6 +39,7 @@ namespace Catalog.Infrastructure.Setup
             builder.RegisterType<CustomersViewModel>().AsSelf();
             builder.RegisterType<CustomerDetailViewModel>().AsSelf();
             builder.RegisterType<NewCustomerViewModel>().AsSelf();
+            builder.RegisterType<ChangeCustomerViewModel>().AsSelf();
 
             builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>();

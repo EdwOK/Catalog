@@ -41,9 +41,9 @@
 
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
             <converters:DoubleConverter x:Key="DoubleConverter" />
-            <converters:FirstValidationErrorConverter x:Key="InverseBoolConverter" />
-            <converters:FirstValidationErrorConverter x:Key="InverseCountToBoolConverter" />
-            <converters:FirstValidationErrorConverter x:Key="CountToBoolConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:InverseCountToBoolConverter x:Key="InverseCountToBoolConverter" />
+            <converters:NegateBooleanConverter x:Key="NegateBooleanConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

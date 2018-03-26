@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Catalog.Infrastructure.Utils
+namespace Catalog.Infrastructure.Extensions
 {
     public static class UriExtensions
     {

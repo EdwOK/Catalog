@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Infrastructure.Validations;
@@ -15,7 +15,7 @@ namespace Catalog.ViewModels.Employees
         protected IGooglePlacesService GooglePlacesService;
         protected INetworkService NetworkService;
 
-        public EmployeeBaseViewModel(IGooglePlacesService googlePlacesService, INetworkService networkService)
+        protected EmployeeBaseViewModel(IGooglePlacesService googlePlacesService, INetworkService networkService)
         {
             GooglePlacesService = googlePlacesService;
             NetworkService = networkService;
@@ -108,9 +108,9 @@ namespace Catalog.ViewModels.Employees
             set => Set(ref _position, value);
         }
 
-        public ICommand SaveEmployee => new Command(async () => await SaveEmployeeCommand());
+        public ICommand SaveEmployee => new Command(async () => await SaveEmployeeCommandExecute());
 
-        protected virtual Task SaveEmployeeCommand()
+        protected virtual Task SaveEmployeeCommandExecute()
         {
             return Task.FromResult(false);
         }
@@ -129,16 +129,25 @@ namespace Catalog.ViewModels.Employees
                 return;
             }
 
-            var autoCompleteRequest = new AutoCompleteRequest { Input = Address.Value };
-            var autoCompleteResult = await GooglePlacesService.GetAutoCompletePlaces(autoCompleteRequest);
+            IsBusy = true;
 
-            var predictions = autoCompleteResult.Predictions;
-
-            if (predictions.Count > 0)
+            try
             {
-                var autoCompleteAddress = predictions.FirstOrDefault();
+                var autoCompleteRequest = new AutoCompleteRequest { Input = Address.Value };
+                var autoCompletePlace = await GooglePlacesService.GetFirstAutoCompletePlace(autoCompleteRequest);
 
-                Address.Value = autoCompleteAddress.Description;
+                if (autoCompletePlace != null)
+                {
+                    Address.Value = autoCompletePlace.Description;
+                }
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 

@@ -28,7 +28,7 @@ namespace Catalog.ViewModels.Employees
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task SaveEmployeeCommand()
+        protected override async Task SaveEmployeeCommandExecute()
         {
             Validate();
 

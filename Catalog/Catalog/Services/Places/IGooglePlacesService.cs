@@ -5,5 +5,7 @@ namespace Catalog.Services.Places
     public interface IGooglePlacesService
     {
         Task<AutoCompleteResult> GetAutoCompletePlaces(AutoCompleteRequest request);
+
+        Task<Prediction> GetFirstAutoCompletePlace(AutoCompleteRequest request);
     }
 }

@@ -5,13 +5,18 @@ using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
+using Catalog.Services.Places;
 
 namespace Catalog.ViewModels.Customers
 {
     public class NewCustomerViewModel : CustomerBaseViewModel
     {
-        public NewCustomerViewModel(INavigationService navigationService, UnitOfWork unitOfWork, INetworkService networkService) 
-            : base(networkService, navigationService, unitOfWork)
+        public NewCustomerViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork, 
+            INetworkService networkService, 
+            IGooglePlacesService googlePlacesService) 
+            : base(networkService, navigationService, unitOfWork, googlePlacesService)
         {
         }
 

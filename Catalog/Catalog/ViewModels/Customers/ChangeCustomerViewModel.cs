@@ -6,26 +6,30 @@ using Catalog.Models;
 using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
 using Catalog.Services.Places;
+using Catalog.Views.Customers;
 
-namespace Catalog.ViewModels.Employees
+namespace Catalog.ViewModels.Customers
 {
-    public class NewEmployeeViewModel : EmployeeBaseViewModel
+    public class ChangeCustomerViewModel : CustomerBaseViewModel
     {
         private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
+        private readonly Customer _customer;
 
-        public NewEmployeeViewModel(
+        public ChangeCustomerViewModel(
+            Customer customer,
+            INetworkService networkService, 
             INavigationService navigationService, 
             UnitOfWork unitOfWork, 
-            IGooglePlacesService googlePlacesService, 
-            INetworkService networkService) 
-            : base(googlePlacesService, networkService)
+            IGooglePlacesService googlePlacesService) 
+            : base(customer, networkService, navigationService, unitOfWork, googlePlacesService)
         {
+            _customer = customer;
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task SaveEmployeeCommandExecute()
+        protected override async Task SaveCustomerCommandExecute()
         {
             Validate();
 
@@ -43,19 +47,13 @@ namespace Catalog.ViewModels.Employees
 
             try
             {
-                var employee = new Employee
-                {
-                    FirstName = FirstName.Value,
-                    Surname = Surname.Value,
-                    LastName = LastName.Value,
-                    Address = Address.Value,
-                    PhoneNumber = PhoneNumber.Value,
-                    Position = Position.Value,
-                    DateOfBirth = DateOfBirth.Value,
-                    Salary = Salary.Value
-                };
+                _customer.Name = Name.Value;
+                _customer.Address = Address.Value;
+                _customer.Email = Email.Value;
+                _customer.PhoneNumber = PhoneNumber.Value;
+                _customer.PostalCode = PostalCode.Value;
 
-                _unitOfWork.EmployeeRepository.Add(employee);
+                _unitOfWork.CustomerRepository.Update(_customer);
             }
             catch (Exception ex)
             {
@@ -64,7 +62,7 @@ namespace Catalog.ViewModels.Employees
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await _navigationService.NavigateBackToMainPageAsync();
             }
         }
     }

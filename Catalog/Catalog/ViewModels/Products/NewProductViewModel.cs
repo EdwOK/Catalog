@@ -18,7 +18,7 @@ namespace Catalog.ViewModels.Products
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task SaveProductCommand()
+        protected override async Task SaveProductCommandExecute()
         {
             Validate();
 

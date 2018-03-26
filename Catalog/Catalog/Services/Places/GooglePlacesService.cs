@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Catalog.Infrastructure.Utils;
+using Catalog.Infrastructure.Extensions;
 using Newtonsoft.Json;
 
 namespace Catalog.Services.Places
@@ -30,6 +31,12 @@ namespace Catalog.Services.Places
                 Debug.WriteLine(exc);
                 throw;
             }
+        }
+
+        public async Task<Prediction> GetFirstAutoCompletePlace(AutoCompleteRequest request)
+        {
+            var autoCompleteResult = await GetAutoCompletePlaces(request);
+            return autoCompleteResult.Predictions.FirstOrDefault();
         }
 
         private Uri CreateQuery(AutoCompleteRequest request)

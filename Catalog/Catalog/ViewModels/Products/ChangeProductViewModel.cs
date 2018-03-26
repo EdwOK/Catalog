@@ -21,7 +21,7 @@ namespace Catalog.ViewModels.Products
             _product = product;
         }
 
-        protected override async Task SaveProductCommand()
+        protected override async Task SaveProductCommandExecute()
         {
             Validate();
 

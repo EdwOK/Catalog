@@ -6,6 +6,10 @@
              xmlns:behaviour="clr-namespace:Catalog.Infrastructure.Behaviour;assembly=Catalog"
              x:Class="Catalog.Views.Customers.CustomerDetailPage"
              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Изменить" Command="{Binding ChangeCustomerCommand}" />
+        <ToolbarItem Text="Удалить" Command="{Binding RemoveCustomerCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Behaviors>
         <behaviors:EventHandlerBehavior EventName="Appearing">
             <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
@@ -24,7 +28,7 @@
                 <Label Text="{Binding Customer.PhoneNumber}" FontSize="Small"/>
                 <Label Text="Адрес:" FontSize="Medium" />
                 <Label Text="{Binding Customer.Address}" FontSize="Small"/>
-                <maps:Map IsVisible="{Binding MapIsVisible}" 
+                <maps:Map IsVisible="{Binding IsMapVisible}"
                           IsShowingUser="True" 
                           MapType="Hybrid" 
                           HeightRequest="400" 
