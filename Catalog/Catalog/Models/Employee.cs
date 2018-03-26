@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace Catalog.Models
 {
@@ -26,6 +28,9 @@ namespace Catalog.Models
         public double Salary { get; set; }
 
         public DateTime DateOfBirth { get; set; }
+
+        [OneToMany(CascadeOperations = CascadeOperation.CascadeRead)]
+        public List<Order> Orders { get; set; }
 
         [Ignore]
         public string FullName => $"{FirstName} {Surname} {LastName}";

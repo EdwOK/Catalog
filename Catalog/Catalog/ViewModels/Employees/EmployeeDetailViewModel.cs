@@ -94,6 +94,12 @@ namespace Catalog.ViewModels.Employees
                 return;
             }
 
+            if (Employee.Orders.Count > 0)
+            {
+                await _dialogService.Alert($"Вы не можете удалить {Title}.");
+                return;
+            }
+
             bool result = await _dialogService.Confirm($"Вы подтверждаете удаление {Title}?");
             if (!result)
             {
@@ -104,7 +110,7 @@ namespace Catalog.ViewModels.Employees
 
             try
             {
-                _unitOfWork.EmployeeRepository.Remove(Employee.Id);
+                _unitOfWork.EmployeeRepository.Remove(Employee);
             }
             catch (Exception exc)
             {

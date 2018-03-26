@@ -35,6 +35,8 @@ namespace Catalog.Infrastructure.Setup
             builder.RegisterType<ChangeEmployeeViewModel>().AsSelf();
 
             builder.RegisterType<OrdersViewModel>().AsSelf();
+            builder.RegisterType<NewOrderViewModel>().AsSelf();
+            builder.RegisterType<OrderDetailViewModel>().AsSelf();
 
             builder.RegisterType<CustomersViewModel>().AsSelf();
             builder.RegisterType<CustomerDetailViewModel>().AsSelf();
@@ -53,6 +55,7 @@ namespace Catalog.Infrastructure.Setup
             builder.RegisterType<LocationService>().As<ILocationService>();
             builder.RegisterType<NetworkService>().As<INetworkService>();
             builder.RegisterType<GooglePlacesService>().As<IGooglePlacesService>();
+            builder.RegisterGeneric(typeof(SelectMultipleBasePage<>)).AsSelf();
         }
     }
 }

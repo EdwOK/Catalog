@@ -10,8 +10,11 @@ namespace Catalog.Models
         public Order()
         {
             Products = new List<Product>();
-            CreatedDate = DateTime.UtcNow;
+            CreatedDate = DateTime.UtcNow.Date;
         }
+
+        [MaxLength(40)]
+        public string Name { get; set; }
 
         [MaxLength(200)]
         public string Description { get; set; }
@@ -20,7 +23,7 @@ namespace Catalog.Models
 
         public double TotalPrice { get; set; }
 
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        [OneToMany(CascadeOperations = CascadeOperation.CascadeRead | CascadeOperation.CascadeDelete)]
         public List<Product> Products { get; set; }
 
         [ForeignKey(typeof(Employee))]

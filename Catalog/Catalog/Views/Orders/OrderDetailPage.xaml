@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Catalog.Views.Orders.OrderDetailPage"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Изменить" Command="{Binding ChangeOrderCommand}" />
+        <ToolbarItem Text="Удалить" Command="{Binding RemoveOrderCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <ScrollView>
+                    <StackLayout Spacing="20" Padding="15">
+                        <Label Text="Название:" FontSize="Medium" />
+                        <Label Text="{Binding Order.Name}" FontSize="Small"/>
+                        <Label Text="Описание:" FontSize="Medium" />
+                        <Label Text="{Binding Order.Description}" FontSize="Small"/>
+                        <Label Text="Заказчик:" FontSize="Medium" />
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Order.Customer.Name}" FontSize="Small"/>
+                            <Button Text="Подробнее" Command="{Binding OpenCustomer}" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Работник:" FontSize="Medium" />
+                            <Label Text="{Binding Order.Employee.FullName}" FontSize="Small"/>
+                            <Button Text="Подробнее" Command="{Binding OpenEmployee}" />
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+            <ActivityIndicator
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                IsRunning="{Binding IsBusy}"  
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

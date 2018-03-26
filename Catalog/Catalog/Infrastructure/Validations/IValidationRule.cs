@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Infrastructure.Validations
 {
-    public interface IValidationRule<in T>
+    public interface IValidationRule<T>
     {
         string ValidationMessage { get; }
 

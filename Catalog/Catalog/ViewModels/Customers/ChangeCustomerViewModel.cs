@@ -6,7 +6,6 @@ using Catalog.Models;
 using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
 using Catalog.Services.Places;
-using Catalog.Views.Customers;
 
 namespace Catalog.ViewModels.Customers
 {

@@ -18,6 +18,9 @@ namespace Catalog.Services.Navigation
             where TPage : Page, new()
             where TViewModel : BaseViewModel;
 
+        Task NavigateToPageAsync<TPage>(TPage page, bool modal, bool animated = true)
+            where TPage : ContentPage;
+
         Task NavigateBackAsync(bool modal, bool animated = true);
 
         Task NavigateBackToMainPageAsync(bool animated = true);

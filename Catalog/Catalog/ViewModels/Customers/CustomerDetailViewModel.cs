@@ -94,6 +94,12 @@ namespace Catalog.ViewModels.Customers
                 return;
             }
 
+            if (Customer.Orders.Count > 0)
+            {
+                await _dialogService.Alert($"Вы не можете удалить {Title}.");
+                return;
+            }
+
             bool result = await _dialogService.Confirm($"Вы подтверждаете удаление {Title}?");
             if (!result)
             {
@@ -104,7 +110,7 @@ namespace Catalog.ViewModels.Customers
 
             try
             {
-                _unitOfWork.CustomerRepository.Remove(Customer.Id);
+                _unitOfWork.CustomerRepository.Remove(Customer);
             }
             catch (Exception exc)
             {

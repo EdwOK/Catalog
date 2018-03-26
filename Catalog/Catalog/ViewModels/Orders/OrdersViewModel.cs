@@ -7,8 +7,7 @@ using Catalog.DataAccessLayer;
 using Catalog.Infrastructure.Extensions;
 using Catalog.Models;
 using Catalog.Services.Navigation;
-using Catalog.ViewModels.Employees;
-using Catalog.Views.Employees;
+using Catalog.Views.Orders;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Orders
@@ -59,11 +58,31 @@ namespace Catalog.ViewModels.Orders
             }
         }
 
-        public ICommand AddOrdersCommand => new Command(async () => await AddOrdersCommandExecute());
-
-        private async Task AddOrdersCommandExecute()
+        private Order _selectedOrder;
+        public Order SelectedOrder
         {
-            await _navigationService.NavigateToAsync<NewEmployeePage, NewEmployeeViewModel>(false);
+            get => _selectedOrder;
+            set => Set(ref _selectedOrder, value);
+        }
+
+        public ICommand SelectedOrderCommand => new Command(async () => await SelectedOrderCommandExecute());
+
+        private async Task SelectedOrderCommandExecute()
+        {
+            if (SelectedOrder == null)
+            {
+                return;
+            }
+
+            await _navigationService.NavigateToAsync<OrderDetailPage, OrderDetailViewModel, Order>(SelectedOrder, false);
+            SelectedOrder = null;
+        }
+
+        public ICommand AddOrderCommand => new Command(async () => await AddOrderCommandExecute());
+
+        private async Task AddOrderCommandExecute()
+        {
+            await _navigationService.NavigateToAsync<NewOrderPage, NewOrderViewModel>(false);
         }
     }
 }

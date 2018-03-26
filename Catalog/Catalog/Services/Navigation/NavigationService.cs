@@ -65,6 +65,19 @@ namespace Catalog.Services.Navigation
             PreviousPageViewModel?.Dispose();
         }
 
+        public async Task NavigateToPageAsync<TPage>(TPage page, bool modal, bool animated = true)
+            where TPage: ContentPage
+        {
+            if (modal)
+            {
+                await _applicationProvider.Navigation.PushModalAsync(page, animated);
+            }
+            else
+            {
+                await _applicationProvider.Navigation.PushAsync(page, animated);
+            }
+        }
+
         private async Task InternalNavigateToAsync<TPage, TViewModel, TParam>(TParam parameter, bool modal, bool animated)
             where TPage : Page, new()
             where TViewModel : BaseViewModel

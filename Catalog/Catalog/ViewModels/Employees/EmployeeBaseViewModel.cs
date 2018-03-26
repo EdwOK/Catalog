@@ -198,12 +198,12 @@ namespace Catalog.ViewModels.Employees
             PhoneNumber.Validations.AddRange(new IValidationRule<string>[]
             {
                 new IsNotNullOrEmptyRule<string> { Name = "телефон" },
-                new PhoneNumberRule<string>() { Name = "телефон" }
+                new PhoneNumberRule<string> { Name = "телефон" }
             });
 
             Salary.Validations.AddRange(new IValidationRule<double>[]
             {
-                new CustomRangeRule<double>(1.0, 99999999.0) { Name = "зарплата" }
+                new CustomRangeRule<double>(100, 99999999.0) { Name = "зарплата" }
             });
         }
 

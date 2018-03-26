@@ -1,4 +1,6 @@
-﻿using SQLite;
+﻿using System.Collections.Generic;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace Catalog.Models
 {
@@ -18,5 +20,8 @@ namespace Catalog.Models
 
         [MaxLength(24)]
         public string PhoneNumber { get; set; }
+
+        [OneToMany(CascadeOperations = CascadeOperation.CascadeRead)]
+        public List<Order> Orders { get; set; }
     }
 }

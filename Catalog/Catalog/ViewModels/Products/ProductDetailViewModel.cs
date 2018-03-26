@@ -54,6 +54,12 @@ namespace Catalog.ViewModels.Products
                 return;
             }
 
+            if (Product.Order != null)
+            {
+                await _dialogService.Alert($"Вы не можете удалить {Title}.");
+                return;
+            }
+
             bool result = await _dialogService.Confirm($"Вы подтверждаете удаление {Title}?");
             if (!result)
             {
@@ -64,7 +70,7 @@ namespace Catalog.ViewModels.Products
 
             try
             {
-                _unitOfWork.ProductRepository.Remove(Product.Id);
+                _unitOfWork.ProductRepository.Remove(Product);
             }
             catch (Exception exc)
             {
