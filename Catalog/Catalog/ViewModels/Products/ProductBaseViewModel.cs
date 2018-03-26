@@ -7,9 +7,9 @@ using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Products
 {
-    public class ProductBaseViewModel : BaseViewModel
+    public abstract class ProductBaseViewModel : BaseViewModel
     {
-        public ProductBaseViewModel()
+        protected ProductBaseViewModel()
         {
             Name = new ValidatableObject<string>();
             Description = new ValidatableObject<string>();

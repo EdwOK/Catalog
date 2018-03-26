@@ -12,14 +12,14 @@ using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Customers
 {
-    public class CustomerBaseViewModel : BaseViewModel
+    public abstract class CustomerBaseViewModel : BaseViewModel
     {
         protected readonly INavigationService NavigationService;
         protected readonly UnitOfWork UnitOfWork;
         protected readonly INetworkService NetworkService;
         protected readonly IGooglePlacesService GooglePlacesService;
 
-        public CustomerBaseViewModel(
+        protected CustomerBaseViewModel(
             INetworkService networkService, 
             INavigationService navigationService, 
             UnitOfWork unitOfWork, 

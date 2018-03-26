@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Employees
 {
-    public class EmployeeBaseViewModel : BaseViewModel
+    public abstract class EmployeeBaseViewModel : BaseViewModel
     {
         protected IGooglePlacesService GooglePlacesService;
         protected INetworkService NetworkService;
