@@ -60,7 +60,6 @@
 
                 <StackLayout>
                     <Label Text="Адрес" FontSize="Medium" />
-                    <!--<Entry Text="{Binding Address.Value}" FontSize="Small" Margin="0" />-->
                     <StackLayout Padding="-20, 0, 0, 0">
                         <SearchBar Placeholder="Введите адрес"
                                    FontSize="Small"

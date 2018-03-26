@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Infrastructure.Validations;
 using Catalog.Models;
+using Catalog.Services.Networks;
 using Catalog.Services.Places;
 using Xamarin.Forms;
 
@@ -10,8 +12,14 @@ namespace Catalog.ViewModels.Employees
 {
     public class EmployeeBaseViewModel : BaseViewModel
     {
-        public EmployeeBaseViewModel()
+        protected IGooglePlacesService GooglePlacesService;
+        protected INetworkService NetworkService;
+
+        public EmployeeBaseViewModel(IGooglePlacesService googlePlacesService, INetworkService networkService)
         {
+            GooglePlacesService = googlePlacesService;
+            NetworkService = networkService;
+
             MinDateOfBirth = DateTime.UtcNow.AddYears(-65).Date;
             MaxDateOfBirth = DateTime.UtcNow.AddYears(-18).Date;
 
@@ -27,7 +35,8 @@ namespace Catalog.ViewModels.Employees
             AddValidations();
         }
 
-        protected EmployeeBaseViewModel(Employee employee) : this()
+        protected EmployeeBaseViewModel(Employee employee, IGooglePlacesService googlePlacesService, INetworkService networkService) 
+            : this(googlePlacesService, networkService)
         {
             FirstName.Value = employee.FirstName;
             Surname.Value = employee.Surname;
@@ -106,24 +115,32 @@ namespace Catalog.ViewModels.Employees
             return Task.FromResult(false);
         }
 
-        //public ICommand SearchAddressCommand => new Command(async () => await SearchAddressCommandExecute());
+        public ICommand SearchAddressCommand => new Command(async () => await SearchAddressCommandExecute());
 
-        //private async Task SearchAddressCommandExecute()
-        //{
-        //    if (!Address.Validate())
-        //    {
-        //        return;
-        //    }
+        protected async Task SearchAddressCommandExecute()
+        {
+            if (!Address.Validate())
+            {
+                return;
+            }
 
-        //    var autoCompleteRequest = new AutoCompleteRequest { Input = Address.Value };
-        //    var autoCompleteResult = await _googlePlacesService.GetAutoCompletePlaces(autoCompleteRequest);
+            if (!NetworkService.IsInternetConnected)
+            {
+                return;
+            }
 
-        //    var autoCompleteAddress = autoCompleteResult.Predictions.FirstOrDefault();
-        //    if (autoCompleteAddress != null)
-        //    {
-        //        Address.Value = autoCompleteAddress.Description;
-        //    }
-        //}
+            var autoCompleteRequest = new AutoCompleteRequest { Input = Address.Value };
+            var autoCompleteResult = await GooglePlacesService.GetAutoCompletePlaces(autoCompleteRequest);
+
+            var predictions = autoCompleteResult.Predictions;
+
+            if (predictions.Count > 0)
+            {
+                var autoCompleteAddress = predictions.FirstOrDefault();
+
+                Address.Value = autoCompleteAddress.Description;
+            }
+        }
 
         protected override void Validate()
         {

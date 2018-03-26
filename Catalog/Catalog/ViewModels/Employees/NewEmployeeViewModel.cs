@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Navigation;
+using Catalog.Services.Networks;
 using Catalog.Services.Places;
-using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Employees
 {
@@ -15,13 +13,16 @@ namespace Catalog.ViewModels.Employees
     {
         private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
-        private readonly IGooglePlacesService _googlePlacesService;
 
-        public NewEmployeeViewModel(INavigationService navigationService, UnitOfWork unitOfWork, IGooglePlacesService googlePlacesService)
+        public NewEmployeeViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork, 
+            IGooglePlacesService googlePlacesService, 
+            INetworkService networkService) 
+            : base(googlePlacesService, networkService)
         {
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
-            _googlePlacesService = googlePlacesService;
         }
 
         protected override async Task SaveEmployeeCommand()

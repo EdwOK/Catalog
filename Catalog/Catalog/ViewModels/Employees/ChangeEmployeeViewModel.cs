@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Navigation;
+using Catalog.Services.Networks;
+using Catalog.Services.Places;
 
 namespace Catalog.ViewModels.Employees
 {
@@ -13,8 +15,13 @@ namespace Catalog.ViewModels.Employees
         private readonly UnitOfWork _unitOfWork;
         private readonly Employee _employee;
 
-        public ChangeEmployeeViewModel(Employee employee, INavigationService navigationService, UnitOfWork unitOfWork) 
-            : base(employee)
+        public ChangeEmployeeViewModel(
+            Employee employee, 
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork, 
+            IGooglePlacesService googlePlacesService,
+            INetworkService networkService) 
+            : base(employee, googlePlacesService, networkService)
         {
             _employee = employee;
             _navigationService = navigationService;
