@@ -54,7 +54,7 @@ namespace Catalog.ViewModels.Products
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await _navigationService.NavigateBackAsync(false);
             }
         }
     }

@@ -6,6 +6,11 @@ using Catalog.DataAccessLayer;
 using Catalog.Models;
 using Catalog.Services.Dialogs;
 using Catalog.Services.Navigation;
+using Catalog.ViewModels.Customers;
+using Catalog.ViewModels.Employees;
+using Catalog.Views.Customers;
+using Catalog.Views.Employees;
+using Catalog.Views.Orders;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Orders
@@ -23,7 +28,6 @@ namespace Catalog.ViewModels.Orders
             IDialogService dialogService)
         {
             Order = order;
-            Title = order.Name;
             _navigationService = navigationService;
             _unitOfWork = unitOfWork;
             _dialogService = dialogService;
@@ -33,15 +37,48 @@ namespace Catalog.ViewModels.Orders
         public Order Order
         {
             get => _order;
-            set => Set(ref _order, value);
+            set
+            {
+                _order = value;
+                RaisePropertyChanged(() => Order);
+            }
         }
+
+        public ICommand OpenCustomerDetail => new Command(async () => await OpenCustomerDetailExecute());
+
+        public async Task OpenCustomerDetailExecute()
+        {
+            if (Order == null || Order.Customer == null)
+            {
+                return;
+            }
+
+            await _navigationService.NavigateToAsync<CustomerDetailPage, CustomerDetailViewModel, Customer>(Order.Customer, false);
+        }
+
+        public ICommand OpenEmployeeDetail => new Command(async () => await OpenEmployeeDetailExecute());
+
+        public async Task OpenEmployeeDetailExecute()
+        {
+            if (Order == null || Order.Employee == null)
+            {
+                return;
+            }
+
+            await _navigationService.NavigateToAsync<EmployeeDetailPage, EmployeeDetailViewModel, Employee>(Order.Employee, false);
+        }
+
 
         public ICommand ChangeOrderCommand => new Command(async () => await ChangeOrderCommandExecute());
 
-        private Task ChangeOrderCommandExecute()
+        private async Task ChangeOrderCommandExecute()
         {
-            return Task.CompletedTask;
-            // await _navigationService.NavigateToAsync<NewCustomerPage, ChangeO, Order>(Order, false);
+            if (Order == null)
+            {
+                return;
+            }
+
+            await _navigationService.NavigateToAsync<NewOrderPage, ChangeOrderViewModel, Order>(Order, false);
         }
 
         public ICommand RemoveOrderCommand => new Command(async () => await RemoveOrderCommandExecute());
@@ -72,7 +109,31 @@ namespace Catalog.ViewModels.Orders
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await _navigationService.NavigateBackToMainPageAsync();
+            }
+        }
+
+        protected override void AppearingCommandExecute()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                Order = _unitOfWork.OrdeRepository.GetById(Order.Id);
+                Title = Order.Name;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

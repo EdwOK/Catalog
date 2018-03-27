@@ -1,25 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
              x:Class="Catalog.Views.Products.ProductDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Изменить" Command="{Binding ChangeProductCommand}" />
         <ToolbarItem Text="Удалить" Command="{Binding RemoveProductCommand}" />
     </ContentPage.ToolbarItems>
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="20" Padding="15">
                 <Label Text="Название:" FontSize="Medium" />
-                <Label Text="{Binding Product.Name}" FontSize="Small"/>
+                <Label Text="{Binding Product.Name, Mode=TwoWay}" FontSize="Small"/>
                 <Label Text="Описание:" FontSize="Medium" />
-                <Label Text="{Binding Product.Description}" FontSize="Small"/>
+                <Label Text="{Binding Product.Description, Mode=TwoWay}" FontSize="Small"/>
                 <Label Text="Цена:" FontSize="Medium" />
-                <Label Text="{Binding Product.Price}" FontSize="Small"/>
+                <Label Text="{Binding Product.Price, Mode=TwoWay}" FontSize="Small"/>
                 <Label Text="Дата поставки:" FontSize="Medium" />
-                <Label Text="{Binding Product.DeliveryDate}" FontSize="Small"/>
+                <Label Text="{Binding Product.DeliveryDate, Mode=TwoWay}" FontSize="Small"/>
                 <Label Text="Дата отгрузки:" FontSize="Medium" />
-                <Label Text="{Binding Product.ExpirationDate}" FontSize="Small"/>
+                <Label Text="{Binding Product.ExpirationDate, Mode=TwoWay}" FontSize="Small"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

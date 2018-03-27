@@ -74,6 +74,9 @@ namespace Catalog.ViewModels.Orders
                 return;
             }
 
+            SelectedOrder.Customer = _unitOfWork.CustomerRepository.GetById(SelectedOrder.EmployeeId);
+            SelectedOrder.Employee = _unitOfWork.EmployeeRepository.GetById(SelectedOrder.CustomerId);
+
             await _navigationService.NavigateToAsync<OrderDetailPage, OrderDetailViewModel, Order>(SelectedOrder, false);
             SelectedOrder = null;
         }

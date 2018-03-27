@@ -20,7 +20,6 @@ namespace Catalog.ViewModels.Products
         public ProductDetailViewModel(Product product, UnitOfWork unitOfWork, INavigationService navigationService, IDialogService dialogService)
         {
             Product = product;
-            Title = product.Name;
             _unitOfWork = unitOfWork;
             _navigationService = navigationService;
             _dialogService = dialogService;
@@ -30,7 +29,11 @@ namespace Catalog.ViewModels.Products
         public Product Product
         {
             get => _product;
-            set => Set(ref _product, value);
+            set
+            {
+                _product = value;
+                RaisePropertyChanged(() => Product);
+            }
         }
 
         public ICommand RemoveProductCommand => new Command(async () => await RemoveProductCommandExecute());
@@ -45,6 +48,30 @@ namespace Catalog.ViewModels.Products
             }
 
             await _navigationService.NavigateToAsync<NewProductPage, ChangeProductViewModel, Product>(Product, false);
+        }
+
+        protected override void AppearingCommandExecute()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                Product = _unitOfWork.ProductRepository.GetById(Product.Id);
+                Title = Product.Name;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task RemoveProductCommandExecute()
@@ -79,7 +106,7 @@ namespace Catalog.ViewModels.Products
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await _navigationService.NavigateBackToMainPageAsync();
             }
         }
     }

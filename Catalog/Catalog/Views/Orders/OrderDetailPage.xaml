@@ -1,12 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
              x:Class="Catalog.Views.Orders.OrderDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Изменить" Command="{Binding ChangeOrderCommand}" />
         <ToolbarItem Text="Удалить" Command="{Binding RemoveOrderCommand}" />
     </ContentPage.ToolbarItems>
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid ColumnSpacing="0" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -20,15 +26,19 @@
                         <Label Text="{Binding Order.Name}" FontSize="Small"/>
                         <Label Text="Описание:" FontSize="Medium" />
                         <Label Text="{Binding Order.Description}" FontSize="Small"/>
-                        <Label Text="Заказчик:" FontSize="Medium" />
-                        <StackLayout Orientation="Horizontal">
+                        <Label Text="Общая стоимость:" FontSize="Medium" />
+                        <Label Text="{Binding Order.TotalPrice}" FontSize="Small"/>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Заказчик:" FontSize="Medium" />
                             <Label Text="{Binding Order.Customer.Name}" FontSize="Small"/>
-                            <Button Text="Подробнее" Command="{Binding OpenCustomer}" />
+                            <Button Text="Подробности" Command="{Binding OpenCustomerDetail}" />
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal">
+                        <StackLayout Orientation="Vertical">
                             <Label Text="Работник:" FontSize="Medium" />
                             <Label Text="{Binding Order.Employee.FullName}" FontSize="Small"/>
-                            <Button Text="Подробнее" Command="{Binding OpenEmployee}" />
+                            <Button Text="Подробности" Command="{Binding OpenEmployeeDetail}" />
+                        </StackLayout>
+                        <StackLayout Orientation="Vertical">
                         </StackLayout>
                     </StackLayout>
                 </ScrollView>
@@ -39,14 +49,7 @@
                 IsRunning="{Binding IsBusy}"  
                 IsVisible="{Binding IsBusy}"
                 VerticalOptions="Center"
-                HorizontalOptions="Center">
-                <ActivityIndicator.WidthRequest>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS, Android" Value="100" />
-                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
-                    </OnPlatform>
-                </ActivityIndicator.WidthRequest>
-            </ActivityIndicator>
+                HorizontalOptions="Center" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

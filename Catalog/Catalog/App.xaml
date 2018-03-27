@@ -8,6 +8,7 @@
             <Color x:Key="Primary">#2196F3</Color>
             <Color x:Key="PrimaryDark">#1976D2</Color>
             <Color x:Key="Accent">#96d1ff</Color>
+            <Color x:Key="WhiteColor">#ffffff</Color>
             <Color x:Key="LightBackgroundColor">#FAFAFA</Color>
             <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
@@ -22,16 +23,29 @@
 
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="BarTextColor" Value="White" />
+                <Setter Property="BarTextColor" Value="{StaticResource WhiteColor}" />
             </Style>
 
             <Style TargetType="ActivityIndicator" ApplyToDerivedTypes="True" CanCascade="True">
                 <Setter Property="Color" Value="{StaticResource ActivityIndicatorColor}" />
+                <Setter Property="WidthRequest">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS, Android" Value="100" />
+                            <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <OnPlatform x:Key="LittleSize" x:TypeArguments="x:Double">
                 <On Platform="iOS" Value="11" />
                 <On Platform="Android, UWP, WinRT, WinPhone" Value="12" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="MediumSize" x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="14" />
+                <On Platform="Android, UWP, WinRT, WinPhone" Value="16" />
             </OnPlatform>
 
             <Style x:Key="ValidationErrorLabelStyle" TargetType="{x:Type Label}">

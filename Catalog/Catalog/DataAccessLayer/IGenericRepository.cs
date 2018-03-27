@@ -11,7 +11,7 @@ namespace Catalog.DataAccessLayer
 
         TEntity GetById(int id, bool recursive = false);
 
-        IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll(bool recursive = false);
 
         void Update(TEntity obj);
 

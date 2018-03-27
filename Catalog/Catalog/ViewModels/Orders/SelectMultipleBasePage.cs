@@ -7,9 +7,9 @@ namespace Catalog.ViewModels.Orders
 {
     public class SelectMultipleBasePage<T> : ContentPage
     {
-        public class WrappedSelection<T> : INotifyPropertyChanged
+        public class WrappedSelection<TType> : INotifyPropertyChanged
         {
-            public T Item { get; set; }
+            public TType Item { get; set; }
 
             bool _isSelected;
 

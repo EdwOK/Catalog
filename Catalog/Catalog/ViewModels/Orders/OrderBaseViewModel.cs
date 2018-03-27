@@ -40,6 +40,7 @@ namespace Catalog.ViewModels.Orders
             SelectedCustomer.Value = order.Customer;
             SelectedEmployee.Value = order.Employee;
             SelectedProducts.Value = order.Products;
+            TotalPrice = order.TotalPrice;
         }
 
         private ValidatableObject<string> _name;
@@ -98,6 +99,8 @@ namespace Catalog.ViewModels.Orders
             set => Set(ref _selectedProducts, value);
         }
 
+        public double TotalPrice { get; set; }
+
         public ICommand OpenProductsSelected => new Command(async () => await OpenProductsSelectedExecute());
 
         protected async Task OpenProductsSelectedExecute()
@@ -122,6 +125,7 @@ namespace Catalog.ViewModels.Orders
             if (MultipleProductsBasePage != null)
             {
                 SelectedProducts.Value = MultipleProductsBasePage.GetSelection();
+                TotalPrice = SelectedProducts.Value.Sum(product => product.Price);
                 return;
             }
 

@@ -37,25 +37,26 @@ namespace Catalog.Infrastructure.Setup
             builder.RegisterType<OrdersViewModel>().AsSelf();
             builder.RegisterType<NewOrderViewModel>().AsSelf();
             builder.RegisterType<OrderDetailViewModel>().AsSelf();
+            builder.RegisterType<ChangeOrderViewModel>().AsSelf();
 
             builder.RegisterType<CustomersViewModel>().AsSelf();
             builder.RegisterType<CustomerDetailViewModel>().AsSelf();
             builder.RegisterType<NewCustomerViewModel>().AsSelf();
             builder.RegisterType<ChangeCustomerViewModel>().AsSelf();
 
-            builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
-            builder.RegisterType<DialogService>().As<IDialogService>();
-            builder.RegisterType<ViewModelLocator>().As<IViewModelLocator>().SingleInstance();
-            builder.RegisterType<NavigationService>().As<INavigationService>();
             builder.RegisterType<DataLayer.SQLite.SQLite>().As<ISQLite>();
             builder.RegisterType<AppDbContext>().AsSelf();
             builder.RegisterType(typeof(UnitOfWork)).AsSelf();
             builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>));
-            builder.RegisterType<Geocoder>().AsSelf();
-            builder.RegisterType<LocationService>().As<ILocationService>();
-            builder.RegisterType<NetworkService>().As<INetworkService>();
-            builder.RegisterType<GooglePlacesService>().As<IGooglePlacesService>();
-            builder.RegisterGeneric(typeof(SelectMultipleBasePage<>)).AsSelf();
+
+            builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
+            builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
+            builder.RegisterType<ViewModelLocator>().As<IViewModelLocator>().SingleInstance();
+            builder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
+            builder.RegisterType<Geocoder>().AsSelf().SingleInstance();
+            builder.RegisterType<LocationService>().As<ILocationService>().SingleInstance();
+            builder.RegisterType<NetworkService>().As<INetworkService>().SingleInstance();
+            builder.RegisterType<GooglePlacesService>().As<IGooglePlacesService>().SingleInstance();
         }
     }
 }

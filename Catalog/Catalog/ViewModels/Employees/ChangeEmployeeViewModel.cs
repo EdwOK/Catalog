@@ -64,7 +64,7 @@ namespace Catalog.ViewModels.Employees
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await _navigationService.NavigateBackAsync(false);
             }
         }
     }

@@ -33,7 +33,6 @@ namespace Catalog.ViewModels.Employees
             INetworkService networkService)
         {
             Employee = employee;
-            Title = employee.FullName;
             _unitOfWork = unitOfWork;
             _navigationService = navigationService;
             _dialogService = dialogService;
@@ -47,7 +46,11 @@ namespace Catalog.ViewModels.Employees
         public Employee Employee
         {
             get => _employee;
-            set => Set(ref _employee, value);
+            set
+            {
+                _employee = value;
+                RaisePropertyChanged(() => Employee);
+            }
         }
 
         private ObservableCollection<Pin> _pins;
@@ -119,12 +122,33 @@ namespace Catalog.ViewModels.Employees
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await _navigationService.NavigateBackToMainPageAsync();
             }
         }
 
         protected override async void AppearingCommandExecute()
         {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                Employee = _unitOfWork.EmployeeRepository.GetById(Employee.Id);
+                Title = Employee.FullName;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
             if (!_networkService.IsInternetConnected)
             {
                 await _dialogService.Alert("Отсутвует соедиение с интернетом! Карта не будет доступна!", "Ошибка");
@@ -132,6 +156,7 @@ namespace Catalog.ViewModels.Employees
             }
 
             IsMapVisible = false;
+            IsBusy = true;
 
             try
             {
@@ -146,6 +171,10 @@ namespace Catalog.ViewModels.Employees
             catch (Exception exc)
             {
                 Debug.WriteLine(exc);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

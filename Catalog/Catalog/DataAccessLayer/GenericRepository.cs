@@ -30,9 +30,9 @@ namespace Catalog.DataAccessLayer
             //return _dbContext.Connection.Get<TEntity>(entity => entity.Id == id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IEnumerable<TEntity> GetAll(bool recursive = false)
         {
-            return _dbContext.Connection.GetAllWithChildren<TEntity>().ToList();
+            return _dbContext.Connection.GetAllWithChildren<TEntity>(recursive: recursive).ToList();
             //return _dbContext.Connection.Table<TEntity>().ToList();
         }
 

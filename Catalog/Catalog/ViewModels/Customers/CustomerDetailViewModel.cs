@@ -33,7 +33,6 @@ namespace Catalog.ViewModels.Customers
             UnitOfWork unitOfWork)
         {
             Customer = customer;
-            Title = customer.Name;
             _dialogService = dialogService;
             _locationService = locationService;
             _networkService = networkService;
@@ -47,7 +46,11 @@ namespace Catalog.ViewModels.Customers
         public Customer Customer
         {
             get => _customer;
-            set => Set(ref _customer, value);
+            set
+            {
+                _customer = value;
+                RaisePropertyChanged(() => Customer);
+            }
         }
 
         private ObservableCollection<Pin> _pins;
@@ -119,12 +122,33 @@ namespace Catalog.ViewModels.Customers
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await _navigationService.NavigateBackToMainPageAsync();
             }
         }
 
         protected override async void AppearingCommandExecute()
         {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                Customer = _unitOfWork.CustomerRepository.GetById(Customer.Id);
+                Title = Customer.Name;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
             if (!_networkService.IsInternetConnected)
             {
                 await _dialogService.Alert("Отсутвует соедиение с интернетом! Карта не будет доступна!", "Ошибка");
@@ -132,6 +156,7 @@ namespace Catalog.ViewModels.Customers
             }
 
             IsMapVisible = false;
+            IsBusy = true;
 
             try
             {
@@ -146,6 +171,10 @@ namespace Catalog.ViewModels.Customers
             catch (Exception exc)
             {
                 Debug.WriteLine(exc);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

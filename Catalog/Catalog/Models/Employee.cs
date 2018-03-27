@@ -7,6 +7,11 @@ namespace Catalog.Models
 {
     public class Employee : Entity
     {
+        public Employee()
+        {
+            Orders = new List<Order>();
+        }
+
         [MaxLength(40)]
         public string FirstName { get; set; }
 

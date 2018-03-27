@@ -22,7 +22,7 @@ namespace Catalog.Services.Navigation
             get
             {
                 var navigationStack = _applicationProvider.Navigation.NavigationStack;
-                return navigationStack[navigationStack.Count - 1].BindingContext as BaseViewModel;
+                return navigationStack[navigationStack.Count - 2].BindingContext as BaseViewModel;
             }
         }
 
@@ -62,7 +62,6 @@ namespace Catalog.Services.Navigation
         public async Task NavigateBackToMainPageAsync(bool animated = true)
         {
             await _applicationProvider.Navigation.PopToRootAsync(animated);
-            PreviousPageViewModel?.Dispose();
         }
 
         public async Task NavigateToPageAsync<TPage>(TPage page, bool modal, bool animated = true)

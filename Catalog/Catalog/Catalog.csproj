@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
-      <HintPath>C:\Users\Eduard\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
+      <HintPath>C:\Users\e.paprotski\.nuget\packages\mvvmlightlibs\5.4.1\lib\monoandroid1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
   </ItemGroup>
   

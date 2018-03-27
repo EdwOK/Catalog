@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
@@ -21,7 +22,14 @@ namespace Catalog.Models
 
         public DateTime CreatedDate { get; set; }
 
-        public double TotalPrice { get; set; }
+        [Ignore]
+        public double TotalPrice
+        {
+            get
+            {
+                return Products.Sum(product => product.Price);
+            }
+        }
 
         [OneToMany(CascadeOperations = CascadeOperation.CascadeRead | CascadeOperation.CascadeDelete)]
         public List<Product> Products { get; set; }

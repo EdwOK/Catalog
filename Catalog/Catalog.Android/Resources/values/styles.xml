@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
+  <color name="primary">#2196F3</color>
+  <color name="primaryDark">#1976D2</color>
+  <color name="accent">#FFC107</color>
+  <color name="window_background">#F5F5F5</color>
+  <color name="splash_background">#FFFFFF</color>
+
   <style name="MainTheme" parent="MainTheme.Base">
   </style>
   <!-- Base theme applied no matter what API -->
@@ -22,6 +28,14 @@
     <item name="windowActionModeOverlay">true</item>
 
     <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+  </style>
+
+  <style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@drawable/splash_screen</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowActionBar">true</item>
   </style>
 
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">

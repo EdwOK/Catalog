@@ -6,6 +6,11 @@ namespace Catalog.Models
 {
     public class Customer : Entity
     {
+        public Customer()
+        {
+            Orders = new List<Order>();
+        }
+
         [MaxLength(40)]
         public string Name { get; set; }
 
