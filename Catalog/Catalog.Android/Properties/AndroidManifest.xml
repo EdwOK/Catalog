@@ -8,7 +8,7 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="Catalog.Android" android:largeHeap="true">
+	<application android:label="Catalog.Android" android:theme="@style/Splash" android:largeHeap="true">
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyA06JEGarxy1U1Utg96Gk-TGN8uBOjj0C8" />
 	</application>
 </manifest>

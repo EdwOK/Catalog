@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-  <color name="primary">#2196F3</color>
-  <color name="primaryDark">#1976D2</color>
-  <color name="accent">#FFC107</color>
-  <color name="window_background">#F5F5F5</color>
-  <color name="splash_background">#FFFFFF</color>
-
   <style name="MainTheme" parent="MainTheme.Base">
   </style>
+
   <!-- Base theme applied no matter what API -->
   <style name="MainTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
     <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
@@ -29,16 +24,14 @@
 
     <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
   </style>
-
-  <style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="android:windowBackground">@drawable/splash_screen</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowFullscreen">true</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowActionBar">true</item>
-  </style>
-
+  
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">#FF4081</item>
+  </style>
+
+  <style name="Splash" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowBackground">@drawable/splash_screen</item>
   </style>
 </resources>

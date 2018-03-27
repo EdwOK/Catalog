@@ -55,8 +55,6 @@ namespace Catalog.Services.Navigation
             {
                 await _applicationProvider.Navigation.PopAsync(animated);
             }
-
-            PreviousPageViewModel?.Dispose();
         }
 
         public async Task NavigateBackToMainPageAsync(bool animated = true)

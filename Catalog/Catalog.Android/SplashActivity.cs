@@ -1,23 +1,21 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.OS;
 
 namespace Catalog.Droid
 {
-    [Activity(Label = "Catalog", Icon = "@drawable/icon", Theme = "@style/Theme.Splash", NoHistory = true, MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
-    public class SplashActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    [Activity(Theme = "@style/Splash", NoHistory = true, MainLauncher = true)]
+    public class SplashActivity : global::Android.Support.V7.App.AppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
             InvokeMainActivity();
         }
 
         private void InvokeMainActivity()
         {
-            StartActivity(new Intent(this, typeof(MainActivity)));
+            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
         }
     }
 }
