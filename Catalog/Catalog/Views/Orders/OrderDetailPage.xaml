@@ -38,8 +38,6 @@
                             <Label Text="{Binding Order.Employee.FullName}" FontSize="Small"/>
                             <Button Text="Подробности" Command="{Binding OpenEmployeeDetail}" />
                         </StackLayout>
-                        <StackLayout Orientation="Vertical">
-                        </StackLayout>
                     </StackLayout>
                 </ScrollView>
             </Grid>

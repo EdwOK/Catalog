@@ -105,7 +105,10 @@ namespace Catalog.ViewModels.Orders
 
         protected async Task OpenProductsSelectedExecute()
         {
-            await NavigationService.NavigateToPageAsync(MultipleProductsBasePage, false);
+            if (MultipleProductsBasePage != null)
+            {
+                await NavigationService.NavigateToPageAsync(MultipleProductsBasePage, false);
+            }
         }
 
         public ICommand SaveOrder => new Command(async () => await SaveOrderCommandExecute());
@@ -135,7 +138,7 @@ namespace Catalog.ViewModels.Orders
             {
                 Employees = UnitOfWork.EmployeeRepository.GetAll().ToList();
                 Customers = UnitOfWork.CustomerRepository.GetAll().ToList();
-                Products = UnitOfWork.ProductRepository.FindAll(product => product.Order == null).ToList();
+                Products = UnitOfWork.ProductRepository.GetAll().Where(product => product.Order == null).ToList();
                 MultipleProductsBasePage = new SelectMultipleBasePage<Product>(Products);
             }
             catch (Exception ex)

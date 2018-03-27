@@ -48,9 +48,9 @@ namespace Catalog.DataAccessLayer
             //_dbContext.Connection.Delete<TEntity>(id);
         }
 
-        public IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate)
+        public IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate, bool recursive = false)
         {
-            return _dbContext.Connection.GetAllWithChildren(predicate);
+            return _dbContext.Connection.GetAllWithChildren(predicate, recursive: recursive);
             //return _dbContext.Connection.Table<TEntity>().Where(predicate);
         }
 

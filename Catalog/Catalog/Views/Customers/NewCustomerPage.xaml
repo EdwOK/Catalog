@@ -6,49 +6,61 @@
         <ToolbarItem Text="Сохранить" Command="{Binding SaveCustomer}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Spacing="20" Padding="15">
-                <StackLayout>
-                    <Label Text="Название" FontSize="Medium" />
-                    <Entry Text="{Binding Name.Value}" FontSize="Small" />
-                    <Label Text="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                           Style="{StaticResource ValidationErrorLabelStyle}" />
-                </StackLayout>
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <ScrollView>
+                    <StackLayout Spacing="20" Padding="15">
+                        <StackLayout>
+                            <Label Text="Название" FontSize="Medium" />
+                            <Entry Text="{Binding Name.Value}" FontSize="Small" />
+                            <Label Text="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                                   Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
 
-                <StackLayout>
-                    <Label Text="Почта" FontSize="Medium" />
-                    <Entry Text="{Binding Email.Value}" FontSize="Small" Keyboard="Email" />
-                    <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                           Style="{StaticResource ValidationErrorLabelStyle}" />
-                </StackLayout>
+                        <StackLayout>
+                            <Label Text="Почта" FontSize="Medium" />
+                            <Entry Text="{Binding Email.Value}" FontSize="Small" Keyboard="Email" />
+                            <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                                   Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
 
-                <StackLayout>
-                    <Label Text="Индекс" FontSize="Medium" />
-                    <Entry Text="{Binding PostalCode.Value}" FontSize="Small" Keyboard="Numeric" />
-                    <Label Text="{Binding PostalCode.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                           Style="{StaticResource ValidationErrorLabelStyle}" />
-                </StackLayout>
+                        <StackLayout>
+                            <Label Text="Индекс" FontSize="Medium" />
+                            <Entry Text="{Binding PostalCode.Value}" FontSize="Small" Keyboard="Numeric" />
+                            <Label Text="{Binding PostalCode.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                                   Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
 
-                <StackLayout>
-                    <Label Text="Номер" FontSize="Medium" />
-                    <Entry Text="{Binding PhoneNumber.Value}" FontSize="Small" Keyboard="Telephone" />
-                    <Label Text="{Binding PhoneNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                           Style="{StaticResource ValidationErrorLabelStyle}" />
-                </StackLayout>
+                        <StackLayout>
+                            <Label Text="Номер" FontSize="Medium" />
+                            <Entry Text="{Binding PhoneNumber.Value}" FontSize="Small" Keyboard="Telephone" />
+                            <Label Text="{Binding PhoneNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                                   Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
 
-                <StackLayout>
-                    <Label Text="Адрес" FontSize="Medium" />
-                    <StackLayout Padding="-20, 0, 0, 0">
-                        <SearchBar Placeholder="Введите адрес"
-                                   FontSize="Small"
-                                   Margin="0"
-                                   Text="{Binding Address.Value}"
-                                   SearchCommand="{Binding SearchAddressCommand}" />
+                        <StackLayout>
+                            <Label Text="Адрес" FontSize="Medium" />
+                            <SearchBar Placeholder="Введите адрес"
+                                       FontSize="Small"
+                                       Text="{Binding Address.Value}"
+                                       SearchCommand="{Binding SearchAddressCommand}" />
+                            <Label Text="{Binding Address.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                                   Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
                     </StackLayout>
-                    <Label Text="{Binding Address.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-                           Style="{StaticResource ValidationErrorLabelStyle}" />
-                </StackLayout>
-            </StackLayout>
-        </ScrollView>
+                </ScrollView>
+            </Grid>
+            <ActivityIndicator
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                IsRunning="{Binding IsBusy}"  
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

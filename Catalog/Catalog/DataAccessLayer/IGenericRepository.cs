@@ -17,7 +17,7 @@ namespace Catalog.DataAccessLayer
 
         void Remove(TEntity obj, bool recursive = false);
 
-        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
+        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate, bool recursive = false);
 
         TEntity Find(Expression<Func<TEntity, bool>> predicate);
     }
