@@ -14,12 +14,13 @@ namespace Catalog.ViewModels.Employees
 {
     public class EmployeesViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
 
-        public EmployeesViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        public EmployeesViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork) 
+            : base(navigationService)
         {
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
@@ -74,7 +75,7 @@ namespace Catalog.ViewModels.Employees
                 return;
             }
 
-            await _navigationService.NavigateToAsync<EmployeeDetailPage, EmployeeDetailViewModel, Employee>(SelectedEmployee, false);
+            await NavigationService.NavigateToAsync<EmployeeDetailPage, EmployeeDetailViewModel, Employee>(SelectedEmployee, false);
             SelectedEmployee = null;
         }
 
@@ -82,7 +83,7 @@ namespace Catalog.ViewModels.Employees
 
         private async Task AddEmployeeCommandExecute()
         {
-            await _navigationService.NavigateToAsync<NewEmployeePage, NewEmployeeViewModel>(false);
+            await NavigationService.NavigateToAsync<NewEmployeePage, NewEmployeeViewModel>(false);
         }
     }
 }

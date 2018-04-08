@@ -14,12 +14,13 @@ namespace Catalog.ViewModels.Customers
 {
     public class CustomersViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
 
-        public CustomersViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        public CustomersViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork)
+            : base(navigationService)
         {
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
@@ -74,7 +75,7 @@ namespace Catalog.ViewModels.Customers
                 return;
             }
 
-            await _navigationService.NavigateToAsync<CustomerDetailPage, CustomerDetailViewModel, Customer>(SelectedCustomer, false);
+            await NavigationService.NavigateToAsync<CustomerDetailPage, CustomerDetailViewModel, Customer>(SelectedCustomer, false);
             SelectedCustomer = null;
         }
 
@@ -82,7 +83,7 @@ namespace Catalog.ViewModels.Customers
 
         private async Task AddCustomerCommandExecute()
         {
-            await _navigationService.NavigateToAsync<NewCustomerPage, NewCustomerViewModel>(false);
+            await NavigationService.NavigateToAsync<NewCustomerPage, NewCustomerViewModel>(false);
         }
     }
 }

@@ -18,7 +18,6 @@ namespace Catalog.ViewModels.Employees
 {
     public class EmployeeDetailViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
         private readonly IDialogService _dialogService;
         private readonly ILocationService _locationService;
@@ -31,10 +30,10 @@ namespace Catalog.ViewModels.Employees
             IDialogService dialogService, 
             ILocationService locationService, 
             INetworkService networkService)
+            : base(navigationService)
         {
             Employee = employee;
             _unitOfWork = unitOfWork;
-            _navigationService = navigationService;
             _dialogService = dialogService;
             _locationService = locationService;
             _networkService = networkService;
@@ -85,7 +84,7 @@ namespace Catalog.ViewModels.Employees
                 return;
             }
 
-            await _navigationService.NavigateToAsync<NewEmployeePage, ChangeEmployeeViewModel, Employee>(Employee, false);
+            await NavigationService.NavigateToAsync<NewEmployeePage, ChangeEmployeeViewModel, Employee>(Employee, false);
         }
 
         public ICommand RemoveEmployeeCommand => new Command(async () => await RemoveEmployeeCommandExecute());
@@ -122,7 +121,7 @@ namespace Catalog.ViewModels.Employees
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await NavigationService.NavigateBackToMainPageAsync();
             }
         }
 
@@ -164,6 +163,7 @@ namespace Catalog.ViewModels.Employees
                 var pin = _locationService.CreatePin(position, Employee.Address);
 
                 Request.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(2)));
+                Pins.Clear();
                 Pins.Add(pin);
 
                 IsMapVisible = true;

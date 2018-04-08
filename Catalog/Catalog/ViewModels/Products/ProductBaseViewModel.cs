@@ -3,13 +3,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Infrastructure.Validations;
 using Catalog.Models;
+using Catalog.Services.Navigation;
 using Xamarin.Forms;
 
 namespace Catalog.ViewModels.Products
 {
     public abstract class ProductBaseViewModel : BaseViewModel
     {
-        protected ProductBaseViewModel()
+        protected ProductBaseViewModel(INavigationService navigationService) 
+            : base(navigationService)
         {
             Name = new ValidatableObject<string>();
             Description = new ValidatableObject<string>();
@@ -20,7 +22,10 @@ namespace Catalog.ViewModels.Products
             AddValidations();
         }
 
-        protected ProductBaseViewModel(Product product) : this()
+        protected ProductBaseViewModel(
+            Product product, 
+            INavigationService navigationService) 
+            : this(navigationService)
         {
             Name.Value = product.Name;
             Description.Value = product.Description;

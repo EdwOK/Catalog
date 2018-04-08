@@ -18,7 +18,6 @@ namespace Catalog.ViewModels.Customers
 {
     public class CustomerDetailViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService; 
         private readonly IDialogService _dialogService;
         private readonly ILocationService _locationService;
         private readonly INetworkService _networkService;
@@ -30,13 +29,13 @@ namespace Catalog.ViewModels.Customers
             ILocationService locationService, 
             INetworkService networkService, 
             INavigationService navigationService, 
-            UnitOfWork unitOfWork)
+            UnitOfWork unitOfWork) 
+            : base(navigationService)
         {
             Customer = customer;
             _dialogService = dialogService;
             _locationService = locationService;
             _networkService = networkService;
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
 
             Pins = new ObservableCollection<Pin>();
@@ -85,7 +84,7 @@ namespace Catalog.ViewModels.Customers
                 return;
             }
 
-            await _navigationService.NavigateToAsync<NewCustomerPage, ChangeCustomerViewModel, Customer>(Customer, false);
+            await NavigationService.NavigateToAsync<NewCustomerPage, ChangeCustomerViewModel, Customer>(Customer, false);
         }
 
         public ICommand RemoveCustomerCommand => new Command(async () => await RemoveCustomerCommandExecute());
@@ -122,7 +121,7 @@ namespace Catalog.ViewModels.Customers
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await NavigationService.NavigateBackToMainPageAsync();
             }
         }
 
@@ -164,6 +163,7 @@ namespace Catalog.ViewModels.Customers
                 var pin = _locationService.CreatePin(position, Customer.Address);
 
                 Request.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(2)));
+                Pins.Clear();
                 Pins.Add(pin);
 
                 IsMapVisible = true;

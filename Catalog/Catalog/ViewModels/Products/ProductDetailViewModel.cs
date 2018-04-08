@@ -13,15 +13,18 @@ namespace Catalog.ViewModels.Products
 {
     public class ProductDetailViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
         private readonly IDialogService _dialogService;
 
-        public ProductDetailViewModel(Product product, UnitOfWork unitOfWork, INavigationService navigationService, IDialogService dialogService)
+        public ProductDetailViewModel(
+            Product product,
+            UnitOfWork unitOfWork, 
+            INavigationService navigationService, 
+            IDialogService dialogService) 
+            : base(navigationService)
         {
             Product = product;
             _unitOfWork = unitOfWork;
-            _navigationService = navigationService;
             _dialogService = dialogService;
         }
 
@@ -47,7 +50,7 @@ namespace Catalog.ViewModels.Products
                 return;
             }
 
-            await _navigationService.NavigateToAsync<NewProductPage, ChangeProductViewModel, Product>(Product, false);
+            await NavigationService.NavigateToAsync<NewProductPage, ChangeProductViewModel, Product>(Product, false);
         }
 
         protected override void AppearingCommandExecute()
@@ -106,7 +109,7 @@ namespace Catalog.ViewModels.Products
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await NavigationService.NavigateBackToMainPageAsync();
             }
         }
     }

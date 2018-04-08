@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Catalog.Services.Navigation;
 using GalaSoft.MvvmLight;
 using Xamarin.Forms;
 
@@ -7,6 +8,13 @@ namespace Catalog.ViewModels
 {
     public abstract class BaseViewModel : ViewModelBase
     {
+        protected INavigationService NavigationService;
+
+        protected BaseViewModel(INavigationService navigationService)
+        {
+            NavigationService = navigationService;
+        }
+
         private bool _isBusy;
         public bool IsBusy
         {

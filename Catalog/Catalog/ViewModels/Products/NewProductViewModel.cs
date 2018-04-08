@@ -9,12 +9,12 @@ namespace Catalog.ViewModels.Products
 {
     public class NewProductViewModel : ProductBaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
 
-        public NewProductViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        public NewProductViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork) : base(navigationService)
         {
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
@@ -54,7 +54,7 @@ namespace Catalog.ViewModels.Products
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await NavigationService.NavigateBackToMainPageAsync();
             }
         }
     }

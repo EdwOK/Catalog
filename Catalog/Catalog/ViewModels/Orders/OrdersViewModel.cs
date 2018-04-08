@@ -14,12 +14,13 @@ namespace Catalog.ViewModels.Orders
 {
     public class OrdersViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
 
-        public OrdersViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        public OrdersViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork) 
+            : base(navigationService)
         {
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
@@ -77,7 +78,7 @@ namespace Catalog.ViewModels.Orders
             SelectedOrder.Customer = _unitOfWork.CustomerRepository.GetById(SelectedOrder.EmployeeId);
             SelectedOrder.Employee = _unitOfWork.EmployeeRepository.GetById(SelectedOrder.CustomerId);
 
-            await _navigationService.NavigateToAsync<OrderDetailPage, OrderDetailViewModel, Order>(SelectedOrder, false);
+            await NavigationService.NavigateToAsync<OrderDetailPage, OrderDetailViewModel, Order>(SelectedOrder, false);
             SelectedOrder = null;
         }
 
@@ -85,7 +86,7 @@ namespace Catalog.ViewModels.Orders
 
         private async Task AddOrderCommandExecute()
         {
-            await _navigationService.NavigateToAsync<NewOrderPage, NewOrderViewModel>(false);
+            await NavigationService.NavigateToAsync<NewOrderPage, NewOrderViewModel>(false);
         }
     }
 }

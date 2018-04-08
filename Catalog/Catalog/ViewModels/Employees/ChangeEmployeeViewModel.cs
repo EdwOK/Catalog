@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
-using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
 using Catalog.Services.Places;
 
@@ -11,20 +10,17 @@ namespace Catalog.ViewModels.Employees
 {
     public class ChangeEmployeeViewModel : EmployeeBaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
         private readonly Employee _employee;
 
         public ChangeEmployeeViewModel(
-            Employee employee, 
-            INavigationService navigationService, 
+            Employee employee,  
             UnitOfWork unitOfWork, 
             IGooglePlacesService googlePlacesService,
             INetworkService networkService) 
             : base(employee, googlePlacesService, networkService)
         {
             _employee = employee;
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
@@ -64,7 +60,7 @@ namespace Catalog.ViewModels.Employees
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await NavigationService.NavigateBackAsync(false);
             }
         }
     }

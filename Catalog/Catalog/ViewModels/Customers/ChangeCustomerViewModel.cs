@@ -11,7 +11,6 @@ namespace Catalog.ViewModels.Customers
 {
     public class ChangeCustomerViewModel : CustomerBaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
         private readonly Customer _customer;
 
@@ -24,7 +23,6 @@ namespace Catalog.ViewModels.Customers
             : base(customer, networkService, navigationService, unitOfWork, googlePlacesService)
         {
             _customer = customer;
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
@@ -61,7 +59,7 @@ namespace Catalog.ViewModels.Customers
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await NavigationService.NavigateBackAsync(false);
             }
         }
     }

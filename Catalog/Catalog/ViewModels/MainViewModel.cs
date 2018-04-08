@@ -1,4 +1,5 @@
-﻿using Catalog.ViewModels.Customers;
+﻿using Catalog.Services.Navigation;
+using Catalog.ViewModels.Customers;
 using Catalog.ViewModels.Employees;
 using Catalog.ViewModels.Orders;
 using Catalog.ViewModels.Products;
@@ -11,7 +12,9 @@ namespace Catalog.ViewModels
             ProductsViewModel productsViewModel, 
             OrdersViewModel ordersViewModel, 
             CustomersViewModel customersViewModel, 
-            EmployeesViewModel employeesViewModel)
+            EmployeesViewModel employeesViewModel,
+            INavigationService navigationService) 
+            : base(navigationService)
         {
             ProductsViewModel = productsViewModel;
             OrdersViewModel = ordersViewModel;

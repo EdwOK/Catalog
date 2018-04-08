@@ -14,14 +14,14 @@ namespace Catalog.ViewModels.Products
 {
     public class ProductsViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
 
-        public ProductsViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        public ProductsViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork) 
+            : base(navigationService)
         {
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
-
             Products = new ObservableCollection<Product>();
         }
 
@@ -50,7 +50,7 @@ namespace Catalog.ViewModels.Products
                 return;
             }
 
-            await _navigationService.NavigateToAsync<ProductDetailPage, ProductDetailViewModel, Product>(SelectedProduct, false);
+            await NavigationService.NavigateToAsync<ProductDetailPage, ProductDetailViewModel, Product>(SelectedProduct, false);
             SelectedProduct = null;
         }
 
@@ -84,7 +84,7 @@ namespace Catalog.ViewModels.Products
 
         private async Task AddProductCommandExecute()
         {
-            await _navigationService.NavigateToAsync<NewProductPage, NewProductViewModel>(false);
+            await NavigationService.NavigateToAsync<NewProductPage, NewProductViewModel>(false);
         }
     }
 }
