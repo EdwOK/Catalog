@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Catalog.Infrastructure.Validations;
 using Catalog.Models;
+using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
 using Catalog.Services.Places;
 using Xamarin.Forms;
@@ -15,7 +16,11 @@ namespace Catalog.ViewModels.Employees
         protected IGooglePlacesService GooglePlacesService;
         protected INetworkService NetworkService;
 
-        protected EmployeeBaseViewModel(IGooglePlacesService googlePlacesService, INetworkService networkService)
+        protected EmployeeBaseViewModel(
+            IGooglePlacesService googlePlacesService, 
+            INetworkService networkService,
+            INavigationService navigationService) 
+            : base(navigationService)
         {
             GooglePlacesService = googlePlacesService;
             NetworkService = networkService;
@@ -35,8 +40,12 @@ namespace Catalog.ViewModels.Employees
             AddValidations();
         }
 
-        protected EmployeeBaseViewModel(Employee employee, IGooglePlacesService googlePlacesService, INetworkService networkService) 
-            : this(googlePlacesService, networkService)
+        protected EmployeeBaseViewModel(
+            Employee employee, 
+            IGooglePlacesService googlePlacesService, 
+            INetworkService networkService,
+            INavigationService navigationService) 
+            : this(googlePlacesService, networkService, navigationService)
         {
             FirstName.Value = employee.FirstName;
             Surname.Value = employee.Surname;

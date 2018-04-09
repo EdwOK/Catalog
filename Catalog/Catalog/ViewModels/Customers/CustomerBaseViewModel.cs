@@ -14,7 +14,6 @@ namespace Catalog.ViewModels.Customers
 {
     public abstract class CustomerBaseViewModel : BaseViewModel
     {
-        protected readonly INavigationService NavigationService;
         protected readonly UnitOfWork UnitOfWork;
         protected readonly INetworkService NetworkService;
         protected readonly IGooglePlacesService GooglePlacesService;
@@ -23,7 +22,8 @@ namespace Catalog.ViewModels.Customers
             INetworkService networkService, 
             INavigationService navigationService, 
             UnitOfWork unitOfWork, 
-            IGooglePlacesService googlePlacesService)
+            IGooglePlacesService googlePlacesService) 
+            : base(navigationService)
         {
             NetworkService = networkService;
             NavigationService = navigationService;
@@ -53,7 +53,6 @@ namespace Catalog.ViewModels.Customers
             PhoneNumber.Value = customer.PhoneNumber;
             PostalCode.Value = customer.PostalCode;
         }
-
 
         private ValidatableObject<string> _name;
         public ValidatableObject<string> Name

@@ -9,7 +9,6 @@ namespace Catalog.ViewModels.Orders
 {
     public class ChangeOrderViewModel : OrderBaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
 
         public ChangeOrderViewModel(
@@ -20,7 +19,6 @@ namespace Catalog.ViewModels.Orders
         {
             Order = order;
             _unitOfWork = unitOfWork;
-            _navigationService = navigationService;
         }
 
         private Order _order;
@@ -63,7 +61,7 @@ namespace Catalog.ViewModels.Orders
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackAsync(false);
+                await NavigationService.NavigateBackAsync(false);
             }
         }
     }

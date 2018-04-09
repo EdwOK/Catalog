@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Catalog.DataAccessLayer;
 using Catalog.Models;
+using Catalog.Services.Navigation;
 using Catalog.Services.Networks;
 using Catalog.Services.Places;
 
@@ -17,8 +18,9 @@ namespace Catalog.ViewModels.Employees
             Employee employee,  
             UnitOfWork unitOfWork, 
             IGooglePlacesService googlePlacesService,
-            INetworkService networkService) 
-            : base(employee, googlePlacesService, networkService)
+            INetworkService networkService,
+            INavigationService navigationService) 
+            : base(employee, googlePlacesService, networkService, navigationService)
         {
             _employee = employee;
             _unitOfWork = unitOfWork;

@@ -15,10 +15,12 @@ namespace Catalog.ViewModels.Orders
     public abstract class OrderBaseViewModel : BaseViewModel
     {
         protected UnitOfWork UnitOfWork;
-        protected INavigationService NavigationService;
         protected SelectMultipleBasePage<Product> MultipleProductsBasePage;
 
-        protected OrderBaseViewModel(INavigationService navigationService, UnitOfWork unitOfWork)
+        protected OrderBaseViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork) 
+            : base(navigationService) 
         {
             NavigationService = navigationService;
             UnitOfWork = unitOfWork;

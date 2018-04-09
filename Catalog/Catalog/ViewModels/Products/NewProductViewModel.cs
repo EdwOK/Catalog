@@ -13,7 +13,8 @@ namespace Catalog.ViewModels.Products
 
         public NewProductViewModel(
             INavigationService navigationService, 
-            UnitOfWork unitOfWork) : base(navigationService)
+            UnitOfWork unitOfWork) 
+            : base(navigationService)
         {
             _unitOfWork = unitOfWork;
         }

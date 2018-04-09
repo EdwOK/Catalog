@@ -11,7 +11,6 @@ namespace Catalog.ViewModels.Employees
 {
     public class NewEmployeeViewModel : EmployeeBaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly UnitOfWork _unitOfWork;
 
         public NewEmployeeViewModel(
@@ -19,9 +18,8 @@ namespace Catalog.ViewModels.Employees
             UnitOfWork unitOfWork, 
             IGooglePlacesService googlePlacesService, 
             INetworkService networkService) 
-            : base(googlePlacesService, networkService)
+            : base(googlePlacesService, networkService, navigationService)
         {
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
         }
 
@@ -64,7 +62,7 @@ namespace Catalog.ViewModels.Employees
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await NavigationService.NavigateBackToMainPageAsync();
             }
         }
     }

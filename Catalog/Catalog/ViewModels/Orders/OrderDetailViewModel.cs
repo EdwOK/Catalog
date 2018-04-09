@@ -17,7 +17,6 @@ namespace Catalog.ViewModels.Orders
 {
     public class OrderDetailViewModel : BaseViewModel
     {
-        private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
         private readonly UnitOfWork _unitOfWork;
 
@@ -26,9 +25,9 @@ namespace Catalog.ViewModels.Orders
             INavigationService navigationService, 
             UnitOfWork unitOfWork, 
             IDialogService dialogService)
+            : base(navigationService)
         {
             Order = order;
-            _navigationService = navigationService;
             _unitOfWork = unitOfWork;
             _dialogService = dialogService;
         }
@@ -53,7 +52,7 @@ namespace Catalog.ViewModels.Orders
                 return;
             }
 
-            await _navigationService.NavigateToAsync<CustomerDetailPage, CustomerDetailViewModel, Customer>(Order.Customer, false);
+            await NavigationService.NavigateToAsync<CustomerDetailPage, CustomerDetailViewModel, Customer>(Order.Customer, false);
         }
 
         public ICommand OpenEmployeeDetail => new Command(async () => await OpenEmployeeDetailExecute());
@@ -65,9 +64,8 @@ namespace Catalog.ViewModels.Orders
                 return;
             }
 
-            await _navigationService.NavigateToAsync<EmployeeDetailPage, EmployeeDetailViewModel, Employee>(Order.Employee, false);
+            await NavigationService.NavigateToAsync<EmployeeDetailPage, EmployeeDetailViewModel, Employee>(Order.Employee, false);
         }
-
 
         public ICommand ChangeOrderCommand => new Command(async () => await ChangeOrderCommandExecute());
 
@@ -78,7 +76,7 @@ namespace Catalog.ViewModels.Orders
                 return;
             }
 
-            await _navigationService.NavigateToAsync<NewOrderPage, ChangeOrderViewModel, Order>(Order, false);
+            await NavigationService.NavigateToAsync<NewOrderPage, ChangeOrderViewModel, Order>(Order, false);
         }
 
         public ICommand RemoveOrderCommand => new Command(async () => await RemoveOrderCommandExecute());
@@ -109,7 +107,7 @@ namespace Catalog.ViewModels.Orders
             finally
             {
                 IsBusy = false;
-                await _navigationService.NavigateBackToMainPageAsync();
+                await NavigationService.NavigateBackToMainPageAsync();
             }
         }
 

@@ -10,13 +10,10 @@ namespace Catalog.ViewModels.Orders
 {
     public class NewOrderViewModel : OrderBaseViewModel
     {
-        public NewOrderViewModel(INavigationService navigationService, UnitOfWork unitOfWork) 
+        public NewOrderViewModel(
+            INavigationService navigationService, 
+            UnitOfWork unitOfWork) 
             : base(navigationService, unitOfWork)
-        {
-        }
-
-        public NewOrderViewModel(Order order, INavigationService navigationService, UnitOfWork unitOfWork) 
-            : base(order, navigationService, unitOfWork)
         {
         }
 
